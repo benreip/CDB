@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-import com.excilys.computer.database.modele.Computer;
-
 
 public class ComputerDAO {
 	
@@ -37,10 +35,10 @@ public class ComputerDAO {
 		return stmt.executeQuery();
 	}
 	
-	public int updateName(String newname, int id) throws SQLException {
+	public int updateName(int id, String newname) throws SQLException {
 		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_NAMEBYID);
-		stmt.setString(1, newname);
-		stmt.setInt(2, id);
+		stmt.setInt(1, id);
+		stmt.setString(2, newname);
 		return stmt.executeUpdate();
 	}
 	
@@ -50,24 +48,24 @@ public class ComputerDAO {
 		return stmt.executeUpdate();
 	}
 	
-	public int updateDateSortie ( Date date, int id) throws SQLException {
+	public int updateDateSortie ( int id, Date date) throws SQLException {
 		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_DATESORTIE_ID);
-		stmt.setDate(1, (java.sql.Date) date);
-		stmt.setInt(2, id);
+		stmt.setInt(1, id);
+		stmt.setDate(2,  (java.sql.Date) date);
 		return stmt.executeUpdate();
 	}
 	
-	public int updateDateFin ( Date date, int id) throws SQLException {
+	public int updateDateFin ( int id, Date date) throws SQLException {
 		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_DATEFIN_ID);
-		stmt.setDate(1, (java.sql.Date) date);
-		stmt.setInt(2, id);
+		stmt.setInt(1, id);
+		stmt.setDate(2,  (java.sql.Date) date);
 		return stmt.executeUpdate();
 	}
 	
-	public int updateFabricant (int company_id,int id) throws SQLException {
+	public int updateFabricant (int id, int company_id) throws SQLException {
 		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_FABRICANT);
-		stmt.setInt(1, company_id);
-		stmt.setInt(2, id);
+		stmt.setInt(1, id);
+		stmt.setInt(2, company_id);
 		return stmt.executeUpdate();
 	}
 	
