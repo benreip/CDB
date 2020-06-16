@@ -6,7 +6,7 @@ public class Computer {
 	private String computername;
 	private Date computerintroductedin;
 	private Date computerdiscontinuedin;
-	private int computercompanieid;
+	private Integer computercompanieid;
 	
 	/* Getter & Setter */
 	
@@ -37,10 +37,14 @@ public class Computer {
 	public int getComputercompanieid() {
 		return computercompanieid;
 	}
-	public void setComputercompanieid(final int computercompanieid) {
+	public void setComputercompanieid(final Integer computercompanieid) {
 		this.computercompanieid = computercompanieid;
 	}
 	
+	/*public Computer(int computerid,String computername,Date computerintroductedin,Date computerdiscontinuedin,int computercompanieid) {
+		computerintroductedin computer
+		
+	}*/
 
 	
 	

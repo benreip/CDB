@@ -4,7 +4,11 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.excilys.computer.database.modele.Computer;
 
 
 public class ComputerDAO {
@@ -24,18 +28,37 @@ public class ComputerDAO {
 	
 	// Diverses requêtes, inutile de détailler
 	
-	public  ResultSet getComputers() throws SQLException {
+	/*public  ResultSet getComputers() throws SQLException {
 		Statement stmt = conn.login.createStatement();
 		return stmt.executeQuery(All_COMPUTERS);
+	}*/
+	
+	public  List<Computer> getComputers() throws SQLException {
+		Statement stmt = conn.login.createStatement();
+		ResultSet rs = stmt.executeQuery(All_COMPUTERS);
+		List<Computer> toReturn = new ArrayList<>();
+		 while (rs.next()) {
+			Computer c = new Computer();
+			c.setComputerid(rs.getInt(1));
+			c.setComputername(rs.getString(2));
+			c.setComputerintroductedin(rs.getDate(3));
+			c.setComputerdiscontinuedin(rs.getDate(4));
+			c.setComputercompanieid(rs.getInt(5));
+			
+			toReturn.add(c);
+		 }
+	return toReturn;
+
+	}
+	public  Computer findComputerById() throws SQLException {
+		Statement stmt = conn.login.createStatement();
+		ResultSet rs = stmt.executeQuery(FIND_COMPUTERBYID);
+		Computer c = new Computer();
+		c.setComputername(rs.getString("COMPUTER_NAME"));
+		return c;
 	}
 	
-	public ResultSet findComputerById(int id) throws SQLException {
-		PreparedStatement stmt = BddConnection.login.prepareStatement(FIND_COMPUTERBYID);
-		stmt.setInt(1, id);
-		return stmt.executeQuery();
-	}
-	
-	public int updateName(int id, String newname) throws SQLException {
+	 public int updateName(int id, String newname) throws SQLException {
 		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_NAMEBYID);
 		stmt.setInt(1, id);
 		stmt.setString(2, newname);

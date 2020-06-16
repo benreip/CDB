@@ -3,8 +3,11 @@ package com.excilys.computer.database.persistence;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.computer.database.modele.Companie;
+import com.excilys.computer.database.modele.Computer;
 import com.mysql.jdbc.PreparedStatement;
 
 
@@ -16,14 +19,26 @@ public class CompanieDAO {
 		
 		public CompanieDAO() {};
 		
-		public ResultSet getAllCompanies() throws SQLException {
+		public List<Companie> getAllCompanies() throws SQLException {
 			Statement stmt = BddConnection.login.createStatement();
-			return stmt.executeQuery(ALLCOMPANIES);
+			ResultSet rs = stmt.executeQuery(ALLCOMPANIES);
+			List<Companie> toReturn = new ArrayList();
+			  while(rs.next()) {
+				  Companie c = new Companie();
+				  c.setCompanieId(rs.getInt(1));
+				  c.setCompanieName(rs.getString(2));
+				  }
+			  return toReturn;
 		}
 		
-		public ResultSet findCompanyById (int id) throws SQLException {
+		public Companie findCompanyById (int id) throws SQLException {
 			PreparedStatement stmt = (PreparedStatement) BddConnection.login.prepareStatement(FINDCOMPANYBYID);
-			stmt.setInt(1, id);
-			return stmt.executeQuery();
+			ResultSet rs =stmt.executeQuery(FINDCOMPANYBYID);
+			Companie c = new Companie();
+			c.setCompanieName(rs.getString(1));
+			return c;
 		}
+		
+		
+		
 }
