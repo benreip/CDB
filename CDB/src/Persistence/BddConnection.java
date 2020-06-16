@@ -2,15 +2,14 @@ package Persistence;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class BddConnection {
-	public static BddConnection db;
-	public Connection login;
+	public  static BddConnection db;
+	public static  Connection login;
 	private String URL =  "jdbc:mysql://localhost:3306/computer-database-db";
-	public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
-	private final static String USERNAME = "admincdb";
-	private final static String PASSWORD = "qwerty1234";
+	public final  String DRIVER = "com.mysql.cj.jdbc.Driver";
+	private final  String USERNAME = "admincdb";
+	private final  String PASSWORD = "qwerty1234";
 	/* On crée la connexion à la DB*/
 	private BddConnection() {
 	}
@@ -24,7 +23,7 @@ public class BddConnection {
 		}
 	
 	}	
-	public static synchronized BddConnection getDbConnection() {
+	public static  BddConnection getDbConnection() {
 		if (db ==null) {
 			db = new BddConnection();
 		}
@@ -32,9 +31,10 @@ public class BddConnection {
 	}
 			
 			
+	public void closeConnection() {
+		
 			
-			
-}
+	}
 	
 	
 	
@@ -42,41 +42,4 @@ public class BddConnection {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
+	}

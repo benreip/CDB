@@ -2,42 +2,42 @@ package Modele;
 import java.util.Date;
 
 public class Computer {
-	public int computerid;
-	public String computername;
-	public Date computerintroductedin;
-	public Date computerdiscontinuedin;
-	public int computercompanieid;
+	private int computerid;
+	private String computername;
+	private Date computerintroductedin;
+	private Date computerdiscontinuedin;
+	private int computercompanieid;
 	
 	/* Getter & Setter */
 	
 	public int getComputerid() {
 		return computerid;
 	}
-	public void setComputerid(int computerid) {
+	public void setComputerid(final int computerid) {
 		this.computerid = computerid;
 	}
 	public String getComputername() {
 		return computername;
 	}
-	public void setComputername(String computername) {
+	public void setComputername(final String computername) {
 		this.computername = computername;
 	}
 	public Date getComputerintroductedin() {
 		return computerintroductedin;
 	}
-	public void setComputerintroductedin(Date computerintroductedin) {
+	public void setComputerintroductedin(final Date computerintroductedin) {
 		this.computerintroductedin = computerintroductedin;
 	}
 	public Date getComputerdiscontinuedin() {
 		return computerdiscontinuedin;
 	}
-	public void setComputerdiscontinuedin(Date computerdiscontinuedin) {
+	public void setComputerdiscontinuedin(final Date computerdiscontinuedin) {
 		this.computerdiscontinuedin = computerdiscontinuedin;
 	}
 	public int getComputercompanieid() {
 		return computercompanieid;
 	}
-	public void setComputercompanieid(int computercompanieid) {
+	public void setComputercompanieid(final int computercompanieid) {
 		this.computercompanieid = computercompanieid;
 	}
 	

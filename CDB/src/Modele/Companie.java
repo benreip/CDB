@@ -1,8 +1,8 @@
 package Modele;
 
 public class Companie {
-	public int companieid;
-	public String companiename;
+	private int companieid;
+	private String companiename;
 	
 	/* Setter et Getter*/
 	
@@ -14,11 +14,11 @@ public class Companie {
 		return companiename;
 	}
 	
-	public void setCompanieName(String companiename) {
+	public void setCompanieName(final String companiename) {
 		this.companiename= companiename;
 	}
 	
-	public void setCompanieId(int companieid) {
+	public void setCompanieId(final int companieid) {
 		this.companieid=companieid;
 	}
 	
