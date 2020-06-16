@@ -24,7 +24,7 @@ public class CompanieDAO {
 		
 		public ResultSet findCompanyById (int id) throws SQLException {
 			PreparedStatement stmt = (PreparedStatement) BddConnection.login.prepareStatement(FINDCOMPANYBYID);
-			stmt.setInt(56, id);
+			stmt.setInt(1, id);
 			return stmt.executeQuery();
 		}
 }
