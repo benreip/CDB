@@ -1,4 +1,4 @@
-package Modele;
+package com.excilys.computer.database.modele;
 
 public class Companie {
 	private int companieid;

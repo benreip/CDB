@@ -1,12 +1,11 @@
-package Persistence;
+package com.excilys.computer.database.persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.excilys.computer.database.modele.Companie;
 import com.mysql.jdbc.PreparedStatement;
-
-import Modele.Companie;
 
 
 public class CompanieDAO {

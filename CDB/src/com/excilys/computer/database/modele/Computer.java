@@ -1,4 +1,4 @@
-package Modele;
+package com.excilys.computer.database.modele;
 import java.util.Date;
 
 public class Computer {

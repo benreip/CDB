@@ -1,4 +1,4 @@
-package Persistence;
+package com.excilys.computer.database.persistence;
 
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-
-import Modele.Computer;
+import com.excilys.computer.database.modele.Computer;
 
 
 public class ComputerDAO {
