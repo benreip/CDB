@@ -42,11 +42,7 @@ public class Computer {
 	}
 	
 
-	/* Constructeur */
 	
-	public Computer() {
-		
-	}
 	
 	public String ToString() {
 		return "Computer [ id=," + computerid + ",Name =  " + computername + " ,Sorti en : " + computerintroductedin + ", Arrêté en :" + computerdiscontinuedin + ", Id de la compagnie : " + computercompanieid;

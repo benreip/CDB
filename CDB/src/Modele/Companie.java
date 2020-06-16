@@ -22,9 +22,5 @@ public class Companie {
 		this.companieid=companieid;
 	}
 	
-	/* constructeur*/ 
 	
-	public Companie() {
-		
-	}
 }
