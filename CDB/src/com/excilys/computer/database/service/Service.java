@@ -16,9 +16,8 @@ public class Service {
 	
 	
 	public void afficheListeComputer()  {
-		try {
+		 
 			System.out.println(cdto.convertAllComputer(cdao.getComputers()));
-		} catch (SQLException e) {System.out.println("erreur ");}
 	}
 	
 	public void afficheListeCompanie()  {
@@ -33,10 +32,9 @@ public class Service {
 	}
 	
 	public void afficheListeComputerByID(int a) {
-		try {System.out.println(cdto.convertToDtocomputer(cdao.findComputerById(a)));
+		System.out.println(cdto.convertToDtocomputer(cdao.findComputerById(a)));
 		
-		} catch (SQLException e) {System.out.println("erreur ");}
-	}
+		} 
 	
 	public void updateName(int id, String name)  {
 			try {

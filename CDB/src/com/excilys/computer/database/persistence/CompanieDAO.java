@@ -15,7 +15,7 @@ public class CompanieDAO {
 		private BddConnection conn = BddConnection.getDbConnection();
 		
 		private  final String ALLCOMPANIES =  "SELECT * FROM company";
-		private  final String FINDCOMPANYBYID = "SELECT * FROM company where id = ?";
+		private  final String FINDCOMPANYBYID = "SELECT * FROM company where id = ";
 		
 		public CompanieDAO() {};
 		
@@ -33,7 +33,7 @@ public class CompanieDAO {
 		
 		public Companie findCompanyById (int id) throws SQLException {
 			PreparedStatement stmt = (PreparedStatement) BddConnection.login.prepareStatement(FINDCOMPANYBYID);
-			ResultSet rs =stmt.executeQuery(FINDCOMPANYBYID);
+			ResultSet rs =stmt.executeQuery(FINDCOMPANYBYID+id);
 			Companie c = new Companie();
 			c.setCompanieName(rs.getString(1));
 			return c;

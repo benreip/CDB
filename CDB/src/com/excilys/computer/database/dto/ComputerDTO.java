@@ -65,8 +65,12 @@ public class ComputerDTO {
 			ComputerDTO c = new ComputerDTO();
 			c.setComputerDtoName(computer.getComputername());
 			c.setComputerdtoid(computer.getComputerid());
+			if (computer.getComputerintroductedin()!=null) {
 			c.setComputerdtointroductedin(computer.getComputerintroductedin());
+			}
+			if (computer.getComputerdiscontinuedin()!=null) {
 			c.setComputerdtodiscontinuedin(computer.getComputerdiscontinuedin());
+			}
 			c.setComputerdtocompanieid(computer.getComputercompanieid());
 			return c;
 		}

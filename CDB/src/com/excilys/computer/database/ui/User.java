@@ -36,7 +36,7 @@ Service s= new Service();
 	}
 	
 	public void nomordi() {
-		System.out.println("Veuillez entrer l'id de l'ordinateur souhaité : ");
+		System.out.println("Veuillez entrer le nom du nouvel ordinateur : ");
 		Scanner sc = new Scanner(System.in);
 		String answer;
 		answer=sc.nextLine();
