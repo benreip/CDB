@@ -1,19 +1,18 @@
 package com.excilys.computer.database.dto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.excilys.computer.database.modele.Computer;
-
 
 public class ComputerDTO {
 			/* Va mapper les objets DAO vers des objets DTO pour le service */
 	
 		private int computerdtoid;
 		private String computerdtoname;
-		private Date computerdtointroductedin;
-		private Date computerdtodiscontinuedin;
+		private LocalDate computerdtointroductedin;
+		private LocalDate computerdtodiscontinuedin;
 		private Integer computerdtocompanieid;
 	
 	
@@ -38,19 +37,19 @@ public class ComputerDTO {
 			this.computerdtoid = computerdtoid;
 		}
 
-		public Date getComputerdtointroductedin() {
+		public LocalDate getComputerdtointroductedin() {
 			return computerdtointroductedin;
 		}
 
-		public void setComputerdtointroductedin(Date computerdtointroductedin) {
+		public void setComputerdtointroductedin(LocalDate computerdtointroductedin) {
 			this.computerdtointroductedin = computerdtointroductedin;
 		}
 
-		public Date getComputerdtodiscontinuedin() {
+		public LocalDate getComputerdtodiscontinuedin() {
 			return computerdtodiscontinuedin;
 		}
 
-		public void setComputerdtodiscontinuedin(Date computerdtodiscontinuedin) {
+		public void setComputerdtodiscontinuedin(LocalDate computerdtodiscontinuedin) {
 			this.computerdtodiscontinuedin = computerdtodiscontinuedin;
 		}
 
@@ -62,7 +61,7 @@ public class ComputerDTO {
 			this.computerdtocompanieid = computerdtocompanieid;
 		}
 		
-		public ComputerDTO convertToDto (Computer computer ) {
+		public  ComputerDTO convertToDtocomputer (Computer computer ) {
 			ComputerDTO c = new ComputerDTO();
 			c.setComputerDtoName(computer.getComputername());
 			c.setComputerdtoid(computer.getComputerid());
@@ -72,10 +71,10 @@ public class ComputerDTO {
 			return c;
 		}
 		
-		public List<ComputerDTO> convertAll(List<Computer> c) {
+		public  List<ComputerDTO> convertAllComputer(List<Computer> c) {
 			List<ComputerDTO> toReturn = new ArrayList<>();
 			for ( Computer d : c ) {
-				toReturn.add(convertToDto(d));
+				toReturn.add(convertToDtocomputer(d));
 			}
 			return toReturn;
 				

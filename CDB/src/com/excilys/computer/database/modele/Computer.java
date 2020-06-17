@@ -1,11 +1,11 @@
 package com.excilys.computer.database.modele;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Computer {
 	private int computerid;
 	private String computername;
-	private Date computerintroductedin;
-	private Date computerdiscontinuedin;
+	private LocalDate computerintroductedin;
+	private LocalDate computerdiscontinuedin;
 	private Integer computercompanieid;
 	
 	/* Getter & Setter */
@@ -22,16 +22,16 @@ public class Computer {
 	public void setComputername(final String computername) {
 		this.computername = computername;
 	}
-	public Date getComputerintroductedin() {
+	public LocalDate getComputerintroductedin() {
 		return computerintroductedin;
 	}
-	public void setComputerintroductedin(final Date computerintroductedin) {
+	public void setComputerintroductedin(final LocalDate computerintroductedin) {
 		this.computerintroductedin = computerintroductedin;
 	}
-	public Date getComputerdiscontinuedin() {
+	public LocalDate getComputerdiscontinuedin() {
 		return computerdiscontinuedin;
 	}
-	public void setComputerdiscontinuedin(final Date computerdiscontinuedin) {
+	public void setComputerdiscontinuedin(final LocalDate computerdiscontinuedin) {
 		this.computerdiscontinuedin = computerdiscontinuedin;
 	}
 	public int getComputercompanieid() {
@@ -41,14 +41,10 @@ public class Computer {
 		this.computercompanieid = computercompanieid;
 	}
 	
-	/*public Computer(int computerid,String computername,Date computerintroductedin,Date computerdiscontinuedin,int computercompanieid) {
-		computerintroductedin computer
-		
-	}*/
 
 	
-	
-	public String ToString() {
+	@Override
+	public String toString() {
 		return "Computer [ id=," + computerid + ",Name =  " + computername + " ,Sorti en : " + computerintroductedin + ", Arrêté en :" + computerdiscontinuedin + ", Id de la compagnie : " + computercompanieid;
 	}
 	

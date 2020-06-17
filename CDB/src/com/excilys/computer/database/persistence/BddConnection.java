@@ -26,6 +26,7 @@ public class BddConnection {
 	public static  BddConnection getDbConnection() {
 		if (db ==null) {
 			db = new BddConnection();
+			db.getInstance();
 		}
 		return db;
 	}
@@ -35,6 +36,7 @@ public class BddConnection {
 		
 			
 	}
+	
 	
 	
 	
