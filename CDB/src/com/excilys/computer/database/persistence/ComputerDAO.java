@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,6 @@ public class ComputerDAO {
 	private  final String INSERT_COMPUTER = "INSERT INTO computer (name) VALUES ()";
 	private  final String All_COMPUTERS = "SELECT * FROM computer";
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
-	private  final String DELETE_COMPUTERBYID = "DELETE FROM computer WHERE computer.id = ";
-	private  final String UPDATE_NAMEBYID = "UPDATE computer SET name =  where id =";
-	private  final String UPDATE_DATESORTIE_ID= "UPDATE computer SET introduced =  where id = ";
-	private  final String UPDATE_DATEFIN_ID = "UPDATE computer SET discontinued =  where id = ";
-	private  final String UPDATE_FABRICANT = "UPDATE computer SET name =  where company_id = ";
 	
 	public ComputerDAO() {}
 	
@@ -73,45 +69,51 @@ public class ComputerDAO {
 	} catch (SQLException e) {e.printStackTrace();}
 		return c;}
 	
-	 public int updateName(int id, String newname) throws SQLException {
-		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_NAMEBYID);
-		stmt.setInt(1, id);
-		stmt.setString(2, newname);
+	 public int updateName(int id, String newname) {
+		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET name ="+ newname+" where id ="+id);
 		return stmt.executeUpdate();
+		} catch (SQLException e) {e.printStackTrace();}
+		return 0;
 	}
 	
-	public int deleteComputerById (int id) throws SQLException {
-		PreparedStatement stmt = BddConnection.login.prepareStatement(DELETE_COMPUTERBYID);
-		stmt.setInt(1, id);
+	public int deleteComputerById (int id) {
+		try { PreparedStatement stmt = BddConnection.login.prepareStatement("DELETE FROM computer WHERE computer.id ="+id );
 		return stmt.executeUpdate();
+		} catch (SQLException e) {e.printStackTrace();}
+		return 0;
 	}
 	
-	public int updateDateSortie ( int id, LocalDate date) throws SQLException {
-		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_DATESORTIE_ID);
-		stmt.setInt(1, id);
-		stmt.setDate(2, Date.valueOf(date));
-		return stmt.executeUpdate();
+	public int updateDateSortie ( int id, java.util.Date date) {
+		try {
+			date =SimpleDateFormat.parse(date);
+			PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET introduced = "+date+" where id ="+id );
+		return stmt.executeUpdate();} catch (SQLException e) {e.printStackTrace();}
+		return 0;
 	}
 	
-	public int updateDateFin ( int id, LocalDate date) throws SQLException {
-		
-		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_DATEFIN_ID);
-		stmt.setInt(1, id);
-		stmt.setDate(2, Date.valueOf(date));
-		return stmt.executeUpdate();
+	public int updateDateFin ( int id, LocalDate date) {
+		try {
+		PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET discontinued ="+date+"where id =" + id);
+		return stmt.executeUpdate();} catch (SQLException e) {e.printStackTrace();}
+		return 0;
 	}
 	
-	public int updateFabricant (int id, int company_id) throws SQLException {
-		PreparedStatement stmt = BddConnection.login.prepareStatement(UPDATE_FABRICANT);
-		stmt.setInt(1, id);
-		stmt.setInt(2, company_id);
-		return stmt.executeUpdate();
+	public Computer updateFabricant (int id, int company_id) {
+		Computer c = null;
+		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET company_id ="+ company_id+" where id ="+id );
+		stmt.executeUpdate();
+		return this.findComputerById(id);}
+		catch(SQLException e) {e.printStackTrace();}
+		return c;
 	}
 	
-	public int insertComputer (String computername) throws SQLException {
-		PreparedStatement stmt = BddConnection.login.prepareStatement(INSERT_COMPUTER);
+	public int insertComputer (String computername) {
+		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer ("+computername+") VALUES ()");
 		stmt.setString(1,computername);
-		return stmt.executeUpdate();
+		System.out.println("je passe ici");
+		return stmt.executeUpdate();}
+		catch (SQLException e) { System.out.println("erreur déjà ici");}
+		return 0;
 	}
 	
 
@@ -119,7 +121,7 @@ public class ComputerDAO {
 public static void main(String[] args) {
 	// TODO Auto-generated method stub
 	ComputerDAO cp= new ComputerDAO();
-	System.out.println(cp.getComputers());
+	System.out.println(cp.updateDateSortie(1,"1515/12/03"));
 	
 }
 }
