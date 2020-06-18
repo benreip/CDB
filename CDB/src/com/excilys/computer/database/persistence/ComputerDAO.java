@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
@@ -57,20 +58,32 @@ public class ComputerDAO {
 		return toReturn;
 	}
 	public  Computer findComputerById(int a)  {
-		Computer c = null;
-		try {Statement stmt = BddConnection.login.createStatement();
+		Computer d = null;
+		try {
 		ResultSet rs = BddConnection.login.createStatement().executeQuery(FIND_COMPUTERBYID+a);
-		c = new Computer();
+		Computer c = new Computer();
 		if(rs.first()) {
+			c.setComputerid(rs.getInt(1));
 			c.setComputername(rs.getString(2));
+			if (rs.getDate(3)!=null) {
+			c.setComputerintroductedin(rs.getDate(3).toLocalDate());
+			}
+			if (rs.getDate(4)!=null) {
+			c.setComputerdiscontinuedin(rs.getDate(4).toLocalDate());
+			}
+			if (rs.getInt(5)!=0) {
+				c.setComputercompanieid(rs.getInt(5));
+			} 
+			return c;
 		}
 
 		
-	} catch (SQLException e) {e.printStackTrace();}
-		return c;}
+	} catch (SQLException e) {e.printStackTrace();} return d;
+}
 	
 	 public int updateName(int id, String newname) {
-		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET name ="+ newname+" where id ="+id);
+		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET name = ? where id ="+id);
+		stmt.setString(1, newname);
 		return stmt.executeUpdate();
 		} catch (SQLException e) {e.printStackTrace();}
 		return 0;
@@ -83,17 +96,20 @@ public class ComputerDAO {
 		return 0;
 	}
 	
-	public int updateDateSortie ( int id, java.util.Date date) {
+	public int updateDateSortie ( int id, String date) {
 		try {
-			date =SimpleDateFormat.parse(date);
-			PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET introduced = "+date+" where id ="+id );
+			LocalDate d = convert(date);
+			PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET introduced = ? where id ="+id );
+			stmt.setDate(1, Date.valueOf(d));
 		return stmt.executeUpdate();} catch (SQLException e) {e.printStackTrace();}
 		return 0;
 	}
 	
-	public int updateDateFin ( int id, LocalDate date) {
+	public int updateDateFin ( int id, String date) {
 		try {
-		PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET discontinued ="+date+"where id =" + id);
+		LocalDate d = convert (date);	
+		PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET discontinued = ? where id =" + id);
+		stmt.setDate(1, Date.valueOf(d));
 		return stmt.executeUpdate();} catch (SQLException e) {e.printStackTrace();}
 		return 0;
 	}
@@ -108,20 +124,16 @@ public class ComputerDAO {
 	}
 	
 	public int insertComputer (String computername) {
-		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer ("+computername+") VALUES ()");
+		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer (name) VALUES (?)");
 		stmt.setString(1,computername);
-		System.out.println("je passe ici");
 		return stmt.executeUpdate();}
 		catch (SQLException e) { System.out.println("erreur déjà ici");}
 		return 0;
 	}
 	
+	private LocalDate convert (String date) {
+		return LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}
 
+}
 
-public static void main(String[] args) {
-	// TODO Auto-generated method stub
-	ComputerDAO cp= new ComputerDAO();
-	System.out.println(cp.updateDateSortie(1,"1515/12/03"));
-	
-}
-}

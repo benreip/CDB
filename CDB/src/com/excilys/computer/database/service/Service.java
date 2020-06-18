@@ -2,89 +2,78 @@ package com.excilys.computer.database.service;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 import com.excilys.computer.database.dto.*;
+import com.excilys.computer.database.modele.Companie;
+import com.excilys.computer.database.modele.Computer;
 import com.excilys.computer.database.persistence.CompanieDAO;
 import com.excilys.computer.database.persistence.ComputerDAO;
+import com.excilys.computer.database.ui.User;
 
 public class Service {
 	ComputerDTO cdto = new ComputerDTO();
 	ComputerDAO cdao = new ComputerDAO();
 	CompanieDAO compdao = new CompanieDAO();
 	CompanieDTO compdto = new CompanieDTO();
+	Computer c = new Computer();
+	Companie cp = new Companie();
 	public Service() {}
 	
 	
-	public void afficheListeComputer()  {
-		 
-			System.out.println(cdto.convertAllComputer(cdao.getComputers()));
+	public List<Computer> afficheListeComputer()  {
+		 return cdao.getComputers();
 	}
 	
-	public void afficheListeCompanie()  {
-		try {System.out.println(compdto.convertAllCompanie(compdao.getAllCompanies()));
+	public List<Companie> afficheListeCompanie()  {
+		return compdao.getAllCompanies();
+	
+	}	
+	
+	public Companie afficheListeCompanieByID(int a) {
+		return compdao.findCompanyById(a);
+	
+	
 	}
-		catch (SQLException e) {System.out.println("erreur ");}	}		
 	
-	public void afficheListeCompanieByID(int a) {
-		try {System.out.println(compdto.convertToDtocompanie(compdao.findCompanyById(a)));
-		
-		}  catch (SQLException e) {System.out.println("erreur ");}
-	}
+	public Computer afficheListeComputerByID(int a) {
+		return cdao.findComputerById(a);
+	} 
 	
-	public void afficheListeComputerByID(int a) {
-		System.out.println(cdto.convertToDtocomputer(cdao.findComputerById(a)));
-		
-		} 
-	
-	public void updateName(int id, String name)  {
-			try {
-				cdao.updateName(id,name);
-				System.out.println("update réalisé avec succès");
-			} catch(SQLException e) {
-				System.out.println("erreur update");
+	public int updateName(int id, String name)  {
+				 return cdao.updateName(id,name);
+
 			}	
-	}		
-	public void deleteByID(int id) {
-		try {
-			cdao.deleteComputerById(id);
-			System.out.println("Delete réalisé avec succès");
-		} catch(SQLException e) {
-			System.out.println("erreur sur le delete");
-		}
+	
+	public int deleteByID(int id) {
+			return cdao.deleteComputerById(id);
+		
 	}
 	
-	public void updateDateSortie(int id, LocalDate date) {
-		try  {
-			cdao.updateDateSortie(id, date);
+	public int updateDateSortie(int id, String date) {
+			return cdao.updateDateSortie(id, date);
 		
-		System.out.println("Update réalisé avec succès");
-		} catch (SQLException e) { System.out.println("erreur lors de l'update de la date de sortie");}
 	}
 	
-	public void updateDateFIn(int id, LocalDate date) {
-		try  {
-			cdao.updateDateFin(id, date);
-		
-		System.out.println("Update réalisé avec succès");
-		} catch (SQLException e) { System.out.println("erreur lors de l'update de la date de fin");}
+	public int updateDateFIn(int id, String date) {
+			return cdao.updateDateFin(id, date);
 	}
 	
 	
-	public void updateFabricant(int id, int idcomp) {
-		
-		try  {
-			cdao.updateFabricant(id, idcomp);
-		
-		System.out.println("Update réalisé avec succès");
-		} catch (SQLException e) { System.out.println("erreur lors de l'update de la date de sortie");}
+	public Computer updateFabricant(int id, int idcomp) {
+			return cdao.updateFabricant(id, idcomp);
 	}
 
-	public void  insertcomputer (String computername) {
-		try  {
+	public int  insertcomputer (String computername) {
 			cdao.insertComputer(computername);
-		
-		System.out.println("Update réalisé avec succès");
-		} catch (SQLException e) { System.out.println("erreur lors de l'insert");}
+			return 1;
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Service s = new Service();
+		s.afficheListeComputer();
+
 	}
 
 }

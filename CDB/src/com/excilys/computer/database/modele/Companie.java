@@ -22,5 +22,9 @@ public class Companie {
 		this.companieid=companieid;
 	}
 	
+	@Override
+	public String toString() {
+		return "Companie [ id=," +this.companieid+ " Nom de la compagnie : "+ this.companiename+ "\n";
 	
+}
 }

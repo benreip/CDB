@@ -32,7 +32,7 @@ Service s= new Service();
 		}
 	
 	public void detailordis(int id)  {
-		s.afficheListeComputerByID(id);
+		System.out.println(s.afficheListeComputerByID(id));
 	}
 	
 	public void nomordi() {
@@ -80,10 +80,10 @@ Service s= new Service();
 		s.updateName(answer,updatenameordi );
 		System.out.println("Veuillez entrer la nouvelle date de sortie :  elle doit être au format YYYY-MM-DD");
 		String updatedatesortie = sc.nextLine();
-		s.updateDateSortie(answer, LocalDate.parse(updatedatesortie));
+		s.updateDateSortie(answer, updatedatesortie);
 		System.out.println("Veuillez entrer la nouvelle date de fin : elle doit être au format YYYY-MM-DD");
 		String updatedatefin = sc.nextLine();
-		s.updateDateFIn(answer,LocalDate.parse(updatedatefin) );
+		s.updateDateFIn(answer,updatedatefin );
 		System.out.println("Veuillez entrer l'id du nouveau fabricant");
 		int idcompanieupdate = sc.nextInt();
 		s.updateFabricant(answer, idcompanieupdate);
@@ -99,32 +99,38 @@ Service s= new Service();
 			switch(answer) {
 				case ("0"):
 					System.out.println("Liste des ordinateurs :");
-					s.afficheListeComputer();
+					System.out.println(s.afficheListeComputer());
+					stop = false;
 					break;
 					
 				case ("1"):
 					System.out.println("Liste des entreprises :");
-					s.afficheListeCompanie();
+					System.out.println(s.afficheListeCompanie());
+					stop = false;
 					break;
 					
 				case ("2"):
 					System.out.println("Détails d'un ordinateur :");
 					transitordis();
+					stop = false;
 					break;
 					
 				case ("3"):
 					System.out.println(" Création ordinateur :");
 					nomordi();
+					stop = false;
 					break;
 					
 				case ("4"):
 					System.out.println(" Mise à jour d'un ordinateur :");
 					majOrdi();
+					stop = false;
 					break;
 					
 				case ("5"):
 					System.out.println("Supprimer un ordinateur :");
 					deleteComputer();
+					stop = false;
 					break;
 					
 				case ("6"):

@@ -45,7 +45,7 @@ public class Computer {
 	
 	@Override
 	public String toString() {
-		return "Computer [ id=," + computerid + ",Name =  " + computername + " ,Sorti en : " + computerintroductedin + ", Arrêté en :" + computerdiscontinuedin + ", Id de la compagnie : " + computercompanieid+ "\n";
+		return "Computer [ id=," + this.computerid + ",Name =  " + this.computername + " ,Sorti en : " + this.computerintroductedin + ", Arrêté en :" + this.computerdiscontinuedin + ", Id de la compagnie : " + this.computercompanieid+ "\n";
 	}
 	
 	

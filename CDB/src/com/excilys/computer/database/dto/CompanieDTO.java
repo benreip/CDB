@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.computer.database.modele.Companie;
+import com.excilys.computer.database.persistence.ComputerDAO;
 public class CompanieDTO {
 	private int companiedtoid;
 	private String companiedtoname;
@@ -36,6 +37,5 @@ public class CompanieDTO {
 		}
 		return toReturn;
 			
-	}
+	}}
 	
-}
