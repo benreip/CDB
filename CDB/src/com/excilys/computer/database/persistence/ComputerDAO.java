@@ -86,7 +86,7 @@ public class ComputerDAO {
 		stmt.setString(1, newname);
 		return stmt.executeUpdate();
 		} catch (SQLException e) {e.printStackTrace();}
-		return 0;
+		return 1;
 	}
 	
 	public int deleteComputerById (int id) {

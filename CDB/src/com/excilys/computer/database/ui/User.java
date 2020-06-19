@@ -53,23 +53,7 @@ Service s= new Service();
 		int answer = sc.nextInt();
 		s.deleteByID(answer);
 	}
-	/*public void majOrdi() {
-		System.out.println("Quel MAJ à effectuer? ");
-		System.out.println("0 - MAJ ");
-		System.out.println("1 - Liste des entreprises");
-		Scanner sc = new Scanner(System.in);
-		int answer;
-		answer=sc.nextInt();
-		detailordis(answer);
-	}*/
-	/*public void updateid() {
-		System.out.println("Veuillez entrer l'id de l'ordinateur à update : ");
-		Scanner sc = new Scanner(System.in);
-		int answer;
-		answer=sc.nextInt();
-		updateordi(answer);
-	}*/
-	
+
 	public void majOrdi () {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à update : ");
 		Scanner sc = new Scanner(System.in);
@@ -137,7 +121,6 @@ Service s= new Service();
 					System.out.println("Au revoir !");
 					stop=false;
 					break;
-					
 				default:
 					System.out.println("Désolé je n'ai pas compris.");
 					break;
