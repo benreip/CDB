@@ -13,3 +13,4 @@ CDB/.classpath
 #ignore jdbc properties
 CDB/src/main/resources/jdbc.properties
 CDB/src/test/resources/jdbc.properties
+/target/

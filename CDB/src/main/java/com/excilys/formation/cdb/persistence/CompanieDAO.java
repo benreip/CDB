@@ -2,18 +2,17 @@ package com.excilys.formation.cdb.persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.cdb.modele.Companie;
-import com.excilys.formation.cdb.modele.Computer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
 public class CompanieDAO {
-		private BddConnection conn = BddConnection.getDbConnection();
-		
+		final Logger logger = LoggerFactory.getLogger(CompanieDAO.class);
 		private  final String ALLCOMPANIES =  "SELECT * FROM company";
 		private  final String FINDCOMPANYBYID = "SELECT * FROM company where id =";
 		
@@ -30,7 +29,12 @@ public class CompanieDAO {
 				  c.setCompanieName(rs.getString(2));
 				  toReturn.add(c);
 				  }
-			  return toReturn; } catch (SQLException e) {System.out.println("erreur ici");}
+			  return toReturn; } 
+			catch (SQLException e) {
+				logger.info("erreur lors de l'appel à la base pour les noms de compagnies");
+				e.printStackTrace();
+			  }
+			
 			return l;
 			
 		}
@@ -44,7 +48,11 @@ public class CompanieDAO {
 			c.setCompanieId(rs.getInt(1));
 			c.setCompanieName(rs.getString(2));
 			}
-			return c; } catch (SQLException e) {System.out.println("kick me");}
+			return c; } 
+			catch (SQLException e) {
+				logger.info("erreur lors de l'appel à la base pour les noms de compagnies");
+				e.printStackTrace();
+				}
 			return d;
 		}
 				

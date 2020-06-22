@@ -7,18 +7,21 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Date;
 
 import com.excilys.formation.cdb.modele.Computer;
-import com.excilys.formation.cdb.ui.User;
+
 
 
 
 public class ComputerDAO {
 	
-	private  final String All_COMPUTERS = "SELECT * FROM computer LIMIT 0,9";
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
-	
+	final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private  final String All_COMPUTERS_LIMIT = "SELECT * FROM computer LIMIT ? , ?";
 	public ComputerDAO() {}
 	
@@ -76,10 +79,12 @@ public class ComputerDAO {
 				if (rs.getInt(5) != 0) {
 					c.setComputercompanieid(rs.getInt(5));
 				}
+				logger.info("liste d'ordinateur chargé avec succès ! \n");
 				toReturn.add(c);
 			}
 			return toReturn;
 		} catch (SQLException e) {
+			logger.info("erreur lors de l'appel à la base pour les informations des ordinateurs");
 			e.printStackTrace();
 		}
 		return toReturn;
@@ -103,25 +108,36 @@ public class ComputerDAO {
 			if (rs.getInt(5)!=0) {
 				c.setComputercompanieid(rs.getInt(5));
 			} 
+			logger.info("Ordinateur {} chargé avec succès ! \n",a);
 			return c;
 		}
 
 		
-	} catch (SQLException e) {e.printStackTrace();} return d;
+	} catch (SQLException e) {
+		logger.info("erreur lors de l'appel à la base pour les informations sur l'ordinateur demandé \n");
+		e.printStackTrace();
+	} return d;
 }
 	
 	 public int updateName(int id, String newname) {
 		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET name = ? where id ="+id);
 		stmt.setString(1, newname);
+		logger.info("Nom mis à jour sur l'ordinateur {} . Nouveau nom set sur {} \n",id,newname);
 		return stmt.executeUpdate();
-		} catch (SQLException e) {e.printStackTrace();}
+		} catch (SQLException e) {
+			logger.info("erreur lors de l'update du nom sur l'ordinateur spécifié \n");
+			e.printStackTrace();}
 		return 1;
 	}
 	
 	public int deleteComputerById (int id) {
 		try { PreparedStatement stmt = BddConnection.login.prepareStatement("DELETE FROM computer WHERE computer.id ="+id );
+		logger.info("ordinateur avec l'id {} supprimé ! \n",id);
 		return stmt.executeUpdate();
-		} catch (SQLException e) {e.printStackTrace();}
+		} catch (SQLException e) {
+			logger.info("erreur lors de la suppression de l'ordinateur demandé \n");
+			e.printStackTrace();
+			}
 		return 0;
 	}
 	
@@ -130,7 +146,11 @@ public class ComputerDAO {
 			LocalDate d = convert(date);
 			PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET introduced = ? where id ="+id );
 			stmt.setDate(1, Date.valueOf(d));
-		return stmt.executeUpdate();} catch (SQLException e) {e.printStackTrace();}
+			logger.info("date de sortie l'ordinateur {} mise à jour !\n",id);
+		return stmt.executeUpdate();} 
+		catch (SQLException e) {
+			logger.info("erreur lors de l'update sur la date de sortie de l'ordinateur spécifié \n");
+			e.printStackTrace();}
 		return 0;
 	}
 	
@@ -139,7 +159,11 @@ public class ComputerDAO {
 		LocalDate d = convert (date);	
 		PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET discontinued = ? where id =" + id);
 		stmt.setDate(1, Date.valueOf(d));
-		return stmt.executeUpdate();} catch (SQLException e) {e.printStackTrace();}
+		logger.info("date de fin de l'ordinateur {} mise à jour !\n",id);
+		return stmt.executeUpdate();
+		} catch (SQLException e) {
+			logger.info("erreur sur l'update de la date de fin de l'ordinateur spécifié\n");
+			e.printStackTrace();}
 		return 0;
 	}
 	
@@ -147,16 +171,24 @@ public class ComputerDAO {
 		Computer c = null;
 		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET company_id ="+ company_id+" where id ="+id );
 		stmt.executeUpdate();
+		logger.info("update sur l'ordinateur {} réussie avec succès !\n",id);
 		return this.findComputerById(id);}
-		catch(SQLException e) {e.printStackTrace();}
+		catch(SQLException e) {
+			logger.info("erreur lors de l'update sur le fabricant de l'ordinateur spécifié \n");
+			e.printStackTrace();
+			}
 		return c;
 	}
 	
 	public int insertComputer (String computername) {
 		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer (name) VALUES (?)");
 		stmt.setString(1,computername);
+		logger.info("Insertion du nouvel ordinateur réussie avec succès \n");
 		return stmt.executeUpdate();}
-		catch (SQLException e) { System.out.println("erreur déjà ici");}
+		catch (SQLException e) {
+			logger.info("erreur lors de l'insertion du nouvel ordinateur \n");
+			e.printStackTrace();
+		}
 		return 0;
 	}
 	
