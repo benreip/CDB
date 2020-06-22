@@ -3,8 +3,6 @@ package com.excilys.computer.database.persistence;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,14 +13,13 @@ import com.excilys.computer.database.modele.Computer;
 import com.excilys.computer.database.ui.User;
 
 
+
 public class ComputerDAO {
 	
-	private BddConnection conn = BddConnection.getDbConnection();
-	
-	private  final String INSERT_COMPUTER = "INSERT INTO computer (name) VALUES ()";
-	private  final String All_COMPUTERS = "SELECT * FROM computer";
+	private  final String All_COMPUTERS = "SELECT * FROM computer LIMIT 0,9";
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
 	
+	private  final String All_COMPUTERS_LIMIT = "SELECT * FROM computer LIMIT ? , ?";
 	public ComputerDAO() {}
 	
 	// Diverses requêtes, inutile de détailler
@@ -32,7 +29,7 @@ public class ComputerDAO {
 		return stmt.executeQuery(All_COMPUTERS);
 	}*/
 	
-	public   List<Computer> getComputers() {
+	/*public   List<Computer> getComputers() {
 		List<Computer> toReturn = new ArrayList<>();
 		try {//Statement stmt = conn.login.createStatement();
 		ResultSet rs = BddConnection.login.createStatement().executeQuery(All_COMPUTERS);
@@ -56,7 +53,39 @@ public class ComputerDAO {
 
 	} catch (SQLException e) { e.printStackTrace();}
 		return toReturn;
+	}*/
+	
+	public List<Computer> getComputers(int from, int to) {
+		List<Computer> toReturn = new ArrayList<>();
+		try {// Statement stmt = conn.login.createStatement();
+			PreparedStatement preparedStatement = BddConnection.login.prepareStatement(All_COMPUTERS_LIMIT);
+			preparedStatement.setInt(1, from);
+			preparedStatement.setInt(2, to);
+			ResultSet rs = preparedStatement.executeQuery();
+			System.out.println(rs);
+			while (rs.next()) {
+				Computer c = new Computer();
+				c.setComputerid(rs.getInt(1));
+				c.setComputername(rs.getString(2));
+				if (rs.getDate(3) != null) {
+					c.setComputerintroductedin(rs.getDate(3).toLocalDate());
+				}
+				if (rs.getDate(4) != null) {
+					c.setComputerdiscontinuedin(rs.getDate(4).toLocalDate());
+				}
+				if (rs.getInt(5) != 0) {
+					c.setComputercompanieid(rs.getInt(5));
+				}
+				toReturn.add(c);
+			}
+			return toReturn;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return toReturn;
 	}
+	
+	
 	public  Computer findComputerById(int a)  {
 		Computer d = null;
 		try {
@@ -134,6 +163,8 @@ public class ComputerDAO {
 	private LocalDate convert (String date) {
 		return LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
+	
+	
 
 }
 

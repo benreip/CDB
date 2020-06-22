@@ -21,8 +21,8 @@ public class Service {
 	public Service() {}
 	
 	
-	public List<Computer> afficheListeComputer()  {
-		 return cdao.getComputers();
+	public List<Computer> afficheListeComputer(int pc, int pas)  {
+		 return cdao.getComputers( pc, pas);
 	}
 	
 	public List<Companie> afficheListeCompanie()  {
@@ -69,11 +69,6 @@ public class Service {
 			return 1;
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Service s = new Service();
-		s.afficheListeComputer();
-
-	}
+	
 
 }

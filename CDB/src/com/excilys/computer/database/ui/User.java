@@ -1,12 +1,12 @@
 package com.excilys.computer.database.ui;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 import com.excilys.computer.database.service.Service;
 
 public class User {
 Service s= new Service();
+Scanner sc = new Scanner(System.in);
 	
 	public void affichage() {
 		System.out.println("Que voulez vous faire? ");
@@ -25,7 +25,6 @@ Service s= new Service();
 	
 	public void transitordis() {
 		System.out.println("Veuillez entrer l'id de l'ordinateur souhaité : ");
-		Scanner sc = new Scanner(System.in);
 		int answer;
 		answer=sc.nextInt();
 		detailordis(answer);
@@ -37,7 +36,6 @@ Service s= new Service();
 	
 	public void nomordi() {
 		System.out.println("Veuillez entrer le nom du nouvel ordinateur : ");
-		Scanner sc = new Scanner(System.in);
 		String answer;
 		answer=sc.nextLine();
 		createordi(answer);
@@ -49,14 +47,14 @@ Service s= new Service();
 	
 	public void deleteComputer() {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à supprimer : ");
-		Scanner sc = new Scanner(System.in);
 		int answer = sc.nextInt();
 		s.deleteByID(answer);
 	}
+	
+	
 
 	public void majOrdi () {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à update : ");
-		Scanner sc = new Scanner(System.in);
 		int answer;
 		answer=sc.nextInt();
 		System.out.println("Veuillez entrer le nouveau nom de l'ordinateur : ");
@@ -74,16 +72,43 @@ Service s= new Service();
 		
 	}
 	
+	public void select_pc(String answer,int pc,int pas) {
+		switch(answer) {
+		case("+") :
+			pc = pc+9;
+			System.out.println(s.afficheListeComputer(pc+9,pas));
+			System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
+			answer = sc.nextLine();
+			select_pc(answer,pc,pas);
+		
+		case("-") :
+			pc = pc-9;
+			System.out.println(s.afficheListeComputer(pc-9,pas));
+		System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
+		answer = sc.nextLine();
+		select_pc(answer,pc,pas);
+		
+		default:
+			System.out.println("je ne comprends pas désolé");
+		}
+	}
+	
+	
+	
 	public void selectswitch() {
 		Boolean stop=true;
-		Scanner sc=new Scanner(System.in);
 		String answer;
 		answer=sc.nextLine();
 		while (stop) {
 			switch(answer) {
 				case ("0"):
 					System.out.println("Liste des ordinateurs :");
-					System.out.println(s.afficheListeComputer());
+					int pc = 0;
+					int pas = 9;
+					System.out.println(s.afficheListeComputer(pc,pas));
+					System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
+					answer = sc.nextLine();
+					select_pc(answer,pc,pas);
 					stop = false;
 					break;
 					
