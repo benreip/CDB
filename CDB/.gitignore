@@ -1,0 +1,15 @@
+# ignore build
+CDB/target/
+
+# ignore .project
+CDB/.project
+
+# ignore settings
+CDB/.settings/
+
+#ignore classpath
+CDB/.classpath
+
+#ignore jdbc properties
+CDB/src/main/resources/jdbc.properties
+CDB/src/test/resources/jdbc.properties
