@@ -1,10 +1,13 @@
 package com.excilys.formation.cdb.persistence;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.formation.cdb.mapper.MapperCompanieDAO;
+import com.excilys.formation.cdb.mapper.MapperComputerDAO;
 import com.excilys.formation.cdb.modele.Companie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,40 +18,33 @@ public class CompanieDAO {
 		final Logger logger = LoggerFactory.getLogger(CompanieDAO.class);
 		private  final String ALLCOMPANIES =  "SELECT * FROM company";
 		private  final String FINDCOMPANYBYID = "SELECT * FROM company where id =";
-		
+		MapperCompanieDAO mcdao = new MapperCompanieDAO();
 		public CompanieDAO() {};
 		
 		public List<Companie> getAllCompanies()  {
-			List<Companie> l = null;
+			List<Companie> toReturn = new ArrayList();
 			try {
 			ResultSet rs = BddConnection.login.createStatement().executeQuery(ALLCOMPANIES);
-			List<Companie> toReturn = new ArrayList();
 			  while(rs.next()) {
-				  Companie c = new Companie();
-				  c.setCompanieId(rs.getInt(1));
-				  c.setCompanieName(rs.getString(2));
-				  toReturn.add(c);
+				  toReturn.add(mcdao.mapCompanie(rs));
 				  }
 			  return toReturn; } 
 			catch (SQLException e) {
 				logger.error("erreur lors de l'appel à la base pour les noms de compagnies");
 				e.printStackTrace();
-			  }
-			
-			return l;
-			
+				return toReturn;
+			  }	
 		}
 		
 		public Companie findCompanyById (int id) {
 			Companie d = new Companie();
 			try {
-			ResultSet rs = BddConnection.login.createStatement().executeQuery(FINDCOMPANYBYID+id);
-			Companie c = new Companie();
+				PreparedStatement preparedStatement = BddConnection.login.prepareStatement(FINDCOMPANYBYID+id,ResultSet.TYPE_SCROLL_SENSITIVE, 
+		                ResultSet.CONCUR_UPDATABLE);
+				ResultSet rs = preparedStatement.executeQuery();
 			if(rs.first()) {
-			c.setCompanieId(rs.getInt(1));
-			c.setCompanieName(rs.getString(2));
-			}
-			return c; } 
+				return mcdao.mapCompanie(rs);
+			} } 
 			catch (SQLException e) {
 				logger.error("erreur lors de l'appel à la base pour les noms de compagnies");
 				e.printStackTrace();

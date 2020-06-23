@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Companie {
-	private int companieid;
+	private Integer companieid;
 	private String companiename;
 	final Logger logger = LoggerFactory.getLogger(Companie.class);
 	

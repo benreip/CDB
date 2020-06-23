@@ -13,12 +13,14 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 
+import com.excilys.formation.cdb.mapper.MapperComputerDAO;
 import com.excilys.formation.cdb.modele.Computer;
 
 
 
 
 public class ComputerDAO {
+	MapperComputerDAO mcdao = new MapperComputerDAO();
 	BddConnection login = BddConnection.getDbConnection();
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
 	final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
@@ -65,58 +67,31 @@ public class ComputerDAO {
 			PreparedStatement preparedStatement = BddConnection.login.prepareStatement(All_COMPUTERS_LIMIT);
 			preparedStatement.setInt(1, from);
 			preparedStatement.setInt(2, to);
-			System.out.println("je passe ici !");
 			ResultSet rs = preparedStatement.executeQuery();
-			System.out.println("je passe là");
 			while (rs.next()) {
-				Computer c = new Computer();
-				c.setComputerid(rs.getInt(1));
-				c.setComputername(rs.getString(2));
-				if (rs.getDate(3) != null) {
-					c.setComputerintroductedin(rs.getDate(3).toLocalDate());
-				}
-				if (rs.getDate(4) != null) {
-					c.setComputerdiscontinuedin(rs.getDate(4).toLocalDate());
-				}
-				if (rs.getInt(5) != 0) {
-					c.setComputercompanieid(rs.getInt(5));
-				}
-				//logger.info("liste d'ordinateur chargé avec succès ! \n");
-				toReturn.add(c);
+				toReturn.add(mcdao.mapComputers(rs));
 			}
 			return toReturn;
 		} catch (SQLException e) {
-			//logger.error("erreur lors de l'appel à la base pour les informations des ordinateurs");
+			logger.error("erreur lors de l'appel à la base pour les informations des ordinateurs");
 			e.getMessage();
 			e.printStackTrace();
+			return toReturn;
 		}
-		return toReturn;
 	}
 	
 	
 	public  Computer findComputerById(int a)  {
 		Computer d = null;
 		try {
-		ResultSet rs = BddConnection.login.createStatement().executeQuery(FIND_COMPUTERBYID+a);
-		Computer c = new Computer();
+			PreparedStatement preparedStatement = BddConnection.login.prepareStatement(FIND_COMPUTERBYID+a,ResultSet.TYPE_SCROLL_SENSITIVE, 
+	                ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = preparedStatement.executeQuery();
 		if(rs.first()) {
-			c.setComputerid(rs.getInt(1));
-			c.setComputername(rs.getString(2));
-			if (rs.getDate(3)!=null) {
-			c.setComputerintroductedin(rs.getDate(3).toLocalDate());
-			}
-			if (rs.getDate(4)!=null) {
-			c.setComputerdiscontinuedin(rs.getDate(4).toLocalDate());
-			}
-			if (rs.getInt(5)!=0) {
-				c.setComputercompanieid(rs.getInt(5));
-			} 
 			logger.info("Ordinateur {} chargé avec succès ! \n",a);
-			return c;
-		}
-
-		
-	} catch (SQLException e) {
+			return mcdao.mapComputers(rs);
+			} 
+		} catch (SQLException e) {
 		logger.error("erreur lors de l'appel à la base pour les informations sur l'ordinateur demandé \n");
 		e.printStackTrace();
 	} return d;
@@ -202,7 +177,7 @@ public class ComputerDAO {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ComputerDAO cdao= new ComputerDAO();
-	System.out.println(cdao.getComputers(0,9));
+	System.out.println(cdao.findComputerById(9));
 
 	}
 	
