@@ -17,6 +17,7 @@ public class BddConnection {
 	private void getInstance() {
 		try {
 			Class.forName(DRIVER).newInstance();
+			System.out.println("tqt bg");
 			this.login = (Connection)DriverManager.getConnection(URL,USERNAME,PASSWORD);
 		} catch (Exception sqle) {
 			sqle.printStackTrace();

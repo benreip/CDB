@@ -25,9 +25,11 @@ Scanner sc = new Scanner(System.in);
 	
 	public void transitordis() {
 		System.out.println("Veuillez entrer l'id de l'ordinateur souhaité : ");
+		try {
 		int answer;
 		answer=sc.nextInt();
 		detailordis(answer);
+		} catch (Exception e) { System.out.println("Veuillez entrer un entier");}
 		}
 	
 	public void detailordis(int id)  {
@@ -36,9 +38,10 @@ Scanner sc = new Scanner(System.in);
 	
 	public void nomordi() {
 		System.out.println("Veuillez entrer le nom du nouvel ordinateur : ");
+		try {
 		String answer;
 		answer=sc.nextLine();
-		createordi(answer);
+		createordi(answer); } catch (Exception e) { System.out.println("Un string est attendu ici");}
 	}
 	
 	public void createordi(String nomordi) {
@@ -47,8 +50,10 @@ Scanner sc = new Scanner(System.in);
 	
 	public void deleteComputer() {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à supprimer : ");
+		try {
 		int answer = sc.nextInt();
-		s.deleteByID(answer);
+		s.deleteByID(answer); } 
+		catch (Exception e) {System.out.println("un entier est attendu ici !");}
 	}
 	
 	
@@ -58,17 +63,23 @@ Scanner sc = new Scanner(System.in);
 		int answer;
 		answer=sc.nextInt();
 		System.out.println("Veuillez entrer le nouveau nom de l'ordinateur : ");
+		try {
 		String updatenameordi = sc.nextLine();
-		s.updateName(answer,updatenameordi );
+		s.updateName(answer,updatenameordi ); } catch (Exception e ) {System.out.println("Identifiant ou nom mal renseigné");}
 		System.out.println("Veuillez entrer la nouvelle date de sortie :  elle doit être au format YYYY-MM-DD");
+		try {
 		String updatedatesortie = sc.nextLine();
 		s.updateDateSortie(answer, updatedatesortie);
+		} catch (Exception e ) {System.out.println("Identifiant ou date mal renseigné");}
 		System.out.println("Veuillez entrer la nouvelle date de fin : elle doit être au format YYYY-MM-DD");
-		String updatedatefin = sc.nextLine();
-		s.updateDateFIn(answer,updatedatefin );
+		try {
+		String updatedatefin = sc.nextLine(); 
+		s.updateDateFIn(answer,updatedatefin ); } 
+		catch (Exception e ) {System.out.println("Identifiant ou date mal renseigné");}
 		System.out.println("Veuillez entrer l'id du nouveau fabricant");
+		try {
 		int idcompanieupdate = sc.nextInt();
-		s.updateFabricant(answer, idcompanieupdate);
+		s.updateFabricant(answer, idcompanieupdate); } catch (Exception e ) {System.out.println("Identifiant ou id fabricant mal renseigné");}
 		
 	}
 	

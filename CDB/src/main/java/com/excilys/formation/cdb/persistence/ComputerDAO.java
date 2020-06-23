@@ -19,11 +19,12 @@ import com.excilys.formation.cdb.modele.Computer;
 
 
 public class ComputerDAO {
-	
+	BddConnection login = BddConnection.getDbConnection();
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
 	final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private  final String All_COMPUTERS_LIMIT = "SELECT * FROM computer LIMIT ? , ?";
-	public ComputerDAO() {}
+	public ComputerDAO() {
+	}
 	
 	// Diverses requêtes, inutile de détailler
 	
@@ -60,12 +61,13 @@ public class ComputerDAO {
 	
 	public List<Computer> getComputers(int from, int to) {
 		List<Computer> toReturn = new ArrayList<>();
-		try {// Statement stmt = conn.login.createStatement();
+		try {
 			PreparedStatement preparedStatement = BddConnection.login.prepareStatement(All_COMPUTERS_LIMIT);
 			preparedStatement.setInt(1, from);
 			preparedStatement.setInt(2, to);
+			System.out.println("je passe ici !");
 			ResultSet rs = preparedStatement.executeQuery();
-			System.out.println(rs);
+			System.out.println("je passe là");
 			while (rs.next()) {
 				Computer c = new Computer();
 				c.setComputerid(rs.getInt(1));
@@ -79,12 +81,13 @@ public class ComputerDAO {
 				if (rs.getInt(5) != 0) {
 					c.setComputercompanieid(rs.getInt(5));
 				}
-				logger.info("liste d'ordinateur chargé avec succès ! \n");
+				//logger.info("liste d'ordinateur chargé avec succès ! \n");
 				toReturn.add(c);
 			}
 			return toReturn;
 		} catch (SQLException e) {
-			logger.info("erreur lors de l'appel à la base pour les informations des ordinateurs");
+			//logger.error("erreur lors de l'appel à la base pour les informations des ordinateurs");
+			e.getMessage();
 			e.printStackTrace();
 		}
 		return toReturn;
@@ -114,7 +117,7 @@ public class ComputerDAO {
 
 		
 	} catch (SQLException e) {
-		logger.info("erreur lors de l'appel à la base pour les informations sur l'ordinateur demandé \n");
+		logger.error("erreur lors de l'appel à la base pour les informations sur l'ordinateur demandé \n");
 		e.printStackTrace();
 	} return d;
 }
@@ -125,7 +128,7 @@ public class ComputerDAO {
 		logger.info("Nom mis à jour sur l'ordinateur {} . Nouveau nom set sur {} \n",id,newname);
 		return stmt.executeUpdate();
 		} catch (SQLException e) {
-			logger.info("erreur lors de l'update du nom sur l'ordinateur spécifié \n");
+			logger.error("erreur lors de l'update du nom sur l'ordinateur spécifié \n");
 			e.printStackTrace();}
 		return 1;
 	}
@@ -135,7 +138,7 @@ public class ComputerDAO {
 		logger.info("ordinateur avec l'id {} supprimé ! \n",id);
 		return stmt.executeUpdate();
 		} catch (SQLException e) {
-			logger.info("erreur lors de la suppression de l'ordinateur demandé \n");
+			logger.error("erreur lors de la suppression de l'ordinateur demandé \n");
 			e.printStackTrace();
 			}
 		return 0;
@@ -149,7 +152,7 @@ public class ComputerDAO {
 			logger.info("date de sortie l'ordinateur {} mise à jour !\n",id);
 		return stmt.executeUpdate();} 
 		catch (SQLException e) {
-			logger.info("erreur lors de l'update sur la date de sortie de l'ordinateur spécifié \n");
+			logger.error("erreur lors de l'update sur la date de sortie de l'ordinateur spécifié \n");
 			e.printStackTrace();}
 		return 0;
 	}
@@ -162,7 +165,7 @@ public class ComputerDAO {
 		logger.info("date de fin de l'ordinateur {} mise à jour !\n",id);
 		return stmt.executeUpdate();
 		} catch (SQLException e) {
-			logger.info("erreur sur l'update de la date de fin de l'ordinateur spécifié\n");
+			logger.error("erreur sur l'update de la date de fin de l'ordinateur spécifié\n");
 			e.printStackTrace();}
 		return 0;
 	}
@@ -174,7 +177,7 @@ public class ComputerDAO {
 		logger.info("update sur l'ordinateur {} réussie avec succès !\n",id);
 		return this.findComputerById(id);}
 		catch(SQLException e) {
-			logger.info("erreur lors de l'update sur le fabricant de l'ordinateur spécifié \n");
+			logger.error("erreur lors de l'update sur le fabricant de l'ordinateur spécifié \n");
 			e.printStackTrace();
 			}
 		return c;
@@ -186,7 +189,7 @@ public class ComputerDAO {
 		logger.info("Insertion du nouvel ordinateur réussie avec succès \n");
 		return stmt.executeUpdate();}
 		catch (SQLException e) {
-			logger.info("erreur lors de l'insertion du nouvel ordinateur \n");
+			logger.error("erreur lors de l'insertion du nouvel ordinateur \n");
 			e.printStackTrace();
 		}
 		return 0;
@@ -196,6 +199,12 @@ public class ComputerDAO {
 		return LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ComputerDAO cdao= new ComputerDAO();
+	System.out.println(cdao.getComputers(0,9));
+
+	}
 	
 
 }

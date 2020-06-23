@@ -19,16 +19,14 @@ public class Computer {
 	public int getComputerid() {
 		return computerid;
 	}
-	public void setComputerid(final int computerid) {
+	public void setComputerid(final int computerid) {	
 		this.computerid = computerid;
-		logger.info("Computer id set to {}.",computerid);
 	}
 	public String getComputername() {
 		return computername;
 	}
 	public void setComputername(final String computername) {
 		this.computername = computername;
-		logger.info("Computer name set to {}.",computername);
 	}
 	public LocalDate getComputerintroductedin() {
 		return computerintroductedin;

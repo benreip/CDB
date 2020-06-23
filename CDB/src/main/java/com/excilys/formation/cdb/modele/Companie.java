@@ -20,12 +20,10 @@ public class Companie {
 	
 	public void setCompanieName(final String companiename) {
 		this.companiename= companiename;
-		logger.info("Compagnie name set to {}.",companiename);
 	}
 	
 	public void setCompanieId(final int companieid) {
 		this.companieid=companieid;
-		logger.info("Compagnie id set to {}.",companieid);
 	}
 	
 	@Override

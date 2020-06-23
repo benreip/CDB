@@ -31,7 +31,7 @@ public class CompanieDAO {
 				  }
 			  return toReturn; } 
 			catch (SQLException e) {
-				logger.info("erreur lors de l'appel à la base pour les noms de compagnies");
+				logger.error("erreur lors de l'appel à la base pour les noms de compagnies");
 				e.printStackTrace();
 			  }
 			
@@ -50,7 +50,7 @@ public class CompanieDAO {
 			}
 			return c; } 
 			catch (SQLException e) {
-				logger.info("erreur lors de l'appel à la base pour les noms de compagnies");
+				logger.error("erreur lors de l'appel à la base pour les noms de compagnies");
 				e.printStackTrace();
 				}
 			return d;
