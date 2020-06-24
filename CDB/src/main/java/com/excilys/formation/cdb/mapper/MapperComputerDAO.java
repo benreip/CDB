@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.cdb.modele.Computer;
 
 public class MapperComputerDAO {
-	final Logger logger = LoggerFactory.getLogger(MapperComputerDAO.class);
-	public Computer mapComputers (ResultSet rs) {
+	final static Logger logger = LoggerFactory.getLogger(MapperComputerDAO.class);
+	public static Computer mapComputers (ResultSet rs) {
 		Computer c = new Computer();
 		try {
 			c.setComputerid(rs.getInt(1));

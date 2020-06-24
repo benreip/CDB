@@ -9,8 +9,8 @@ import com.excilys.formation.cdb.modele.Companie;
 
 
 public class MapperCompanieDAO {
-	final Logger logger = LoggerFactory.getLogger(MapperCompanieDAO.class);
-	public Companie mapCompanie (ResultSet rs) {
+	final static Logger logger = LoggerFactory.getLogger(MapperCompanieDAO.class);
+	public static Companie mapCompanie (ResultSet rs) {
 		Companie c = new Companie();
 		try {
 			  c.setCompanieId(rs.getInt(1));
