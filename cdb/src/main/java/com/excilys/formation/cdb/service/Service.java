@@ -18,9 +18,11 @@ public class Service {
 	Companie cp = new Companie();
 	public Service() {}
 	
+	private static final Integer NB_ELEMENTS_BY_PAGE = 10;
 	
-	public List<ComputerDTO> afficheListeComputer(int pc, int pas)  {
-		 return cdto.convertAllComputer(cdao.getComputers( pc, pas));
+	public List<ComputerDTO> afficheListeComputer(Integer page)  {
+			Integer offset = (page-1)*NB_ELEMENTS_BY_PAGE;
+		 return cdto.convertAllComputer(cdao.getComputers( offset, NB_ELEMENTS_BY_PAGE));
 	}
 	
 	public List<CompanieDTO> afficheListeCompanie()  {
@@ -71,6 +73,17 @@ public class Service {
 		return cdao.getNumberOfComputers();
 	}
 	
+	public Integer getComputersNbPages() {
+		Integer nbEntries = cdao.getNumberOfComputers();
+		Integer nbPages = nbEntries/NB_ELEMENTS_BY_PAGE;
+		return nbEntries%NB_ELEMENTS_BY_PAGE == 0?nbPages:nbPages+1;
+	}
 	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Service s= new Service();
+	System.out.println(s.afficheListeComputer(1));
+
+	}
 
 }

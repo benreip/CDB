@@ -61,7 +61,7 @@ public class ComputerDAO {
 		return toReturn;
 	}*/
 	
-	public List<Computer> getComputers(int from, int to) {
+	public List<Computer> getComputers(Integer from, Integer to) {
 		List<Computer> toReturn = new ArrayList<>();
 		try {
 			PreparedStatement preparedStatement = BddConnection.login.prepareStatement(All_COMPUTERS_LIMIT);
@@ -192,7 +192,7 @@ public class ComputerDAO {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ComputerDAO cdao= new ComputerDAO();
-	System.out.println(cdao.getNumberOfComputers());
+	System.out.println(cdao.getComputers(1, 9));
 
 	}
 	
