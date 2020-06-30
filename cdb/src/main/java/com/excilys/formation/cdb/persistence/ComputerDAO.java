@@ -3,6 +3,7 @@ package com.excilys.formation.cdb.persistence;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -183,6 +184,40 @@ public class ComputerDAO {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public Computer create(Computer c) {
+		Computer comp = new Computer();
+		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?);");
+		stmt.setString(1, c.getComputername());
+		
+		if (c.getComputerintroductedin()!=null) {
+			stmt.setDate(2, Date.valueOf(c.getComputerintroductedin()));
+		}
+		else {
+			stmt.setNull(2, Types.DATE);;
+		}
+		if (c.getComputerdiscontinuedin()!=null) {
+			stmt.setDate(3, Date.valueOf(c.getComputerdiscontinuedin()));
+		}
+		else {
+			stmt.setNull(3, Types.DATE);;
+		}
+		if (c.getComputercompanieid()!= null) {
+			stmt.setInt(4,c.getComputercompanieid());
+		}
+		else {
+			stmt.setNull(4, Types.BIGINT);;
+		}
+		stmt.executeUpdate();
+		return c;
+		
+		}catch (SQLException e) {
+			logger.error("erreur lors de l'insertion du nouvel ordinateur \n");
+			e.printStackTrace();
+		}
+		return comp;
+
 	}
 	
 	private LocalDate convert (String date) {

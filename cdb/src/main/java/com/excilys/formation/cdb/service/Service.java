@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.excilys.formation.cdb.dto.CompanieDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
+import com.excilys.formation.cdb.mapper.ComputerDTOToComputer;
 import com.excilys.formation.cdb.modele.Companie;
 import com.excilys.formation.cdb.modele.Computer;
 import com.excilys.formation.cdb.persistence.CompanieDAO;
@@ -16,6 +17,7 @@ public class Service {
 	CompanieDTO compdto = new CompanieDTO();
 	Computer c = new Computer();
 	Companie cp = new Companie();
+	ComputerDTOToComputer mapping = new ComputerDTOToComputer();
 	public Service() {}
 	
 	private static final Integer NB_ELEMENTS_BY_PAGE = 10;
@@ -79,6 +81,13 @@ public class Service {
 		return nbEntries%NB_ELEMENTS_BY_PAGE == 0?nbPages:nbPages+1;
 	}
 	
+	public Computer mappingDtoToComputer(ComputerDTO compdto) {
+		return mapping.convertDtoToComputer(compdto);
+	}
+	
+	public Computer insertComputerwebUI (Computer c) {
+		return cdao.create(c);
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Service s= new Service();
