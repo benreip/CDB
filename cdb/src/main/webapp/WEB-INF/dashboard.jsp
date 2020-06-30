@@ -100,28 +100,44 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
+                <li> <c:if test="${currentpage > 1}"> 
+                    <a href="/cdb/dashboard?page=${currentpage-1}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
+                  </c:if>
               </li>
-              <li><a href="/cdb/dashboard?page=1">1</a></li>
-              <li><a href="/cdb/dashboard?page=2">2</a></li>
-              <li><a href="/cdb/dashboard?page=3">3</a></li>
-              <li><a href="/cdb/dashboard?page=4">4</a></li>
-              <li><a href="/cdb/dashboard?page=5">5</a></li>
+              <li> 
+              <a href="/cdb/dashboard?page=${currentpage}">${currentpage}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+1}">${currentpage+1}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+2}">${currentpage+2}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+3}">${currentpage+3}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+4}">${currentpage+4}</a></li>
               <li>
-                <a href="#" aria-label="Next">
+              	<c:if test="${currentpage < nbPageMax}">
+                <a href="/cdb/dashboard?page=${currentpage+1}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
+                </c:if>
             </li>
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
-        </div>
+        	<c:set var="active" value=""/>
+            <c:if test = "${nb_entries_per_page == 10}">
+               <c:set var="active" value="active"/>
+            </c:if>
+            <a href="/Computer-DataBase/dashboard?nbByPage=10"><button type="button" class="btn btn-default ${active}">10</button></a>
+            <c:set var="active" value=""/>
+            <c:if test = "${nb_entries_per_page == 50}">
+               <c:set var="active" value="active"/>
+            </c:if>
+            <a href="/Computer-DataBase/dashboard?nbByPage=50"><button type="button" class="btn btn-default ${active}">50</button></a>
+            <c:set var="active" value=""/>
+            <c:if test = "${nb_entries_per_page == 100}">
+               <c:set var="active" value="active"/>
+            </c:if>
+            <a href="/Computer-DataBase/dashboard?nbByPage=100"><button type="button" class="btn btn-default ${active}">100</button></a>
+        	</div>
 
     </footer>
 <script src="js/jquery.min.js"></script>

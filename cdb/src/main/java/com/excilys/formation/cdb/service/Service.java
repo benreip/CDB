@@ -20,11 +20,10 @@ public class Service {
 	ComputerDTOToComputer mapping = new ComputerDTOToComputer();
 	public Service() {}
 	
-	private static final Integer NB_ELEMENTS_BY_PAGE = 10;
 	
-	public List<ComputerDTO> afficheListeComputer(Integer page)  {
-			Integer offset = (page-1)*NB_ELEMENTS_BY_PAGE;
-		 return cdto.convertAllComputer(cdao.getComputers( offset, NB_ELEMENTS_BY_PAGE));
+	public List<ComputerDTO> afficheListeComputer(Integer page,Integer nb_entries_per_page)  {
+			Integer offset = (page-1)*nb_entries_per_page;
+		 return cdto.convertAllComputer(cdao.getComputers( offset, nb_entries_per_page));
 	}
 	
 	public List<CompanieDTO> afficheListeCompanie()  {
@@ -75,10 +74,10 @@ public class Service {
 		return cdao.getNumberOfComputers();
 	}
 	
-	public Integer getComputersNbPages() {
+	public Integer getComputersNbPages(Integer nb_entries_per_page) {
 		Integer nbEntries = cdao.getNumberOfComputers();
-		Integer nbPages = nbEntries/NB_ELEMENTS_BY_PAGE;
-		return nbEntries%NB_ELEMENTS_BY_PAGE == 0?nbPages:nbPages+1;
+		Integer nbPages = nbEntries/nb_entries_per_page;
+		return nbEntries%nb_entries_per_page == 0?nbPages:nbPages+1;
 	}
 	
 	public Computer mappingDtoToComputer(ComputerDTO compdto) {
@@ -87,12 +86,6 @@ public class Service {
 	
 	public Computer insertComputerwebUI (Computer c) {
 		return cdao.create(c);
-	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Service s= new Service();
-	System.out.println(s.afficheListeComputer(1));
-
 	}
 
 }

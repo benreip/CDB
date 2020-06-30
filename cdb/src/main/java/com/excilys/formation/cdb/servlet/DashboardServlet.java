@@ -20,6 +20,7 @@ public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private Integer currentpage;
     private Service service;
+    private Integer nb_entries_per_page;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -27,6 +28,7 @@ public class DashboardServlet extends HttpServlet {
         super();
         service = new Service();
         currentpage = 1;
+        nb_entries_per_page = 10;
     }
 
 	/**
@@ -38,9 +40,16 @@ public class DashboardServlet extends HttpServlet {
 			String page = request.getParameter("page");
 			currentpage = Integer.parseInt(page);
 		}
-		cdtos = service.afficheListeComputer(currentpage);
+		if(request.getParameter("nbByPage") != null) {
+			String nbByPage = request.getParameter("nbByPage");
+			nb_entries_per_page = (Integer.parseInt(nbByPage));
+		}
+		cdtos = service.afficheListeComputer(currentpage,nb_entries_per_page);
+		request.setAttribute("currentpage", currentpage);
+		System.out.println(currentpage);
 		request.setAttribute("computers", cdtos);
 		request.setAttribute("nbComputers", service.numberOfComputers());
+		request.setAttribute("nbPageMax", service.getComputersNbPages(nb_entries_per_page));
 		request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 	}
 

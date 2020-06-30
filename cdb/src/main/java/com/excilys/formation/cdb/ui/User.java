@@ -87,14 +87,14 @@ Scanner sc = new Scanner(System.in);
 		switch(answer) {
 		case("+") :
 			pc = pc+9;
-			System.out.println(s.afficheListeComputer(pc+9));
+			System.out.println(s.afficheListeComputer(pc+9,10));
 			System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
 			answer = sc.nextLine();
 			select_pc(answer,pc,pas);
 		
 		case("-") :
 			pc = pc-9;
-			System.out.println(s.afficheListeComputer(pc-9));
+			System.out.println(s.afficheListeComputer(pc-9,10));
 		System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
 		answer = sc.nextLine();
 		select_pc(answer,pc,pas);
@@ -116,7 +116,7 @@ Scanner sc = new Scanner(System.in);
 					System.out.println("Liste des ordinateurs :");
 					int pc = 0;
 					int pas = 9;
-					System.out.println(s.afficheListeComputer(pc));
+					System.out.println(s.afficheListeComputer(pc,10));
 					System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
 					answer = sc.nextLine();
 					select_pc(answer,pc,pas);
