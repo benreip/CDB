@@ -36,7 +36,7 @@
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="editComputer" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
         </div>
@@ -82,10 +82,10 @@
                 	<c:forEach items="${computers}" var="cdto">
                     <tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="0">
+                            <input type="checkbox" name="cb" class="cb" value="${cdto.computerdtoid }">
                         </td>
                         <td>
-                            <a href="editComputer" onclick="">${cdto.computerDtoName} </a>
+                            <a href="editComputer?id=${cdto.computerdtoid }" onclick="">${cdto.computerDtoName} </a>
                         </td>
                         <td><c:if test = "${not empty cdto.computerdtointroductedin}">${cdto.computerdtointroductedin}</c:if></td>
                     	<td><c:if test = "${not empty cdto.computerdtodiscontinuedin}">${cdto.computerdtodiscontinuedin}</c:if></td>

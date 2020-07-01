@@ -174,6 +174,30 @@ public class ComputerDAO {
 		return c;
 	}
 	
+	public Computer updateAll (Computer c) {
+		Computer d = null;
+		try {
+			String request = "UPDATE computer SET name = ' " + c.getComputername() +"'";
+			if (c.getComputerintroductedin() != null ) {
+				request += ", introduced = '" + Date.valueOf(c.getComputerintroductedin()) + "'";
+			}
+			if (c.getComputerdiscontinuedin() != null ) {
+				request += ", discontinued = '" + Date.valueOf(c.getComputerdiscontinuedin()) + "'";
+			}
+			if (c.getComputercompanieid() != null ) {
+				request += ", company_id = '" + c.getComputercompanieid() + "'";
+			}
+			request += "WHERE id = " + c.getComputerid();
+			PreparedStatement stmt = BddConnection.login.prepareStatement(request);
+			stmt.executeUpdate();
+			return c;
+			} catch (SQLException e) {
+				logger.error("Insertion echouée !");
+				e.printStackTrace();
+				return d;
+			}
+	}
+	
 	public int insertComputer (String computername) {
 		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer (name) VALUES (?)");
 		stmt.setString(1,computername);

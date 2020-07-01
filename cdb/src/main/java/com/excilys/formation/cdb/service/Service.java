@@ -84,6 +84,10 @@ public class Service {
 		return mapping.convertDtoToComputer(compdto);
 	}
 	
+	public Computer updateAllwebUI (Computer c) {
+		return cdao.updateAll(c);
+	}
+	
 	public Computer insertComputerwebUI (Computer c) {
 		return cdao.create(c);
 	}

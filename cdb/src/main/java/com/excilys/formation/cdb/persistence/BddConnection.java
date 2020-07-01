@@ -15,11 +15,7 @@ public class BddConnection {
 	public static  Connection login;
 	private Logger logger = LoggerFactory.getLogger(BddConnection.class);
 	private HikariDataSource ds = new HikariDataSource(new HikariConfig("/datasource.properties"));
-	/*private String URL =  "jdbc:mysql://localhost:3306/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	public final  String DRIVER = "com.mysql.cj.jdbc.Driver";
-	private final  String USERNAME = "admincdb";
-	private final  String PASSWORD = "qwerty1234";*/
-	/* On crée la connexion à la DB*/
+	
 	private BddConnection() {
 	}
 		

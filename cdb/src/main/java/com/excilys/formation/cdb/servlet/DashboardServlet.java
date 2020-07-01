@@ -57,6 +57,13 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getParameter("selection") != null ) {
+			String[] selection = request.getParameter("selection").split(",");
+			for(String comp: selection) {
+					System.out.println(comp);
+					service.deleteByID(Integer.parseInt(comp));
+			}
+		}
 		doGet(request, response);
 	}
 
