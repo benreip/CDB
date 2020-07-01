@@ -107,7 +107,7 @@ public class Computer {
 	}
 	public void setComputerintroductedin(final LocalDate computerintroductedin) {
 		if(this.computerdiscontinuedin != null) {
-			if(computerintroductedin.compareTo(this.computerdiscontinuedin) < 0) {
+			if(computerintroductedin.compareTo(this.computerdiscontinuedin) <= 0) {
 				this.computerintroductedin = computerintroductedin;
 			}
 			else {
@@ -123,7 +123,7 @@ public class Computer {
 	}
 	public void setComputerdiscontinuedin(final LocalDate computerdiscontinuedin) {
 		if(this.computerintroductedin != null) {
-			if(computerdiscontinuedin.compareTo(this.computerintroductedin) > 0) {
+			if(computerdiscontinuedin.compareTo(this.computerintroductedin) >= 0) {
 				this.computerdiscontinuedin = computerdiscontinuedin;
 			}
 			else {
