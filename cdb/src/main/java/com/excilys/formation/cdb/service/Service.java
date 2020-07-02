@@ -31,6 +31,10 @@ public class Service {
 	
 	}	
 	
+	public List<ComputerDTO> searchByName(String research) {
+		return cdto.convertAllComputer(cdao.searchByName(research));
+	}
+	
 	public CompanieDTO afficheListeCompanieByID(int a) {
 		return compdto.convertOneCompanie(compdao.findCompanyById(a));
 	

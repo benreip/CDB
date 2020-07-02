@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
+import com.excilys.formation.cdb.modele.Computer;
 import com.excilys.formation.cdb.service.Service;
 /**
  * Servlet implementation class AddComputerServlet
@@ -35,6 +36,7 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String search = null;
 		List<ComputerDTO>  cdtos = new ArrayList<>();
 		if(request.getParameter("page") != null) {
 			String page = request.getParameter("page");
@@ -45,7 +47,15 @@ public class DashboardServlet extends HttpServlet {
 			nb_entries_per_page = (Integer.parseInt(nbByPage));
 		}
 		
+		if(request.getParameter("search") != null) {
+			 search = request.getParameter("search");
+			List<ComputerDTO> computersearch = service.searchByName(search);
+			request.setAttribute("computers",computersearch);
+			request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+			}
+		
 		cdtos = service.afficheListeComputer(currentpage,nb_entries_per_page);
+		request.setAttribute("search", search);
 		request.setAttribute("currentpage", currentpage);
 		request.setAttribute("computers", cdtos);
 		request.setAttribute("nbComputers", service.numberOfComputers());

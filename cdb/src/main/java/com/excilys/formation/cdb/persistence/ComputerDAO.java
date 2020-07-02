@@ -210,6 +210,23 @@ public class ComputerDAO {
 		return 0;
 	}
 	
+	public List<Computer> searchByName (String research){
+		List<Computer> toReturn = new ArrayList<>();
+		try{
+			PreparedStatement stmt = BddConnection.login.prepareStatement("SELECT * from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%"+research+"%' or company.name LIKE '%"+ research+ "%'");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				toReturn.add(mcdao.mapComputers(rs));
+			}
+			return toReturn;
+		} catch (SQLException e) {
+			logger.error("Erreur lors de la recherche de l'ordinateur \n");
+			e.printStackTrace();
+			return toReturn;
+		}
+		
+	}
+	
 	public Computer create(Computer c) {
 		Computer comp = new Computer();
 		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?);");
@@ -251,7 +268,7 @@ public class ComputerDAO {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ComputerDAO cdao= new ComputerDAO();
-	System.out.println(cdao.getComputers(1, 9));
+	System.out.println(cdao.searchByName("ap"));
 
 	}
 	
