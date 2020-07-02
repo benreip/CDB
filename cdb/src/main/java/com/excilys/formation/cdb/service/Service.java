@@ -31,8 +31,13 @@ public class Service {
 	
 	}	
 	
-	public List<ComputerDTO> searchByName(String research) {
-		return cdto.convertAllComputer(cdao.searchByName(research));
+	public int numberOfComputersBySearch (String research) {
+		return cdao.getNumberOfComputersBySearch(research);
+	}
+	
+	public List<ComputerDTO> searchByName(String research, Integer page, Integer nb_entries_per_page) {
+		Integer offset = (page-1)* nb_entries_per_page;
+		return cdto.convertAllComputer(cdao.searchByName(research,offset,nb_entries_per_page));
 	}
 	
 	public CompanieDTO afficheListeCompanieByID(int a) {

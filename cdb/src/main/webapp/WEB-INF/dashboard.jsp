@@ -101,19 +101,19 @@
         <div class="container text-center">
             <ul class="pagination">
                 <li> <c:if test="${currentpage > 1}"> 
-                    <a href="/cdb/dashboard?page=${currentpage-1}" aria-label="Previous">
+                    <a href="/cdb/dashboard?page=${currentpage-1}&search=${search}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
                   </c:if>
               </li>
               <li> 
-              <a href="/cdb/dashboard?page=${currentpage}">${currentpage}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+1}">${currentpage+1}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+2}">${currentpage+2}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+3}">${currentpage+3}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+4}">${currentpage+4}</a></li>
+              <a href="/cdb/dashboard?page=${currentpage}&search=${search}">${currentpage}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+1}&search=${search}">${currentpage+1}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+2}&search=${search}">${currentpage+2}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+3}&search=${search}">${currentpage+3}</a></li>
+              <li><a href="/cdb/dashboard?page=${currentpage+4}&search=${search}">${currentpage+4}</a></li>
               <li> 
-                <a href="/cdb/dashboard?page=${currentpage+1}" aria-label="Next">
+                <a href="/cdb/dashboard?page=${currentpage+1}&search=${search}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -124,17 +124,17 @@
             <c:if test = "${nbByPage == 10}">
                <c:set var="active" value="active"/>
             </c:if>
-            <a href="/cdb/dashboard?nbByPage=10"><button type="button" class="btn btn-default ${active}">10</button></a>
+            <a href="/cdb/dashboard?nbByPage=10&search=${search}"><button type="button" class="btn btn-default ${active}">10</button></a>
             <c:set var="active" value=""/>
             <c:if test = "${nbByPage == 50}">
                <c:set var="active" value="active"/>
             </c:if>
-            <a href="/cdb/dashboard?nbByPage=50"><button type="button" class="btn btn-default ${active}">50</button></a>
+            <a href="/cdb/dashboard?nbByPage=50&search=${search}"><button type="button" class="btn btn-default ${active}">50</button></a>
             <c:set var="active" value=""/>
             <c:if test = "${nbByPage == 100}">
                <c:set var="active" value="active"/>
             </c:if>
-            <a href="/cdb/dashboard?nbByPage=100"><button type="button" class="btn btn-default ${active}">100</button></a>
+            <a href="/cdb/dashboard?nbByPage=100&search=${search}"><button type="button" class="btn btn-default ${active}">100</button></a>
         	</div>
 
     </footer>

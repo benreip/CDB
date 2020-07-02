@@ -210,10 +210,12 @@ public class ComputerDAO {
 		return 0;
 	}
 	
-	public List<Computer> searchByName (String research){
+	public List<Computer> searchByName (String research,Integer from, Integer to){
 		List<Computer> toReturn = new ArrayList<>();
 		try{
-			PreparedStatement stmt = BddConnection.login.prepareStatement("SELECT * from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%"+research+"%' or company.name LIKE '%"+ research+ "%'");
+			PreparedStatement stmt = BddConnection.login.prepareStatement("SELECT * from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%"+research+"%' or company.name LIKE '%"+ research+ "%' LIMIT ?,?");
+			stmt.setInt(1, from);
+			stmt.setInt(2, to);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				toReturn.add(mcdao.mapComputers(rs));
@@ -226,6 +228,7 @@ public class ComputerDAO {
 		}
 		
 	}
+	
 	
 	public Computer create(Computer c) {
 		Computer comp = new Computer();
@@ -261,16 +264,34 @@ public class ComputerDAO {
 
 	}
 	
+	public int getNumberOfComputersBySearch(String research) {
+		int count = -1;
+		try {
+			PreparedStatement stmt = BddConnection.login.prepareStatement("SELECT COUNT(*) from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%" +research +"%' or company.name LIKE '%"+ research+ "%'");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+                count = rs.getInt(1);
+            }
+			return count;
+			} catch (SQLException e) { 
+				logger.error("erreur lors du calcul d'ordinateurs \n");
+				e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	
 	private LocalDate convert (String date) {
 		return LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ComputerDAO cdao= new ComputerDAO();
-	System.out.println(cdao.searchByName("ap"));
+	System.out.println(cdao.getNumberOfComputersBySearch("ap"));
 
-	}
+	}*/
 	
 	
 

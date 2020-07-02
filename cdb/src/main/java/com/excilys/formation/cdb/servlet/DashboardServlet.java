@@ -49,8 +49,11 @@ public class DashboardServlet extends HttpServlet {
 		
 		if(request.getParameter("search") != null) {
 			 search = request.getParameter("search");
-			List<ComputerDTO> computersearch = service.searchByName(search);
+			List<ComputerDTO> computersearch = service.searchByName(search,currentpage,nb_entries_per_page);
+			request.setAttribute("search", search);
 			request.setAttribute("computers",computersearch);
+			request.setAttribute("currentpage", currentpage);
+			request.setAttribute("nbComputers", service.numberOfComputersBySearch(search));
 			request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 			}
 		
