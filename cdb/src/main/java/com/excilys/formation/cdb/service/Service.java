@@ -35,9 +35,9 @@ public class Service {
 		return cdao.getNumberOfComputersBySearch(research);
 	}
 	
-	public List<ComputerDTO> searchByName(String research, Integer page, Integer nb_entries_per_page) {
+	public List<ComputerDTO> searchByName(String research, Integer page, Integer nb_entries_per_page,String colonne,String ascending) {
 		Integer offset = (page-1)* nb_entries_per_page;
-		return cdto.convertAllComputer(cdao.searchByName(research,offset,nb_entries_per_page));
+		return cdto.convertAllComputer(cdao.searchByName(research,offset,nb_entries_per_page,colonne,ascending));
 	}
 	
 	public CompanieDTO afficheListeCompanieByID(int a) {
@@ -87,6 +87,11 @@ public class Service {
 		Integer nbEntries = cdao.getNumberOfComputers();
 		Integer nbPages = nbEntries/nb_entries_per_page;
 		return nbEntries%nb_entries_per_page == 0?nbPages:nbPages+1;
+	}
+	
+	public List<ComputerDTO> displayComputerOrderBy(String colonne,String ascending,Integer page,Integer nb_entries_per_page) {
+		Integer offset = (page-1)*nb_entries_per_page;
+		 return cdto.convertAllComputer(cdao.getComputersOrderBy(colonne, ascending, offset, nb_entries_per_page));
 	}
 	
 	public Computer mappingDtoToComputer(ComputerDTO compdto) {

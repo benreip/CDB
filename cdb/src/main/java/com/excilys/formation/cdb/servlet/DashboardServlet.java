@@ -22,6 +22,8 @@ public class DashboardServlet extends HttpServlet {
     private Integer currentpage;
     private Service service;
     private Integer nb_entries_per_page;
+    private String ascending;
+    private String colonne;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,6 +32,9 @@ public class DashboardServlet extends HttpServlet {
         service = new Service();
         currentpage = 1;
         nb_entries_per_page = 10;
+        ascending = "ASC";
+        colonne = "computer.id";
+        
     }
 
 	/**
@@ -47,21 +52,37 @@ public class DashboardServlet extends HttpServlet {
 			nb_entries_per_page = (Integer.parseInt(nbByPage));
 		}
 		
+		if(request.getParameter("colonne") != null ) {
+			colonne = request.getParameter("colonne");
+			request.setAttribute("colonne",colonne);
+			
+		}
+		
+		if(request.getParameter("ascending") != null ) {
+			ascending = request.getParameter("ascending");
+			request.setAttribute("ascending",ascending);
+			
+		}
 		if(request.getParameter("search") != null) {
 			 search = request.getParameter("search");
-			List<ComputerDTO> computersearch = service.searchByName(search,currentpage,nb_entries_per_page);
+			List<ComputerDTO> computersearch = service.searchByName(search,currentpage,nb_entries_per_page,colonne,ascending);
+			request.setAttribute("colonne",colonne);
+			request.setAttribute("ascending",ascending);
 			request.setAttribute("search", search);
 			request.setAttribute("computers",computersearch);
 			request.setAttribute("currentpage", currentpage);
 			request.setAttribute("nbComputers", service.numberOfComputersBySearch(search));
-			request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+			System.out.println(computersearch);
 			}
-		
-		cdtos = service.afficheListeComputer(currentpage,nb_entries_per_page);
-		request.setAttribute("search", search);
-		request.setAttribute("currentpage", currentpage);
-		request.setAttribute("computers", cdtos);
-		request.setAttribute("nbComputers", service.numberOfComputers());
+		else {
+			cdtos = service.displayComputerOrderBy(colonne,ascending,currentpage,nb_entries_per_page);
+			request.setAttribute("colonne",colonne);
+			request.setAttribute("ascending",ascending);
+			request.setAttribute("computers", cdtos);
+			request.setAttribute("nbComputers", service.numberOfComputers());
+			request.setAttribute("currentpage", currentpage);
+			System.out.println(cdtos);
+		}
 		request.setAttribute("control_page", service.getComputersNbPages(nb_entries_per_page));
 		request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 	}

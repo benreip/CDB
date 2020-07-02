@@ -210,10 +210,10 @@ public class ComputerDAO {
 		return 0;
 	}
 	
-	public List<Computer> searchByName (String research,Integer from, Integer to){
+	public List<Computer> searchByName (String research,Integer from, Integer to, String colonne, String ascending){
 		List<Computer> toReturn = new ArrayList<>();
 		try{
-			PreparedStatement stmt = BddConnection.login.prepareStatement("SELECT * from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%"+research+"%' or company.name LIKE '%"+ research+ "%' LIMIT ?,?");
+			PreparedStatement stmt = BddConnection.login.prepareStatement("SELECT * from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%"+research+"%' or company.name LIKE '%"+ research+ "%' ORDER BY "+colonne+" "+ascending+" LIMIT ?,?");
 			stmt.setInt(1, from);
 			stmt.setInt(2, to);
 			ResultSet rs = stmt.executeQuery();
@@ -229,6 +229,38 @@ public class ComputerDAO {
 		
 	}
 	
+	public int deleteCascade (int idcomp) {
+		try {
+			BddConnection.login.setAutoCommit(false);
+			PreparedStatement stmt = BddConnection.login.prepareStatement("DELETE FROM computer where computer.company_id = ?");
+			stmt.setInt(1, idcomp);
+			int success = stmt.executeUpdate();
+			if (success == 1) {
+				stmt = BddConnection.login.prepareStatement("DELETE FROM company where id = ?");
+				stmt.setInt(1,idcomp);
+				success = stmt.executeUpdate();
+				if (success == 1 ) {
+					BddConnection.login.commit();
+					return 1;
+				} else {
+					BddConnection.login.rollback();
+					return 0;
+				}
+			} else {
+				BddConnection.login.rollback();
+				return 0;
+			}
+			
+		} catch (SQLException e) {
+			logger.error("Erreur lors de l'opération, tout est annulé \n");
+			e.printStackTrace();
+			try {BddConnection.login.rollback();} catch (SQLException f) {f.printStackTrace();} 
+			return 0;
+		}
+		
+		
+		
+	}
 	
 	public Computer create(Computer c) {
 		Computer comp = new Computer();
@@ -280,18 +312,36 @@ public class ComputerDAO {
 		return count;
 	}
 	
-	
+	public List<Computer> getComputersOrderBy (String colonne,String ascending,Integer from, Integer to) {
+		List<Computer> toReturn = new ArrayList<>();
+		try {
+			PreparedStatement preparedStatement = BddConnection.login.prepareStatement("SELECT * FROM computer LEFT JOIN company on computer.company_id = company.id ORDER BY "+colonne+" "+ascending+" LIMIT ?,?" );
+			preparedStatement.setInt(1, from);
+			preparedStatement.setInt(2, to);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				toReturn.add(mcdao.mapComputers(rs));
+			}
+			return toReturn;
+		} catch (SQLException e) {
+			logger.error("erreur lors de l'appel à la base pour les informations des ordinateurs");
+			e.getMessage();
+			e.printStackTrace();
+			return toReturn;
+		}
+	}
+
 	
 	private LocalDate convert (String date) {
 		return LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ComputerDAO cdao= new ComputerDAO();
-	System.out.println(cdao.getNumberOfComputersBySearch("ap"));
+	System.out.println(cdao.deleteCascade(1));
 
-	}*/
+	}
 	
 	
 
