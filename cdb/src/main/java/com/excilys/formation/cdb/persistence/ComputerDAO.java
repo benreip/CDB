@@ -31,36 +31,6 @@ public class ComputerDAO {
 	
 	// Diverses requêtes, inutile de détailler
 	
-	/*public  ResultSet getComputers() throws SQLException {
-		Statement stmt = conn.login.createStatement();
-		return stmt.executeQuery(All_COMPUTERS);
-	}*/
-	
-	/*public   List<Computer> getComputers() {
-		List<Computer> toReturn = new ArrayList<>();
-		try {//Statement stmt = conn.login.createStatement();
-		ResultSet rs = BddConnection.login.createStatement().executeQuery(All_COMPUTERS);
-		System.out.println(rs);
-		 while (rs.next()) {
-			Computer c = new Computer();
-			c.setComputerid(rs.getInt(1));
-			c.setComputername(rs.getString(2));
-			if (rs.getDate(3)!= null) {
-			c.setComputerintroductedin(rs.getDate(3).toLocalDate());
-			}
-			if (rs.getDate(4)!= null) {
-			c.setComputerdiscontinuedin(rs.getDate(4).toLocalDate());
-			}
-			if (rs.getInt(5)!=0) {
-			c.setComputercompanieid(rs.getInt(5));
-			}
-			toReturn.add(c);
-		 }
-	return toReturn;
-
-	} catch (SQLException e) { e.printStackTrace();}
-		return toReturn;
-	}*/
 	
 	public List<Computer> getComputers(Integer from, Integer to) {
 		List<Computer> toReturn = new ArrayList<>();
@@ -232,25 +202,13 @@ public class ComputerDAO {
 	public int deleteCascade (int idcomp) {
 		try {
 			BddConnection.login.setAutoCommit(false);
-			PreparedStatement stmt = BddConnection.login.prepareStatement("DELETE FROM computer where computer.company_id = ?");
-			stmt.setInt(1, idcomp);
-			int success = stmt.executeUpdate();
-			if (success == 1) {
-				stmt = BddConnection.login.prepareStatement("DELETE FROM company where id = ?");
-				stmt.setInt(1,idcomp);
-				success = stmt.executeUpdate();
-				if (success == 1 ) {
-					BddConnection.login.commit();
-					return 1;
-				} else {
-					BddConnection.login.rollback();
-					return 0;
-				}
-			} else {
-				BddConnection.login.rollback();
-				return 0;
-			}
-			
+			PreparedStatement stmt = BddConnection.login.prepareStatement("DELETE FROM computer where company_id ="+idcomp);
+			stmt.executeUpdate();
+			stmt = BddConnection.login.prepareStatement("DELETE FROM company where id = ?");
+			stmt.setInt(1,idcomp);
+			stmt.executeUpdate();
+			BddConnection.login.commit();
+			return 1;
 		} catch (SQLException e) {
 			logger.error("Erreur lors de l'opération, tout est annulé \n");
 			e.printStackTrace();
