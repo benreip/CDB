@@ -9,11 +9,11 @@ import com.excilys.formation.cdb.modele.Computer;
 public class ComputerDTO {
 			/* Va mapper les objets DAO vers des objets DTO pour le service */
 	
-		private String computerdtoid;
-		private String computerdtoname;
-		private String computerdtointroductedin;
-		private String computerdtodiscontinuedin;
-		private String computerdtocompanieid;
+		private String id;
+		private String name;
+		private String introduced;
+		private String discontinued;
+		private String idcompany;
 		MapperComputerDTO cdto = new MapperComputerDTO();
 	
 	
@@ -22,44 +22,44 @@ public class ComputerDTO {
 		}
 		
 		public void setComputerDtoName(String name) {
-			this.computerdtoname=name;
+			this.name=name;
 		}
 		
 		public String getComputerDtoName() {
-			return computerdtoname;
+			return name;
 		}
 		
 
 		public String getComputerdtoid() {
-			return computerdtoid;
+			return id;
 		}
 
 		public void setComputerdtoid(String computerdtoid) {
-			this.computerdtoid = computerdtoid;
+			this.id = computerdtoid;
 		}
 
 		public String getComputerdtointroductedin() {
-			return computerdtointroductedin;
+			return introduced;
 		}
 
 		public void setComputerdtointroductedin(String computerdtointroductedin) {
-			this.computerdtointroductedin = computerdtointroductedin;
+			this.introduced = computerdtointroductedin;
 		}
 
 		public String getComputerdtodiscontinuedin() {
-			return computerdtodiscontinuedin;
+			return discontinued;
 		}
 
 		public void setComputerdtodiscontinuedin(String computerdtodiscontinuedin) {
-			this.computerdtodiscontinuedin = computerdtodiscontinuedin;
+			this.discontinued = computerdtodiscontinuedin;
 		}
 
 		public String getComputerdtocompanieid() {
-			return computerdtocompanieid;
+			return idcompany;
 		}
 
 		public void setComputerdtocompanieid(String computerdtocompanieid) {
-			this.computerdtocompanieid = computerdtocompanieid;
+			this.idcompany = computerdtocompanieid;
 		}
 		
 		public List<ComputerDTO> convertAllComputer(List<Computer> c) {
@@ -78,7 +78,7 @@ public class ComputerDTO {
 		}
 		@Override
 		public String toString() {
-			return "Computer [ id=," + this.computerdtoid + ",Name =  " + this.computerdtoname + " ,Sorti en : " + this.computerdtointroductedin + ", Arrêté en :" + this.computerdtodiscontinuedin + ", Id de la compagnie : " + this.computerdtocompanieid+ "\n";
+			return "Computer [ id=," + this.id + ",Name =  " + this.name + " ,Sorti en : " + this.introduced + ", Arrêté en :" + this.discontinued + ", Id de la compagnie : " + this.idcompany+ "\n";
 		}
 		
 }
