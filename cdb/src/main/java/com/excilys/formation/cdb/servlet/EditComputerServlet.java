@@ -4,32 +4,43 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.excilys.formation.cdb.dto.CompanieDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.modele.Computer;
-import com.excilys.formation.cdb.service.Service;
+import com.excilys.formation.cdb.service.ComputerService;
 /**
  * Servlet implementation class AddComputerServlet
  */
 @WebServlet(name="EditComputerServlet", urlPatterns="/editComputer")
 public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Service service;
+	@Autowired
+	private ComputerService service;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public EditComputerServlet() {
         super();
-        this.service = new Service();
+        this.service = new ComputerService();
     }
-
+    
+    @Override
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,config.getServletContext());
+	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -76,7 +87,7 @@ public class EditComputerServlet extends HttpServlet {
 			Computer newComputer = service.mappingDtoToComputer(computerDto);
 			newComputer = service.updateAllwebUI(newComputer);
 			System.out.println(newComputer);
-			String success = "Computer " + newComputer.getComputername() + " was successfully updated";
+			String success = "Computer " + newComputer.getName() + " was successfully updated";
 			request.setAttribute("success", success);
 			
 		}catch(IllegalArgumentException e) {

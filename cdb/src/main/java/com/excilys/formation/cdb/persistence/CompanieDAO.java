@@ -11,9 +11,10 @@ import com.excilys.formation.cdb.mapper.MapperComputerDAO;
 import com.excilys.formation.cdb.modele.Companie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 
-
+@Repository
 public class CompanieDAO {
 		final Logger logger = LoggerFactory.getLogger(CompanieDAO.class);
 		private  final String ALLCOMPANIES =  "SELECT * FROM company";

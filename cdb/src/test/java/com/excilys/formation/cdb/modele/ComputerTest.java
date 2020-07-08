@@ -18,41 +18,41 @@ public class ComputerTest {
 
 	@Test
 	public void setIntroduced() {
-		computer.setComputerdiscontinuedin(LocalDate.of(2023, 8, 8));
-		computer.setComputerintroductedin(LocalDate.of(2020, 7, 7));
-		assertEquals(LocalDate.of(2020, 7, 7),computer.getComputerintroductedin());
+		computer.setDiscontinued(LocalDate.of(2023, 8, 8));
+		computer.setIntroduced(LocalDate.of(2020, 7, 7));
+		assertEquals(LocalDate.of(2020, 7, 7),computer.getIntroduced());
 	}
 	
 	@Test
 	public void setIntroducedAndDicontinuedNull() {
-		computer.setComputerintroductedin(LocalDate.of(2020, 7, 7));
-		assertEquals(LocalDate.of(2020, 7, 7),computer.getComputerintroductedin());
+		computer.setIntroduced(LocalDate.of(2020, 7, 7));
+		assertEquals(LocalDate.of(2020, 7, 7),computer.getIntroduced());
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void setIntroducedIllegalArgumentException() {
-		computer.setComputerdiscontinuedin(LocalDate.of(2019,8,8));
-		computer.setComputerintroductedin(LocalDate.of(2020, 8, 8));
-		assertEquals(LocalDate.of(2020, 8, 8),computer.getComputerintroductedin());
+		computer.setDiscontinued(LocalDate.of(2019,8,8));
+		computer.setIntroduced(LocalDate.of(2020, 8, 8));
+		assertEquals(LocalDate.of(2020, 8, 8),computer.getIntroduced());
 	}
 
 	@Test
 	public void setDiscontinued(){
-		computer.setComputerintroductedin(LocalDate.of(2019, 8, 8));
-		computer.setComputerdiscontinuedin(LocalDate.of(2020, 8, 8));
-		assertEquals(LocalDate.of(2020, 8, 8),computer.getComputerdiscontinuedin());
+		computer.setIntroduced(LocalDate.of(2019, 8, 8));
+		computer.setDiscontinued(LocalDate.of(2020, 8, 8));
+		assertEquals(LocalDate.of(2020, 8, 8),computer.getDiscontinued());
 	}
 
 	@Test 
 	public void setDiscontinuedAndIntroducedNull() {
-		computer.setComputerdiscontinuedin(LocalDate.of(2020, 8, 8));
-		assertEquals(LocalDate.of(2020, 8, 8), computer.getComputerdiscontinuedin());
+		computer.setDiscontinued(LocalDate.of(2020, 8, 8));
+		assertEquals(LocalDate.of(2020, 8, 8), computer.getDiscontinued());
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void setDiscontinuedIllegalArgumentException() {
-		computer.setComputerintroductedin(LocalDate.of(2020, 8, 8));
-		computer.setComputerdiscontinuedin(LocalDate.of(2019, 8, 8));
-		assertEquals(LocalDate.of(2019, 8, 8),computer.getComputerdiscontinuedin());
+		computer.setIntroduced(LocalDate.of(2020, 8, 8));
+		computer.setDiscontinued(LocalDate.of(2019, 8, 8));
+		assertEquals(LocalDate.of(2019, 8, 8),computer.getDiscontinued());
 	}
 }

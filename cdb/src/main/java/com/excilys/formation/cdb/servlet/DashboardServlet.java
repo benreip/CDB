@@ -4,23 +4,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.modele.Computer;
-import com.excilys.formation.cdb.service.Service;
+import com.excilys.formation.cdb.service.ComputerService;
 /**
  * Servlet implementation class AddComputerServlet
  */
 @WebServlet(name="DashboardServlet", urlPatterns="/dashboard")
 public class DashboardServlet extends HttpServlet {
+	
+
 	private static final long serialVersionUID = 1L;
     private Integer currentpage;
-    private Service service;
+    @Autowired
+    private ComputerService service;
     private Integer nb_entries_per_page;
     private String ascending;
     private String colonne;
@@ -29,13 +36,21 @@ public class DashboardServlet extends HttpServlet {
      */
     public DashboardServlet() {
         super();
-        service = new Service();
+        service = new ComputerService();
         currentpage = 1;
         nb_entries_per_page = 10;
         ascending = "ASC";
         colonne = "computer.id";
         
     }
+    
+    @Override
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,config.getServletContext());
+	}
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

@@ -52,8 +52,8 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(0);
 		Computer computer = MapperComputerDAO.mapComputers(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
-		computerExpected.setComputerintroductedin(introduced);
-		computerExpected.setComputerdiscontinuedin(discontinued);
+		computerExpected.setIntroduced(introduced);
+		computerExpected.setDiscontinued(discontinued);
 		assertEquals(computerExpected,computer);
 	}
 	
@@ -64,8 +64,8 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(idCompany);
 		Computer computer = MapperComputerDAO.mapComputers(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
-		computerExpected.setComputerdiscontinuedin(discontinued);
-		computerExpected.setComputercompanieid(idCompany);
+		computerExpected.setDiscontinued(discontinued);
+		computerExpected.setIdcompany(idCompany);
 		assertEquals(computerExpected,computer);	
 	}
 	
@@ -76,8 +76,8 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(idCompany);
 		Computer computer = MapperComputerDAO.mapComputers(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
-		computerExpected.setComputercompanieid(idCompany);
-		computerExpected.setComputerintroductedin(introduced);
+		computerExpected.setIdcompany(idCompany);
+		computerExpected.setIntroduced(introduced);
 		assertEquals(computerExpected,computer);
 		
 	}

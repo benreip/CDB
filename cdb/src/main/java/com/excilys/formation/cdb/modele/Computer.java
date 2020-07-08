@@ -7,13 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Computer {
-	private Integer computerid;
-	private String computername;
-	private LocalDate computerintroductedin;
-	private LocalDate computerdiscontinuedin;
-	private Integer computercompanieid;
+	private Integer id;
+	private String name;
+	private LocalDate introduced;
+	private LocalDate discontinued;
+	private Integer idcompany;
 	final Logger logger = LoggerFactory.getLogger(Computer.class);
-	
 	
 	
 	
@@ -25,25 +24,92 @@ public class Computer {
 	public Computer(Integer computerid, String computername, LocalDate computerintroductedin,
 			LocalDate computerdiscontinuedin, Integer computercompanieid) {
 		super();
-		this.computerid = computerid;
-		this.computername = computername;
-		this.computerintroductedin = computerintroductedin;
-		this.computerdiscontinuedin = computerdiscontinuedin;
-		this.computercompanieid = computercompanieid;
+		this.id = computerid;
+		this.name = computername;
+		this.introduced = computerintroductedin;
+		this.discontinued = computerdiscontinuedin;
+		this.idcompany = computercompanieid;
 	}
 	
 
+	public Computer (Integer id,String name ) {
+		this.id=id;
+		this.name=name;
+	}
 
+	
 
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public LocalDate getIntroduced() {
+		return introduced;
+	}
+
+	public void setIntroduced(LocalDate introduced) {
+		if(this.discontinued != null) {
+			if(introduced.compareTo(this.discontinued) <= 0) {
+				this.introduced = introduced;
+			}
+			else {
+				throw new IllegalArgumentException("Introduced date must be lesser than discontinued");
+			}
+		}
+		else {
+			this.introduced = introduced;
+		}
+	}
+
+	public LocalDate getDiscontinued() {
+		return discontinued;
+	}
+
+	public void setDiscontinued(LocalDate discontinued) {
+		if(this.introduced != null) {
+			if(this.introduced.compareTo(discontinued) <= 0) {
+				this.discontinued = discontinued;
+			}
+			else {
+				throw new IllegalArgumentException("Discontinued date must be greater than introduced");
+			}
+		}
+		else {
+			this.discontinued = discontinued;
+		}
+	}
+
+	public Integer getIdcompany() {
+		return idcompany;
+	}
+
+	public void setIdcompany(Integer idcompany) {
+		this.idcompany = idcompany;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((computercompanieid == null) ? 0 : computercompanieid.hashCode());
-		result = prime * result + ((computerdiscontinuedin == null) ? 0 : computerdiscontinuedin.hashCode());
-		result = prime * result + ((computerid == null) ? 0 : computerid.hashCode());
-		result = prime * result + ((computerintroductedin == null) ? 0 : computerintroductedin.hashCode());
-		result = prime * result + ((computername == null) ? 0 : computername.hashCode());
+		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idcompany == null) ? 0 : idcompany.hashCode());
+		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -56,96 +122,37 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
-		if (computercompanieid == null) {
-			if (other.computercompanieid != null)
+		if (discontinued == null) {
+			if (other.discontinued != null)
 				return false;
-		} else if (!computercompanieid.equals(other.computercompanieid))
+		} else if (!discontinued.equals(other.discontinued))
 			return false;
-		if (computerdiscontinuedin == null) {
-			if (other.computerdiscontinuedin != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!computerdiscontinuedin.equals(other.computerdiscontinuedin))
+		} else if (!id.equals(other.id))
 			return false;
-		if (computerid == null) {
-			if (other.computerid != null)
+		if (idcompany == null) {
+			if (other.idcompany != null)
 				return false;
-		} else if (!computerid.equals(other.computerid))
+		} else if (!idcompany.equals(other.idcompany))
 			return false;
-		if (computerintroductedin == null) {
-			if (other.computerintroductedin != null)
+		if (introduced == null) {
+			if (other.introduced != null)
 				return false;
-		} else if (!computerintroductedin.equals(other.computerintroductedin))
+		} else if (!introduced.equals(other.introduced))
 			return false;
-		if (computername == null) {
-			if (other.computername != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!computername.equals(other.computername))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
 
-	public Computer(Integer computerid, String computername) {
-		super();
-		this.computerid = computerid;
-		this.computername = computername;
-	}
-
-	public Integer getComputerid() {
-		return computerid;
-	}
-	public void setComputerid(final int computerid) {	
-		this.computerid = computerid;
-	}
-	public String getComputername() {
-		return computername;
-	}
-	public void setComputername(final String computername) {
-		this.computername = computername;
-	}
-	public LocalDate getComputerintroductedin() {
-		return computerintroductedin;
-	}
-	public void setComputerintroductedin(final LocalDate computerintroductedin) {
-		if(this.computerdiscontinuedin != null) {
-			if(computerintroductedin.compareTo(this.computerdiscontinuedin) <= 0) {
-				this.computerintroductedin = computerintroductedin;
-			}
-			else {
-				throw new IllegalArgumentException("Introduced date must be lesser than discontinued");
-			}
-		}
-		else {
-			this.computerintroductedin = computerintroductedin;
-		}
-	}
-	public LocalDate getComputerdiscontinuedin() {
-		return computerdiscontinuedin;
-	}
-	public void setComputerdiscontinuedin(final LocalDate computerdiscontinuedin) {
-		if(this.computerintroductedin != null) {
-			if(computerdiscontinuedin.compareTo(this.computerintroductedin) >= 0) {
-				this.computerdiscontinuedin = computerdiscontinuedin;
-			}
-			else {
-				throw new IllegalArgumentException("Introduced date must be lesser than discontinued");
-			}
-		}
-		else {
-			this.computerdiscontinuedin = computerdiscontinuedin;
-		}
-	}
-	public Integer getComputercompanieid() {
-		return computercompanieid;
-	}
-	public void setComputercompanieid(final Integer computercompanieid) {
-		this.computercompanieid = computercompanieid;
-	}
-	
-
-	
 	@Override
 	public String toString() {
-		return "Computer [ id=," + this.computerid + ",Name =  " + this.computername + " ,Sorti en : " + this.computerintroductedin + ", Arrêté en :" + this.computerdiscontinuedin + ", Id de la compagnie : " + this.computercompanieid+ "\n";
+		return "Computer [ id=," + this.id + ",Name =  " + this.name + " ,Sorti en : " + this.introduced + ", Arrêté en :" + this.discontinued + ", Id de la compagnie : " + this.idcompany+ "\n";
 	}
 	
 	

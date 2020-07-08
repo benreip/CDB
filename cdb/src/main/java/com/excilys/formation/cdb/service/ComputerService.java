@@ -1,24 +1,29 @@
 package com.excilys.formation.cdb.service;
 
+
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.formation.cdb.dto.CompanieDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.mapper.ComputerDTOToComputer;
-import com.excilys.formation.cdb.modele.Companie;
 import com.excilys.formation.cdb.modele.Computer;
 import com.excilys.formation.cdb.persistence.CompanieDAO;
 import com.excilys.formation.cdb.persistence.ComputerDAO;
 
-public class Service {
+
+@Service
+public class ComputerService {
 	ComputerDTO cdto = new ComputerDTO();
-	ComputerDAO cdao = new ComputerDAO();
-	CompanieDAO compdao = new CompanieDAO();
+	@Autowired
+	ComputerDAO cdao;
+	@Autowired
+	CompanieDAO compdao;
 	CompanieDTO compdto = new CompanieDTO();
-	Computer c = new Computer();
-	Companie cp = new Companie();
 	ComputerDTOToComputer mapping = new ComputerDTOToComputer();
-	public Service() {}
+	public ComputerService() {}
 	
 	
 	public List<ComputerDTO> afficheListeComputer(Integer page,Integer nb_entries_per_page)  {

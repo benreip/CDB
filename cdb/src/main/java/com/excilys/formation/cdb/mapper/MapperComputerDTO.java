@@ -8,16 +8,16 @@ public class MapperComputerDTO {
 	
 	public  ComputerDTO convertToDtocomputer (Computer d ) {
 		ComputerDTO c = new ComputerDTO();
-		c.setComputerDtoName(d.getComputername());
-		c.setComputerdtoid(Integer.toString(d.getComputerid()));
-		if (d.getComputerintroductedin()!=null) {
-		c.setComputerdtointroductedin(d.getComputerintroductedin().toString());
+		c.setComputerDtoName(d.getName());
+		c.setComputerdtoid(Integer.toString(d.getId()));
+		if (d.getIntroduced()!=null) {
+		c.setComputerdtointroductedin(d.getIntroduced().toString());
 		}
-		if (d.getComputerdiscontinuedin()!=null) {
-		c.setComputerdtodiscontinuedin(d.getComputerdiscontinuedin().toString());
+		if (d.getDiscontinued()!=null) {
+		c.setComputerdtodiscontinuedin(d.getDiscontinued().toString());
 		}
-		if (d.getComputercompanieid()!=null) {
-		c.setComputerdtocompanieid(Integer.toString(d.getComputercompanieid()));
+		if (d.getIdcompany()!=null) {
+		c.setComputerdtocompanieid(Integer.toString(d.getIdcompany()));
 		}
 		return c;
 	}

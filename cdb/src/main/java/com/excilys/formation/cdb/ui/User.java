@@ -2,10 +2,10 @@ package com.excilys.formation.cdb.ui;
 
 import java.util.Scanner;
 
-import com.excilys.formation.cdb.service.Service;
+import com.excilys.formation.cdb.service.ComputerService;
 
 public class User {
-Service s= new Service();
+ComputerService s= new ComputerService();
 Scanner sc = new Scanner(System.in);
 	
 	public void affichage() {

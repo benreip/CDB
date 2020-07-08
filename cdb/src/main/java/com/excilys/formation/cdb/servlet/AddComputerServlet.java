@@ -4,30 +4,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.excilys.formation.cdb.dto.CompanieDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.modele.Computer;
-import com.excilys.formation.cdb.service.Service;
+import com.excilys.formation.cdb.service.ComputerService;
 /**
  * Servlet implementation class AddComputerServlet
  */
 @WebServlet(name="AddComputerServlet", urlPatterns="/addComputer")
 public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Service service;
+	@Autowired
+	private ComputerService service;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AddComputerServlet() {
         super();
-        this.service = new Service();
     }
 
 	/**
@@ -60,7 +64,7 @@ public class AddComputerServlet extends HttpServlet {
 		try {
 			Computer newComputer = service.mappingDtoToComputer(computerDto);
 			newComputer = service.insertComputerwebUI(newComputer);
-			String success = "Computer " + newComputer.getComputername() + " was successfully add";
+			String success = "Computer " + newComputer.getName() + " was successfully add";
 			request.setAttribute("success", success);
 			
 		}catch(IllegalArgumentException e) {
@@ -69,6 +73,13 @@ public class AddComputerServlet extends HttpServlet {
 		}finally {
 			doGet(request, response);
 		}
+	}
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,config.getServletContext());
 	}
 
 }

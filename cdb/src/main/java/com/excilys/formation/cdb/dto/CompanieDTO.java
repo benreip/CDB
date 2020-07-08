@@ -8,21 +8,21 @@ import com.excilys.formation.cdb.modele.Companie;
 
 
 public class CompanieDTO {
-	private String companiedtoid;
-	private String companiedtoname;
+	private String id;
+	private String name;
 	MapperCompanieDTO cdto = new MapperCompanieDTO(); 
 	
 	public String getCompaniedtoid() {
-		return companiedtoid;
+		return id;
 	}
 	public void setCompaniedtoid(String companiedtoid) {
-		this.companiedtoid = companiedtoid;
+		this.id = companiedtoid;
 	}
 	public String getCompaniedtoname() {
-		return companiedtoname;
+		return name;
 	}
 	public void setCompaniedtoname(String companiedtoname) {
-		this.companiedtoname = companiedtoname;
+		this.name = companiedtoname;
 	}
 	
 	public List<CompanieDTO> convertAllCompanie(List<Companie> c) {
@@ -40,6 +40,6 @@ public class CompanieDTO {
 			
 	
 	public String toString() {
-		return "Companie [ id=," +this.companiedtoid+ " Nom de la compagnie : "+ this.companiedtoname+ "\n";}
+		return "Companie [ id=," +this.id+ " Nom de la compagnie : "+ this.name+ "\n";}
 }
 	

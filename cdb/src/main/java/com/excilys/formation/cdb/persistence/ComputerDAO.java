@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 
@@ -19,7 +20,7 @@ import com.excilys.formation.cdb.modele.Computer;
 
 
 
-
+@Repository
 public class ComputerDAO {
 	MapperComputerDAO mcdao = new MapperComputerDAO();
 	BddConnection login = BddConnection.getDbConnection();
@@ -147,17 +148,17 @@ public class ComputerDAO {
 	public Computer updateAll (Computer c) {
 		Computer d = null;
 		try {
-			String request = "UPDATE computer SET name = ' " + c.getComputername() +"'";
-			if (c.getComputerintroductedin() != null ) {
-				request += ", introduced = '" + Date.valueOf(c.getComputerintroductedin()) + "'";
+			String request = "UPDATE computer SET name = ' " + c.getName() +"'";
+			if (c.getIntroduced() != null ) {
+				request += ", introduced = '" + Date.valueOf(c.getIntroduced()) + "'";
 			}
-			if (c.getComputerdiscontinuedin() != null ) {
-				request += ", discontinued = '" + Date.valueOf(c.getComputerdiscontinuedin()) + "'";
+			if (c.getDiscontinued() != null ) {
+				request += ", discontinued = '" + Date.valueOf(c.getDiscontinued()) + "'";
 			}
-			if (c.getComputercompanieid() != null ) {
-				request += ", company_id = '" + c.getComputercompanieid() + "'";
+			if (c.getIdcompany() != null ) {
+				request += ", company_id = '" + c.getIdcompany() + "'";
 			}
-			request += "WHERE id = " + c.getComputerid();
+			request += "WHERE id = " + c.getId();
 			PreparedStatement stmt = BddConnection.login.prepareStatement(request);
 			stmt.executeUpdate();
 			return c;
@@ -223,22 +224,22 @@ public class ComputerDAO {
 	public Computer create(Computer c) {
 		Computer comp = new Computer();
 		try {PreparedStatement stmt = BddConnection.login.prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?);");
-		stmt.setString(1, c.getComputername());
+		stmt.setString(1, c.getName());
 		
-		if (c.getComputerintroductedin()!=null) {
-			stmt.setDate(2, Date.valueOf(c.getComputerintroductedin()));
+		if (c.getIntroduced()!=null) {
+			stmt.setDate(2, Date.valueOf(c.getIntroduced()));
 		}
 		else {
 			stmt.setNull(2, Types.DATE);;
 		}
-		if (c.getComputerdiscontinuedin()!=null) {
-			stmt.setDate(3, Date.valueOf(c.getComputerdiscontinuedin()));
+		if (c.getDiscontinued()!=null) {
+			stmt.setDate(3, Date.valueOf(c.getDiscontinued()));
 		}
 		else {
 			stmt.setNull(3, Types.DATE);;
 		}
-		if (c.getComputercompanieid()!= null) {
-			stmt.setInt(4,c.getComputercompanieid());
+		if (c.getIdcompany()!= null) {
+			stmt.setInt(4,c.getIdcompany());
 		}
 		else {
 			stmt.setNull(4, Types.BIGINT);;
