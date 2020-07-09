@@ -21,10 +21,8 @@ public class Computer {
 	}	
 	/* Getter & Setter */
 	
-	public Computer(Integer computerid, String computername, LocalDate computerintroductedin,
+	public Computer(String computername, LocalDate computerintroductedin,
 			LocalDate computerdiscontinuedin, Integer computercompanieid) {
-		super();
-		this.id = computerid;
 		this.name = computername;
 		this.introduced = computerintroductedin;
 		this.discontinued = computerdiscontinuedin;

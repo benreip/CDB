@@ -298,7 +298,8 @@ public class ComputerDAO {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ComputerDAO cdao= new ComputerDAO();
-	System.out.println(cdao.deleteCascade(1));
+		Computer c = new Computer(601,"Chaton");
+	System.out.println(cdao.create(c));
 
 	}
 	

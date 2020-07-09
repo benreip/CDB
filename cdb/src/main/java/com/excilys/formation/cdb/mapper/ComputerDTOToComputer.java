@@ -8,7 +8,9 @@ import com.excilys.formation.cdb.modele.Computer;
 public class ComputerDTOToComputer {
 	public  Computer convertDtoToComputer (ComputerDTO d ) {
 		Computer c = new Computer();
+		if(d.getComputerdtoid()!= null) {
 		c.setId(Integer.parseInt(d.getComputerdtoid()));
+		}
 		c.setName(d.getComputerDtoName());
 		if (d.getComputerdtointroductedin()!=null) {
 		c.setIntroduced(LocalDate.parse(d.getComputerdtointroductedin()));
@@ -20,6 +22,7 @@ public class ComputerDTOToComputer {
 		c.setIdcompany(Integer.parseInt(d.getComputerdtocompanieid()));
 		}
 		return c;
+		
 	}
 
 }

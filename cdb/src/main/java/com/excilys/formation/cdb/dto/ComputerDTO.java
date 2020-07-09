@@ -78,7 +78,7 @@ public class ComputerDTO {
 		}
 		@Override
 		public String toString() {
-			return "Computer [ id=," + this.id + ",Name =  " + this.name + " ,Sorti en : " + this.introduced + ", Arrêté en :" + this.discontinued + ", Id de la compagnie : " + this.idcompany+ "\n";
+			return "Computer [ id=" + this.id + ",Name =  " + this.name + " ,Sorti en : " + this.introduced + ", Arrêté en :" + this.discontinued + ", Id de la compagnie : " + this.idcompany+ "\n";
 		}
 		
 }

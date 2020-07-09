@@ -26,6 +26,13 @@ public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private ComputerService service;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,config.getServletContext());
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -60,9 +67,11 @@ public class AddComputerServlet extends HttpServlet {
 		if(request.getParameter("companyId") != null &&!request.getParameter("companyId").equals("0")) {
 			computerDto.setComputerdtocompanieid(request.getParameter("companyId"));
 		}
-		
+		System.out.println(computerDto);
 		try {
+			System.out.println("pd");
 			Computer newComputer = service.mappingDtoToComputer(computerDto);
+			System.out.println(newComputer);
 			newComputer = service.insertComputerwebUI(newComputer);
 			String success = "Computer " + newComputer.getName() + " was successfully add";
 			request.setAttribute("success", success);
@@ -75,11 +84,5 @@ public class AddComputerServlet extends HttpServlet {
 		}
 	}
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-		super.init(config);
-		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,config.getServletContext());
-	}
 
 }
