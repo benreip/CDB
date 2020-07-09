@@ -28,7 +28,7 @@ public class ComputerService {
 	
 	public List<ComputerDTO> afficheListeComputer(Integer page,Integer nb_entries_per_page)  {
 			Integer offset = (page-1)*nb_entries_per_page;
-		 return cdto.convertAllComputer(cdao.getComputers( offset, nb_entries_per_page));
+		 return cdto.convertAllComputer(cdao.geget( offset, nb_entries_per_page));
 	}
 	
 	public List<CompanieDTO> afficheListeCompanie()  {
@@ -65,7 +65,7 @@ public class ComputerService {
 		
 	}
 	
-	public int updateDateSortie(int id, String date) {
+	/*public int updateDateSortie(int id, String date) {
 			return cdao.updateDateSortie(id, date);
 		
 	}
@@ -82,7 +82,7 @@ public class ComputerService {
 	public int  insertcomputer (String computername) {
 			cdao.insertComputer(computername);
 			return 1;
-	}
+	}*/
 	
 	public int numberOfComputers() {
 		return cdao.getNumberOfComputers();
@@ -109,6 +109,10 @@ public class ComputerService {
 	
 	public Computer insertComputerwebUI (Computer c) {
 		return cdao.create(c);
+	}
+	public static void main(String[] args) {
+		ComputerService s = new ComputerService();
+		System.out.println(s.afficheListeCompanie());
 	}
 
 }

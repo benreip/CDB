@@ -9,8 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
@@ -27,10 +32,30 @@ public class ComputerDAO {
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
 	final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private  final String All_COMPUTERS_LIMIT = "SELECT * FROM computer LIMIT ? , ?";
-	public ComputerDAO() {
+	private JdbcTemplate jdbcTemplate;
+	public ComputerDAO(DataSource dataSource) {
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
 	// Diverses requêtes, inutile de détailler
+	
+	
+	public List<Computer> geget(Integer from,Integer to) {
+		
+		String sql = "select id,name,introduced,discontinued,company_id from computer LIMIT "+from+", "+to;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Computer>>() {
+				@Override
+				public List<Computer> extractData(ResultSet rs) throws SQLException {
+				List<Computer> result = new ArrayList();
+			while (rs.next()) {
+				result.add(mcdao.mapComputers(rs));
+			}
+			return result;
+		}
+				
+
+		});
+	}
 	
 	
 	public List<Computer> getComputers(Integer from, Integer to) {
@@ -295,13 +320,12 @@ public class ComputerDAO {
 		return LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ComputerDAO cdao= new ComputerDAO();
 		Computer c = new Computer(601,"Chaton");
 	System.out.println(cdao.create(c));
 
-	}
+	}*/
 	
 	
 

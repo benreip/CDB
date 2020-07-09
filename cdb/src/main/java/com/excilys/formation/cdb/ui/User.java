@@ -36,17 +36,17 @@ Scanner sc = new Scanner(System.in);
 		System.out.println(s.afficheListeComputerByID(id));
 	}
 	
-	public void nomordi() {
+	/*public void nomordi() {
 		System.out.println("Veuillez entrer le nom du nouvel ordinateur : ");
 		try {
 		String answer;
 		answer=sc.nextLine();
 		createordi(answer); } catch (Exception e) { System.out.println("Un string est attendu ici");}
-	}
+	}*/
 	
-	public void createordi(String nomordi) {
+	/*public void createordi(String nomordi) {
 		s.insertcomputer(nomordi);
-	}
+	}*/
 	
 	public void deleteComputer() {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à supprimer : ");
@@ -58,7 +58,7 @@ Scanner sc = new Scanner(System.in);
 	
 	
 
-	public void majOrdi () {
+	/*public void majOrdi () {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à update : ");
 		int answer;
 		answer=sc.nextInt();
@@ -81,7 +81,7 @@ Scanner sc = new Scanner(System.in);
 		int idcompanieupdate = sc.nextInt();
 		s.updateFabricant(answer, idcompanieupdate); } catch (Exception e ) {System.out.println("Identifiant ou id fabricant mal renseigné");}
 		
-	}
+	}*/
 	
 	public void select_pc(String answer,int pc,int pas) {
 		switch(answer) {
@@ -137,13 +137,13 @@ Scanner sc = new Scanner(System.in);
 					
 				case ("3"):
 					System.out.println(" Création ordinateur :");
-					nomordi();
+					//nomordi();
 					stop = false;
 					break;
 					
 				case ("4"):
 					System.out.println(" Mise à jour d'un ordinateur :");
-					majOrdi();
+					//majOrdi();
 					stop = false;
 					break;
 					

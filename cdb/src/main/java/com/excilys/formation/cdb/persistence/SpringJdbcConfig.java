@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.configuration;
+package com.excilys.formation.cdb.persistence;
 
 import javax.sql.DataSource;
 
@@ -6,21 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.context.AbstractContextLoaderInitializer;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 @Configuration
-@ComponentScan(basePackages="com.excilys.formation.cdb")
-public class SpringConfig extends AbstractContextLoaderInitializer {
-
-	@Override
-	protected WebApplicationContext createRootApplicationContext() {
-		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		 rootContext.register(SpringConfig.class);
-		 return rootContext;
-	}
-
+@ComponentScan("com.excilys.formation.cdb")
+public class SpringJdbcConfig {
 	@Bean
 	public DataSource mysqlDataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();

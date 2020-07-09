@@ -2,6 +2,7 @@ package com.excilys.formation.cdb.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.excilys.formation.cdb.mapper.MapperCompanieDTO;
 import com.excilys.formation.cdb.modele.Companie;
@@ -31,7 +32,14 @@ public class CompanieDTO {
 			toReturn.add(cdto.convertToDtocompanie(d));
 		}
 		return toReturn;}
-		
+	
+	/*public List<CompanieDTO> convertAllCompanie(List<Companie> c) {
+		List<CompanieDTO> toReturn = c.stream()
+									  .map(d -> cdto.convertToDtocompanie(d))
+									  .collect(Collectors.toList());
+		return toReturn;
+	}
+		*/
 		public CompanieDTO convertOneCompanie (Companie c) {
 			CompanieDTO objectdto = new CompanieDTO();
 			objectdto = cdto.convertToDtocompanie(c);

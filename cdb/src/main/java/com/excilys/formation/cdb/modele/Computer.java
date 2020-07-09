@@ -1,5 +1,6 @@
 package com.excilys.formation.cdb.modele;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,10 +15,16 @@ public class Computer {
 	private Integer idcompany;
 	final Logger logger = LoggerFactory.getLogger(Computer.class);
 	
-	
-	
 	public Computer() {
 		
+	}
+	
+	public Computer(Integer id, String name, LocalDate introduced, LocalDate discontinued, Integer idcompany) {
+		this.id=id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.idcompany = idcompany;
 	}	
 	/* Getter & Setter */
 	

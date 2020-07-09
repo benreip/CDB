@@ -87,16 +87,15 @@ public class DashboardServlet extends HttpServlet {
 			request.setAttribute("computers",computersearch);
 			request.setAttribute("currentpage", currentpage);
 			request.setAttribute("nbComputers", service.numberOfComputersBySearch(search));
-			System.out.println(computersearch);
 			}
 		else {
-			cdtos = service.displayComputerOrderBy(colonne,ascending,currentpage,nb_entries_per_page);
+			//cdtos = service.displayComputerOrderBy(colonne,ascending,currentpage,nb_entries_per_page);
+			cdtos = service.afficheListeComputer(currentpage, nb_entries_per_page);
 			request.setAttribute("colonne",colonne);
 			request.setAttribute("ascending",ascending);
 			request.setAttribute("computers", cdtos);
 			request.setAttribute("nbComputers", service.numberOfComputers());
 			request.setAttribute("currentpage", currentpage);
-			System.out.println(cdtos);
 		}
 		request.setAttribute("control_page", service.getComputersNbPages(nb_entries_per_page));
 		request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
@@ -109,7 +108,6 @@ public class DashboardServlet extends HttpServlet {
 		if (request.getParameter("selection") != null ) {
 			String[] selection = request.getParameter("selection").split(",");
 			for(String comp: selection) {
-					System.out.println(comp);
 					service.deleteByID(Integer.parseInt(comp));
 			}
 		}
