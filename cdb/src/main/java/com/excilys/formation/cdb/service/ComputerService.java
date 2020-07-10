@@ -55,10 +55,10 @@ public class ComputerService {
 		return cdto.convertOneComputer(cdao.findComputerById(a));
 	} 
 	
-	public int updateName(int id, String name)  {
+	/*public int updateName(int id, String name)  {
 				 return cdao.updateName(id,name);
 
-			}	
+			}	*/
 	
 	public int deleteByID(int id) {
 			return cdao.deleteComputerById(id);
