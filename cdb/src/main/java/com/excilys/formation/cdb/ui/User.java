@@ -5,9 +5,9 @@ import java.util.Scanner;
 import com.excilys.formation.cdb.service.ComputerService;
 
 public class User {
-ComputerService s= new ComputerService();
-Scanner sc = new Scanner(System.in);
-	
+	ComputerService s= new ComputerService();
+	Scanner sc = new Scanner(System.in);
+
 	public void affichage() {
 		System.out.println("Que voulez vous faire? ");
 		System.out.println("0 - Liste des ordinateurs");
@@ -18,24 +18,24 @@ Scanner sc = new Scanner(System.in);
 		System.out.println("5 - Suppression d'un ordinateur");
 		System.out.println("6 - Quitter ");
 		;
-		
+
 		selectswitch();
 
 	}
-	
+
 	public void transitordis() {
 		System.out.println("Veuillez entrer l'id de l'ordinateur souhaité : ");
 		try {
-		int answer;
-		answer=sc.nextInt();
-		detailordis(answer);
-		} catch (Exception e) { System.out.println("Veuillez entrer un entier");}
-		}
-	
-	public void detailordis(int id)  {
+			int answer;
+			answer=sc.nextInt();
+			detailordis(answer);
+		} catch (final Exception e) { System.out.println("Veuillez entrer un entier");}
+	}
+
+	public void detailordis(final int id)  {
 		System.out.println(s.afficheListeComputerByID(id));
 	}
-	
+
 	/*public void nomordi() {
 		System.out.println("Veuillez entrer le nom du nouvel ordinateur : ");
 		try {
@@ -43,20 +43,20 @@ Scanner sc = new Scanner(System.in);
 		answer=sc.nextLine();
 		createordi(answer); } catch (Exception e) { System.out.println("Un string est attendu ici");}
 	}*/
-	
+
 	/*public void createordi(String nomordi) {
 		s.insertcomputer(nomordi);
 	}*/
-	
+
 	public void deleteComputer() {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à supprimer : ");
 		try {
-		int answer = sc.nextInt();
-		s.deleteByID(answer); } 
-		catch (Exception e) {System.out.println("un entier est attendu ici !");}
+			final int answer = sc.nextInt();
+			s.deleteByID(answer); } 
+		catch (final Exception e) {System.out.println("un entier est attendu ici !");}
 	}
-	
-	
+
+
 
 	/*public void majOrdi () {
 		System.out.println("Veuillez entrer l'id de l'ordinateur à update : ");
@@ -80,88 +80,88 @@ Scanner sc = new Scanner(System.in);
 		try {
 		int idcompanieupdate = sc.nextInt();
 		s.updateFabricant(answer, idcompanieupdate); } catch (Exception e ) {System.out.println("Identifiant ou id fabricant mal renseigné");}
-		
+
 	}*/
-	
-	public void select_pc(String answer,int pc,int pas) {
+
+	public void select_pc(String answer,int pc,final int pas) {
 		switch(answer) {
 		case("+") :
 			pc = pc+9;
-			System.out.println(s.afficheListeComputer(pc+9,10));
-			System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
-			answer = sc.nextLine();
-			select_pc(answer,pc,pas);
-		
-		case("-") :
-			pc = pc-9;
-			System.out.println(s.afficheListeComputer(pc-9,10));
+		//System.out.println(s.afficheListeComputer(pc+9,10));
 		System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
 		answer = sc.nextLine();
 		select_pc(answer,pc,pas);
-		
+
+		case("-") :
+			pc = pc-9;
+		//System.out.println(s.afficheListeComputer(pc-9,10));
+		System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
+		answer = sc.nextLine();
+		select_pc(answer,pc,pas);
+
 		default:
 			System.out.println("je ne comprends pas désolé");
 		}
 	}
-	
-	
-	
+
+
+
 	public void selectswitch() {
 		Boolean stop=true;
 		String answer;
 		answer=sc.nextLine();
 		while (stop) {
 			switch(answer) {
-				case ("0"):
-					System.out.println("Liste des ordinateurs :");
-					int pc = 0;
-					int pas = 9;
-					System.out.println(s.afficheListeComputer(pc,10));
-					System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
-					answer = sc.nextLine();
-					select_pc(answer,pc,pas);
-					stop = false;
-					break;
-					
-				case ("1"):
-					System.out.println("Liste des entreprises :");
-					System.out.println(s.afficheListeCompanie());
-					stop = false;
-					break;
-					
-				case ("2"):
-					System.out.println("Détails d'un ordinateur :");
-					transitordis();
-					stop = false;
-					break;
-					
-				case ("3"):
-					System.out.println(" Création ordinateur :");
-					//nomordi();
-					stop = false;
-					break;
-					
-				case ("4"):
-					System.out.println(" Mise à jour d'un ordinateur :");
-					//majOrdi();
-					stop = false;
-					break;
-					
-				case ("5"):
-					System.out.println("Supprimer un ordinateur :");
-					deleteComputer();
-					stop = false;
-					break;
-					
-				case ("6"):
-					System.out.println("Au revoir !");
-					stop=false;
-					break;
-				default:
-					System.out.println("Désolé je n'ai pas compris.");
-					break;
+			case ("0"):
+				System.out.println("Liste des ordinateurs :");
+			final int pc = 0;
+			final int pas = 9;
+			//System.out.println(s.afficheListeComputer(pc,10));
+			System.out.println("\n Appuyez sur + pour afficher les pc suivants, - pour les précédents");
+			answer = sc.nextLine();
+			select_pc(answer,pc,pas);
+			stop = false;
+			break;
+
+			case ("1"):
+				System.out.println("Liste des entreprises :");
+			System.out.println(s.afficheListeCompanie());
+			stop = false;
+			break;
+
+			case ("2"):
+				System.out.println("Détails d'un ordinateur :");
+			transitordis();
+			stop = false;
+			break;
+
+			case ("3"):
+				System.out.println(" Création ordinateur :");
+			//nomordi();
+			stop = false;
+			break;
+
+			case ("4"):
+				System.out.println(" Mise à jour d'un ordinateur :");
+			//majOrdi();
+			stop = false;
+			break;
+
+			case ("5"):
+				System.out.println("Supprimer un ordinateur :");
+			deleteComputer();
+			stop = false;
+			break;
+
+			case ("6"):
+				System.out.println("Au revoir !");
+			stop=false;
+			break;
+			default:
+				System.out.println("Désolé je n'ai pas compris.");
+				break;
 			}
-			
+
 		}
 	}
 }

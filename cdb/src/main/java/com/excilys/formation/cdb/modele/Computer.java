@@ -18,7 +18,7 @@ public class Computer {
 	public Computer() {
 		
 	}
-	
+
 	public Computer(Integer id, String name, LocalDate introduced, LocalDate discontinued, Integer idcompany) {
 		this.id=id;
 		this.name = name;

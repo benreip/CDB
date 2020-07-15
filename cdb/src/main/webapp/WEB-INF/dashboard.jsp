@@ -9,9 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
+<link href="ressources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="ressources/css/font-awesome.css" rel="stylesheet" media="screen">
+<link href="ressources/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -26,18 +26,23 @@
 	</c:if>
 	
 	<c:set var="nbByPageValue" value="" />
-	<c:if test="${nbByPage != null && nbByPage != ''}">
-		<c:set var="nbByPageValue" value="&nbByPage=${nbByPage}" />
+	<c:if test="${page.nb_entries_per_page != null && page.nb_entries_per_page != ''}">
+		<c:set var="nbByPageValue" value="&nbByPage=${page.nb_entries_per_page}" />
 	</c:if>
 	
 	<c:set var="colonneValue" value="" />
-	<c:if test="${colonne != null && colonne != ''}">
-		<c:set var="orderValue" value="&colonne=${colonne}" />
+	<c:if test="${page.colonne != null && page.colonne != ''}">
+		<c:set var="orderValue" value="&colonne=${page.colonne}" />
 	</c:if>
 	
 	<c:set var="ascendingValue" value="" />
-	<c:if test="${ascending != null }">
-		<c:set var="ascendingValue" value="&ascending=${ascending}" />
+	<c:if test="${page.ascending != null }">
+		<c:set var="ascendingValue" value="&ascending=${page.ascending}" />
+	</c:if>
+	
+	<c:set var="askedPageValue" value="" />
+	<c:if test="${askedPage != null }">
+		<c:set var="askedPageValue" value="&askedPage=${askedPage}"/> 
 	</c:if>
     
 
@@ -82,26 +87,26 @@
                             </span>
                         </th>
                         <th>  
-                        	<c:if test="${colonne == 'name' && ascending == 'ASC'}"><a href="dashboard?colonne=computer.name&ascending=DESC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
-                         	<c:if test="${colonne == 'name' && ascending == 'DESC'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
-                        	<c:if test="${colonne != 'name'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
+                        	<c:if test="${page.colonne == 'name' && page.ascending == 'ASC'}"><a href="dashboard?colonne=computer.name&ascending=DESC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
+                         	<c:if test="${page.colonne == 'name' && page.ascending == 'DESC'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
+                        	<c:if test="${page.colonne != 'name'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
                         </th>
                         <th>
-                           <c:if test="${colonne == 'introduced' && ascending == 'ASC'}"><a href="dashboard?colonne=introduced&ascending=DESC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
-                         	<c:if test="${colonne == 'introduced' && ascending == 'DESC'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
-                        	<c:if test="${colonne != 'introduced'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
+                           <c:if test="${page.colonne == 'introduced' && page.ascending == 'ASC'}"><a href="dashboard?colonne=introduced&ascending=DESC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
+                         	<c:if test="${page.colonne == 'introduced' && page.ascending == 'DESC'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
+                        	<c:if test="${page.colonne != 'introduced'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <c:if test="${colonne == 'discontinued' && ascending == 'ASC'}"><a href="dashboard?colonne=discontinued&ascending=DESC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
-                         	<c:if test="${colonne == 'discontinued' && ascending == 'DESC'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
-                        	<c:if test="${colonne != 'discontinued'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
+                            <c:if test="${page.colonne == 'discontinued' && page.ascending == 'ASC'}"><a href="dashboard?colonne=discontinued&ascending=DESC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
+                         	<c:if test="${page.colonne == 'discontinued' && page.ascending == 'DESC'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
+                        	<c:if test="${page.colonne != 'discontinued'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <c:if test="${colonne == 'company.name' && ascending == 'ASC'}"><a href="dashboard?colonne=company.name&ascending=DESC${nbByPageValue}${searchValue}" >Company</a></c:if>
-                         	<c:if test="${colonne == 'company.name' && ascending == 'DESC'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" >Company</a></c:if>
-                        	<c:if test="${colonne != 'company.name'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" >Company</a></c:if>
+                            <c:if test="${page.colonne == 'company.name' && page.ascending == 'ASC'}"><a href="dashboard?colonne=company.name&ascending=DESC${nbByPageValue}${searchValue}" >Company</a></c:if>
+                         	<c:if test="${page.colonne == 'company.name' && page.ascending == 'DESC'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" >Company</a></c:if>
+                        	<c:if test="${page.colonne != 'company.name'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" >Company</a></c:if>
                         </th>
 
                     </tr>
@@ -129,22 +134,23 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
-                <li> <c:if test="${currentpage > 1}"> 
-                    <a href="/cdb/dashboard?page=${currentpage-1}${searchValue}${colonneValue}${ascendingValue}" aria-label="Previous">
+                <li> <c:if test="${page.currentPage > 1}"> 
+                    <a href="/cdb/dashboard?page=${page.currentPage-1}${searchValue}${colonneValue}${ascendingValue}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
                   </c:if>
               </li>
               <li> 
-              <a href="/cdb/dashboard?page=${currentpage}${searchValue}${colonneValue}${ascendingValue}">${currentpage}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+1}${searchValue}${colonneValue}${ascendingValue}">${currentpage+1}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+2}${searchValue}${colonneValue}${ascendingValue}">${currentpage+2}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+3}${searchValue}${colonneValue}${ascendingValue}">${currentpage+3}</a></li>
-              <li><a href="/cdb/dashboard?page=${currentpage+4}${searchValue}${colonneValue}${ascendingValue}">${currentpage+4}</a></li>
-              <li> 
-                <a href="/cdb/dashboard?page=${currentpage+1}${searchValue}${colonneValue}${ascendingValue}" aria-label="Next">
+              <a href="/cdb/dashboard?page=${page.currentPage}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+1}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+1}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+2}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+2}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+3}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+3}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+4}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+4}</a></li>
+              <li> <c:if test="${page.currentPage < control_page }">
+                <a href="/cdb/dashboard?page=${page.currentPage+1}${searchValue}${colonneValue}${ascendingValue}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
+                </c:if>
             </li>
         </ul>
 
@@ -167,9 +173,9 @@
         	</div>
 
     </footer>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/dashboard.js"></script>
+<script src="ressources/js/jquery.min.js"></script>
+<script src="ressources/js/bootstrap.min.js"></script>
+<script src="ressources/js/dashboard.js"></script>
 
 </body>
 </html>

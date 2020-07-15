@@ -24,7 +24,7 @@
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
                     <c:if test="${not empty success}"><c:out value="${success}" /></c:if>
-                    <form action="addComputer" method="POST">
+                    <form:form action="addComputer" method="POST" modelAttribute="ComputerDTO">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -54,7 +54,7 @@
                             or
                             <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

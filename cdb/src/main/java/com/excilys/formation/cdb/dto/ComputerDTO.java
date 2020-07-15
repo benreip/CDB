@@ -3,7 +3,7 @@ package com.excilys.formation.cdb.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.formation.cdb.mapper.MapperComputerDTO;
+import com.excilys.formation.cdb.mapper.MapperComputer;
 import com.excilys.formation.cdb.modele.Computer;
 
 public class ComputerDTO {
@@ -14,7 +14,7 @@ public class ComputerDTO {
 		private String introduced;
 		private String discontinued;
 		private String idcompany;
-		MapperComputerDTO cdto = new MapperComputerDTO();
+		MapperComputer mapping = new MapperComputer();
 	
 	
 		public ComputerDTO() {
@@ -65,7 +65,7 @@ public class ComputerDTO {
 		public List<ComputerDTO> convertAllComputer(List<Computer> c) {
 			List<ComputerDTO> toReturn = new ArrayList<>();
 			for ( Computer d : c ) {
-				toReturn.add(cdto.convertToDtocomputer(d));
+				toReturn.add(mapping.toDto(d));
 			}
 			return toReturn;
 				
@@ -73,7 +73,7 @@ public class ComputerDTO {
 		
 		public  ComputerDTO convertOneComputer (Computer c) {
 			ComputerDTO objectdto = new ComputerDTO();
-			objectdto = cdto.convertToDtocomputer(c);
+			objectdto = mapping.toDto(c);
 			return objectdto;
 		}
 		@Override

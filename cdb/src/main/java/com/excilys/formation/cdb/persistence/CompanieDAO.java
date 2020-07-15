@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.cdb.mapper.MapperCompanieDAO;
-import com.excilys.formation.cdb.mapper.MapperComputerDAO;
+import com.excilys.formation.cdb.mapper.MapperComputer;
 import com.excilys.formation.cdb.modele.Companie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

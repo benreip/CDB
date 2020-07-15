@@ -9,8 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.excilys.formation.cdb.mapper.MapperComputerDAO;
+import com.excilys.formation.cdb.mapper.MapperComputer;
 import com.excilys.formation.cdb.modele.Computer;
+import com.excilys.formation.cdb.persistence.ComputerDAO;
 
 
 public class ComputerMapperTest {
@@ -40,7 +41,7 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getDate(ATTRIBUT_INTRODUCED)).thenReturn(Date.valueOf(introduced));
 		Mockito.when(resultSet.getDate(ATTRIBUT_DISCONTINUED)).thenReturn(Date.valueOf(discontinued));
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(idCompany);
-		Computer computer = MapperComputerDAO.mapComputers(resultSet);
+		Computer computer = ComputerDAO.toEntity(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer,introduced,discontinued,idCompany);
 		assertEquals(computerExpected,computer);
 	}
@@ -50,7 +51,7 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getDate(ATTRIBUT_INTRODUCED)).thenReturn(Date.valueOf(introduced));
 		Mockito.when(resultSet.getDate(ATTRIBUT_DISCONTINUED)).thenReturn(Date.valueOf(discontinued));
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(0);
-		Computer computer = MapperComputerDAO.mapComputers(resultSet);
+		Computer computer = ComputerDAO.toEntity(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
 		computerExpected.setIntroduced(introduced);
 		computerExpected.setDiscontinued(discontinued);
@@ -62,7 +63,7 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getDate(ATTRIBUT_INTRODUCED)).thenReturn(null);
 		Mockito.when(resultSet.getDate(ATTRIBUT_DISCONTINUED)).thenReturn(Date.valueOf(discontinued));
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(idCompany);
-		Computer computer = MapperComputerDAO.mapComputers(resultSet);
+		Computer computer = ComputerDAO.toEntity(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
 		computerExpected.setDiscontinued(discontinued);
 		computerExpected.setIdcompany(idCompany);
@@ -74,7 +75,7 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getDate(ATTRIBUT_INTRODUCED)).thenReturn(Date.valueOf(introduced));
 		Mockito.when(resultSet.getDate(ATTRIBUT_DISCONTINUED)).thenReturn(null);
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(idCompany);
-		Computer computer = MapperComputerDAO.mapComputers(resultSet);
+		Computer computer = ComputerDAO.toEntity(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
 		computerExpected.setIdcompany(idCompany);
 		computerExpected.setIntroduced(introduced);
