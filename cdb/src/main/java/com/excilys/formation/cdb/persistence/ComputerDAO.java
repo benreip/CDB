@@ -17,6 +17,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jca.cci.InvalidResultSetAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.mapper.MapperComputer;
@@ -31,9 +34,9 @@ public class ComputerDAO {
 	BddConnection login = BddConnection.getDbConnection();
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
 	final static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	private final JdbcTemplate jdbcTemplate;
+	private final NamedParameterJdbcTemplate jdbcTemplate;
 	public ComputerDAO(final DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
+		  jdbcTemplate= new NamedParameterJdbcTemplate(dataSource);
 	}
 
 	// Diverses requêtes, inutile de détailler
@@ -68,8 +71,9 @@ public class ComputerDAO {
 
 	public int getNumberOfComputers() {
 		try {
+			SqlParameterSource parameters = new MapSqlParameterSource();
 			final int result = jdbcTemplate.queryForObject(
-					"SELECT COUNT(id) FROM computer",Integer.class);
+					"SELECT COUNT(id) FROM computer",parameters,Integer.class);
 			return result;
 		}
 
@@ -132,9 +136,10 @@ public class ComputerDAO {
 	}*/
 
 	public int deleteComputerById (final int id) {
-		final String sql = "DELETE FROM computer where id = ?";
-		final Object[] args = new Object[] {id};
-		return jdbcTemplate.update(sql, args);
+		SqlParameterSource parameters = new MapSqlParameterSource()
+				.addValue("id", id);
+		final String sql = "DELETE FROM computer where id = :id";
+		return jdbcTemplate.update(sql, parameters);
 	}
 
 	/*public int updateDateSortie ( int id, String date) {
@@ -178,8 +183,16 @@ public class ComputerDAO {
 
 
 	public Computer updateAll (final Computer c) {
-		final String sql = "UPDATE computer SET name = ' " +c.getName()+"' , introduced = '" + Date.valueOf(c.getIntroduced())+ "' , discontinued = '" + Date.valueOf(c.getDiscontinued()) + "', company_id = '" + c.getIdcompany() + "' where id =" +c.getId();
-		jdbcTemplate.update(sql);
+		System.out.println(c);
+		final SqlParameterSource parameters = new MapSqlParameterSource()
+				.addValue("name",c.getName())
+				.addValue("introduced", c.getIntroduced()==null?null:Date.valueOf(c.getIntroduced()))
+				.addValue("discontinued",c.getDiscontinued()==null?null:Date.valueOf(c.getDiscontinued()))
+				.addValue("idcompany", c.getIdcompany()==null?null:c.getIdcompany())
+				.addValue("id",c.getId());
+		System.out.println(parameters);
+		final String sql = "UPDATE computer SET name= :name, introduced = :introduced, discontinued = :discontinued, company_id = :idcompany where id = :id";
+		jdbcTemplate.update(sql,parameters);
 		return c;
 	}
 
@@ -234,18 +247,24 @@ public class ComputerDAO {
 	}
 
 	public Computer create(final Computer c) {
-		jdbcTemplate.update(
-				"INSERT INTO computer VALUES (?, ?, ?, ?,?)", c.getId(), c.getName() , c.getIntroduced(), c.getDiscontinued(),c.getIdcompany());
+		final SqlParameterSource parameters = new MapSqlParameterSource()
+				.addValue("name",c.getName())
+				.addValue("introduced", c.getIntroduced()==null?null:Date.valueOf(c.getIntroduced()))
+				.addValue("discontinued",c.getDiscontinued()==null?null:Date.valueOf(c.getDiscontinued()))
+				.addValue("idcompany", c.getIdcompany()==null?null:c.getIdcompany());
+		String sql = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(:name,:introduced,:discontinued,:idcompany)";
+		jdbcTemplate.update(sql,parameters);
+				
 		return c;
 	}
 
 
 	public int getNumberOfComputersBySearch(final String research) {
-		final int count = -1;
+		SqlParameterSource parameters = new MapSqlParameterSource();
 		final String sql="SELECT COUNT(*) from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%" +research +"%' or company.name LIKE '%"+ research+ "%'";
 		try {
 			final int result = jdbcTemplate.queryForObject(
-					sql,Integer.class);
+					sql,parameters,Integer.class);
 			return result;
 		}
 

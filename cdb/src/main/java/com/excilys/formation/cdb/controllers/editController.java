@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.formation.cdb.dto.CompanieDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
@@ -16,34 +17,44 @@ import com.excilys.formation.cdb.modele.Computer;
 import com.excilys.formation.cdb.service.ComputerService;
 
 @Controller
-@RequestMapping("/addComputer")
-public class addComputerController {
+@RequestMapping("/editComputer")
+public class editController {
 	@Autowired
 	private ComputerService service;
 
 	@GetMapping
-	public String displayAddComputer (final Model model) {
+	public String displayEditComputer(@RequestParam(required=false,name="id") final String id, final Model model)
+	{
 		final List<CompanieDTO> cdtos = service.afficheListeCompanie();
 		model.addAttribute("companies",cdtos);
-		model.addAttribute("cdto",new ComputerDTO());
-		return "addComputer";
+		String error;
+		if (id != null) {
+			try {
+				final ComputerDTO displaycomp = service.afficheListeComputerByID(Integer.parseInt(id));
+				model.addAttribute("computer",displaycomp);
+				model.addAttribute("cdto",new ComputerDTO());
+			} catch (final NumberFormatException e) {
+				error = "id is not a correct id";
+				model.addAttribute("error",error);
+			}
+		}
+		return "editComputer";
 	}
 
 	@PostMapping
-	public String addComputer(@ModelAttribute("cdto") final ComputerDTO cdto,
-			final Model model) {
+	public String editComputer(@RequestParam(required=false,name="id") final String id,@ModelAttribute("cdto") final ComputerDTO cdto, 
+			final Model model){
 		try {
-			final Computer comptoadd = service.mappingDtoToComputer(cdto);
-			service.insertComputerwebUI(comptoadd);
-			final String success = "Computer " + comptoadd.getName() + " was succesfully added";
+			final Computer comptoedit = service.mappingDtoToComputer(cdto);
+			comptoedit.setId(Integer.parseInt(id));
+			service.updateAllwebUI(comptoedit);
+			final String success = "Computer " + comptoedit.getName() + " was succesfully edited";
 			model.addAttribute("success",success);
 		} catch (final IllegalArgumentException e) {
 			model.addAttribute("error",e.getMessage());
 			model.addAttribute("newComputer",cdto);
 		}
-		model.addAttribute("computerName",cdto.getComputerDtoName());
-		model.addAttribute("introduced",cdto.getComputerdtointroductedin());
-		model.addAttribute("discontinued",cdto.getComputerdtodiscontinuedin());
-		return "addComputer";
+		return "editComputer";
 	}
+
 }

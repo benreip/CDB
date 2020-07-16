@@ -2,11 +2,14 @@ package com.excilys.formation.cdb.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -49,6 +52,19 @@ public class DashboardController {
 		return "dashboard";
 
 	}
+	
+	
+	@PostMapping
+	public String deleteComputers(@RequestParam(name="selection") String selection) {
+		if (selection != null && !selection.equals("")) {
+			String comptodel = selection;
+			List<Integer> delete = Stream.of(comptodel.split(","))
+	                .map(Integer::parseInt)
+	                .collect(Collectors.toList());
+			delete.stream().forEach(id->service.deleteByID(id));
+		}
+		return "redirect:/dashboard";
+	}
 
 	public Page createCurrentPage (final String nbByPage, final String currentPage, final String colonne, final String ascending) {
 		final Page page = new Page();
@@ -72,8 +88,6 @@ public class DashboardController {
 		if (currentPage != null) {
 			page.setCurrentPage(Integer.parseInt(currentPage));
 		}
-
-		System.out.println(page.getNbOfPage());
 		return page;
 	}
 

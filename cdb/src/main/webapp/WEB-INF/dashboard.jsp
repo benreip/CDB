@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +17,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="cdb/dashboard"> Application - Computer Database </a>
+            <a class="navbar-brand" href="cdb/dashboard"> <spring:message code="title"/>  </a>
         </div>
     </header>
     
@@ -135,19 +136,19 @@
         <div class="container text-center">
             <ul class="pagination">
                 <li> <c:if test="${page.currentPage > 1}"> 
-                    <a href="/cdb/dashboard?page=${page.currentPage-1}${searchValue}${colonneValue}${ascendingValue}" aria-label="Previous">
+                    <a href="/cdb/dashboard?page=${page.currentPage-1}${searchValue}${colonneValue}${ascendingValue}${nbByPageValue}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
                   </c:if>
               </li>
               <li> 
-              <a href="/cdb/dashboard?page=${page.currentPage}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage}</a></li>
-              <li><a href="/cdb/dashboard?page=${page.currentPage+1}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+1}</a></li>
-              <li><a href="/cdb/dashboard?page=${page.currentPage+2}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+2}</a></li>
-              <li><a href="/cdb/dashboard?page=${page.currentPage+3}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+3}</a></li>
-              <li><a href="/cdb/dashboard?page=${page.currentPage+4}${searchValue}${colonneValue}${ascendingValue}">${page.currentPage+4}</a></li>
+              <a href="/cdb/dashboard?page=${page.currentPage}${searchValue}${colonneValue}${ascendingValue}${nbByPageValue}">${page.currentPage}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+1}${searchValue}${colonneValue}${ascendingValue}${nbByPageValue}">${page.currentPage+1}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+2}${searchValue}${colonneValue}${ascendingValue}${nbByPageValue}">${page.currentPage+2}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+3}${searchValue}${colonneValue}${ascendingValue}${nbByPageValue}">${page.currentPage+3}</a></li>
+              <li><a href="/cdb/dashboard?page=${page.currentPage+4}${searchValue}${colonneValue}${ascendingValue}${nbByPageValue}">${page.currentPage+4}</a></li>
               <li> <c:if test="${page.currentPage < control_page }">
-                <a href="/cdb/dashboard?page=${page.currentPage+1}${searchValue}${colonneValue}${ascendingValue}" aria-label="Next">
+                <a href="/cdb/dashboard?page=${page.currentPage+1}${searchValue}${colonneValue}${ascendingValue}${nbByPageValue}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
                 </c:if>
