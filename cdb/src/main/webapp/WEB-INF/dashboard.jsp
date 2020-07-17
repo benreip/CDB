@@ -18,6 +18,9 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="cdb/dashboard"> <spring:message code="title"/>  </a>
+        	<div class="pull-right">
+            	<a class="navbar-brand" href="<spring:message code="lang.url"/>"><spring:message code="lang"/></a>
+            </div>
         </div>
     </header>
     
@@ -50,20 +53,20 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                ${nbComputers} Computers found
+                ${nbComputers} <spring:message code="dashboard.computer.found"/>
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${search}" />
-                        <input type="submit" id="searchsubmit" value="Filter by name"
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="<spring:message code="dashboard.search.placeholder"/>" value="${search}" />
+                        <input type="submit" id="searchsubmit" value=<spring:message code="dashboard.filter.button"/>
                         class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="addComputer"><spring:message code="dashboard.addComputer.button"/></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="dashboard.edit.button"/></a>
                 </div>
             </div>
         </div>
@@ -88,26 +91,26 @@
                             </span>
                         </th>
                         <th>  
-                        	<c:if test="${page.colonne == 'name' && page.ascending == 'ASC'}"><a href="dashboard?colonne=computer.name&ascending=DESC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
-                         	<c:if test="${page.colonne == 'name' && page.ascending == 'DESC'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
-                        	<c:if test="${page.colonne != 'name'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" >Computer name</a></c:if>
+                        	<c:if test="${page.colonne == 'name' && page.ascending == 'ASC'}"><a href="dashboard?colonne=computer.name&ascending=DESC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.computerName"/></a></c:if>
+                         	<c:if test="${page.colonne == 'name' && page.ascending == 'DESC'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.computerName"/></a></c:if>
+                        	<c:if test="${page.colonne != 'name'}"><a href="dashboard?colonne=computer.name&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.computerName"/></a></c:if>
                         </th>
                         <th>
-                           <c:if test="${page.colonne == 'introduced' && page.ascending == 'ASC'}"><a href="dashboard?colonne=introduced&ascending=DESC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
-                         	<c:if test="${page.colonne == 'introduced' && page.ascending == 'DESC'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
-                        	<c:if test="${page.colonne != 'introduced'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" >Introduced Date</a></c:if>
+                           <c:if test="${page.colonne == 'introduced' && page.ascending == 'ASC'}"><a href="dashboard?colonne=introduced&ascending=DESC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.introduced"/></a></c:if>
+                         	<c:if test="${page.colonne == 'introduced' && page.ascending == 'DESC'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.introduced"/></a></c:if>
+                        	<c:if test="${page.colonne != 'introduced'}"><a href="dashboard?colonne=introduced&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.introduced"/></a></c:if>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <c:if test="${page.colonne == 'discontinued' && page.ascending == 'ASC'}"><a href="dashboard?colonne=discontinued&ascending=DESC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
-                         	<c:if test="${page.colonne == 'discontinued' && page.ascending == 'DESC'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
-                        	<c:if test="${page.colonne != 'discontinued'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" >Discontinued Date</a></c:if>
+                            <c:if test="${page.colonne == 'discontinued' && page.ascending == 'ASC'}"><a href="dashboard?colonne=discontinued&ascending=DESC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.discontinued"/></a></c:if>
+                         	<c:if test="${page.colonne == 'discontinued' && page.ascending == 'DESC'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.discontinued"/></a></c:if>
+                        	<c:if test="${page.colonne != 'discontinued'}"><a href="dashboard?colonne=discontinued&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.discontinued"/></a></c:if>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <c:if test="${page.colonne == 'company.name' && page.ascending == 'ASC'}"><a href="dashboard?colonne=company.name&ascending=DESC${nbByPageValue}${searchValue}" >Company</a></c:if>
-                         	<c:if test="${page.colonne == 'company.name' && page.ascending == 'DESC'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" >Company</a></c:if>
-                        	<c:if test="${page.colonne != 'company.name'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" >Company</a></c:if>
+                            <c:if test="${page.colonne == 'company.name' && page.ascending == 'ASC'}"><a href="dashboard?colonne=company.name&ascending=DESC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
+                         	<c:if test="${page.colonne == 'company.name' && page.ascending == 'DESC'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
+                        	<c:if test="${page.colonne != 'company.name'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
                         </th>
 
                     </tr>

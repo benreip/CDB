@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -15,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jca.cci.InvalidResultSetAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -36,7 +36,7 @@ public class ComputerDAO {
 	final static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 	public ComputerDAO(final DataSource dataSource) {
-		  jdbcTemplate= new NamedParameterJdbcTemplate(dataSource);
+		jdbcTemplate= new NamedParameterJdbcTemplate(dataSource);
 	}
 
 	// Diverses requêtes, inutile de détailler
@@ -71,7 +71,7 @@ public class ComputerDAO {
 
 	public int getNumberOfComputers() {
 		try {
-			SqlParameterSource parameters = new MapSqlParameterSource();
+			final SqlParameterSource parameters = new MapSqlParameterSource();
 			final int result = jdbcTemplate.queryForObject(
 					"SELECT COUNT(id) FROM computer",parameters,Integer.class);
 			return result;
@@ -136,7 +136,7 @@ public class ComputerDAO {
 	}*/
 
 	public int deleteComputerById (final int id) {
-		SqlParameterSource parameters = new MapSqlParameterSource()
+		final SqlParameterSource parameters = new MapSqlParameterSource()
 				.addValue("id", id);
 		final String sql = "DELETE FROM computer where id = :id";
 		return jdbcTemplate.update(sql, parameters);
@@ -252,15 +252,15 @@ public class ComputerDAO {
 				.addValue("introduced", c.getIntroduced()==null?null:Date.valueOf(c.getIntroduced()))
 				.addValue("discontinued",c.getDiscontinued()==null?null:Date.valueOf(c.getDiscontinued()))
 				.addValue("idcompany", c.getIdcompany()==null?null:c.getIdcompany());
-		String sql = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(:name,:introduced,:discontinued,:idcompany)";
+		final String sql = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(:name,:introduced,:discontinued,:idcompany)";
 		jdbcTemplate.update(sql,parameters);
-				
+
 		return c;
 	}
 
 
 	public int getNumberOfComputersBySearch(final String research) {
-		SqlParameterSource parameters = new MapSqlParameterSource();
+		final SqlParameterSource parameters = new MapSqlParameterSource();
 		final String sql="SELECT COUNT(*) from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%" +research +"%' or company.name LIKE '%"+ research+ "%'";
 		try {
 			final int result = jdbcTemplate.queryForObject(
@@ -324,6 +324,10 @@ public class ComputerDAO {
 	}
 
 
-
+	public static void main(final String[] args) {
+		final List<String> drinks = Arrays.asList("can","cup");
+		for (final int container =0;container<drinks.size();)
+			System.out.println(drinks.get(container));
+	}
 
 }
