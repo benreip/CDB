@@ -7,78 +7,79 @@ import com.excilys.formation.cdb.mapper.MapperComputer;
 import com.excilys.formation.cdb.modele.Computer;
 
 public class ComputerDTO {
-			/* Va mapper les objets DAO vers des objets DTO pour le service */
-	
-		private String id;
-		private String name;
-		private String introduced;
-		private String discontinued;
-		private String idcompany;
-		MapperComputer mapping = new MapperComputer();
-	
-	
-		public ComputerDTO() {
-			
-		}
-		
-		public void setComputerDtoName(String name) {
-			this.name=name;
-		}
-		
-		public String getComputerDtoName() {
-			return name;
-		}
-		
+	/* Va mapper les objets DAO vers des objets DTO pour le service */
 
-		public String getComputerdtoid() {
-			return id;
-		}
+	private String id;
+	private String name;
+	private String introduced;
+	private String discontinued;
+	private CompanieDTO company;
+	MapperComputer mapping = new MapperComputer();
 
-		public void setComputerdtoid(String computerdtoid) {
-			this.id = computerdtoid;
-		}
 
-		public String getComputerdtointroductedin() {
-			return introduced;
-		}
+	public ComputerDTO() {
 
-		public void setComputerdtointroductedin(String computerdtointroductedin) {
-			this.introduced = computerdtointroductedin;
-		}
+	}
 
-		public String getComputerdtodiscontinuedin() {
-			return discontinued;
-		}
+	public void setComputerDtoName(final String name) {
+		this.name=name;
+	}
 
-		public void setComputerdtodiscontinuedin(String computerdtodiscontinuedin) {
-			this.discontinued = computerdtodiscontinuedin;
-		}
+	public String getComputerDtoName() {
+		return name;
+	}
 
-		public String getComputerdtocompanieid() {
-			return idcompany;
-		}
 
-		public void setComputerdtocompanieid(String computerdtocompanieid) {
-			this.idcompany = computerdtocompanieid;
+	public String getComputerdtoid() {
+		return id;
+	}
+
+	public void setComputerdtoid(final String computerdtoid) {
+		this.id = computerdtoid;
+	}
+
+	public String getComputerdtointroductedin() {
+		return introduced;
+	}
+
+	public void setComputerdtointroductedin(final String computerdtointroductedin) {
+		this.introduced = computerdtointroductedin;
+	}
+
+	public String getComputerdtodiscontinuedin() {
+		return discontinued;
+	}
+
+	public void setComputerdtodiscontinuedin(final String computerdtodiscontinuedin) {
+		this.discontinued = computerdtodiscontinuedin;
+	}
+
+	public CompanieDTO getCompany() {
+		return company;
+	}
+
+	public void setCompany(final CompanieDTO company) {
+		this.company = company;
+	}
+
+	public List<ComputerDTO> convertAllComputer(final List<Computer> c) {
+		final List<ComputerDTO> toReturn = new ArrayList<>();
+		for ( final Computer d : c ) {
+			toReturn.add(mapping.toDto(d));
 		}
-		
-		public List<ComputerDTO> convertAllComputer(List<Computer> c) {
-			List<ComputerDTO> toReturn = new ArrayList<>();
-			for ( Computer d : c ) {
-				toReturn.add(mapping.toDto(d));
-			}
-			return toReturn;
-				
-		}
-		
-		public  ComputerDTO convertOneComputer (Computer c) {
-			ComputerDTO objectdto = new ComputerDTO();
-			objectdto = mapping.toDto(c);
-			return objectdto;
-		}
-		@Override
-		public String toString() {
-			return "Computer [ id=" + this.id + ",Name =  " + this.name + " ,Sorti en : " + this.introduced + ", Arrêté en :" + this.discontinued + ", Id de la compagnie : " + this.idcompany+ "\n";
-		}
-		
+		return toReturn;
+
+	}
+
+	public  ComputerDTO convertOneComputer (final Computer c) {
+		ComputerDTO objectdto = new ComputerDTO();
+		objectdto = mapping.toDto(c);
+		return objectdto;
+	}
+	@Override
+	public String toString() {
+
+		return "Computer [ id=" + this.id + ",Name =  " + this.name + " ,Sorti en : " + this.introduced + ", Arrêté en :" + this.discontinued + ", Id de la compagnie : " + this.company+ "\n";
+	}
+
 }

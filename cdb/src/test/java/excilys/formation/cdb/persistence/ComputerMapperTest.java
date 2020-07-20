@@ -66,7 +66,7 @@ public class ComputerMapperTest {
 		Computer computer = ComputerDAO.toEntity(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
 		computerExpected.setDiscontinued(discontinued);
-		computerExpected.setIdcompany(idCompany);
+		computerExpected.setCompany(idCompany);
 		assertEquals(computerExpected,computer);	
 	}
 	
@@ -77,7 +77,7 @@ public class ComputerMapperTest {
 		Mockito.when(resultSet.getInt(ATTRIBUT_COMPANY_ID)).thenReturn(idCompany);
 		Computer computer = ComputerDAO.toEntity(resultSet);
 		Computer computerExpected = new Computer(idComputer,nameComputer);
-		computerExpected.setIdcompany(idCompany);
+		computerExpected.setCompany(idCompany);
 		computerExpected.setIntroduced(introduced);
 		assertEquals(computerExpected,computer);
 		

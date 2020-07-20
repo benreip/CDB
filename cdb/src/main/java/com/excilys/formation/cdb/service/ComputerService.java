@@ -30,7 +30,7 @@ public class ComputerService {
 
 	public List<ComputerDTO> afficheListeComputer(final Page page)  {
 		final Integer offset = (page.getCurrentPage()-1)*page.getNb_entries_per_page();
-		return cdto.convertAllComputer(cdao.geget( offset, page.getNb_entries_per_page()));
+		return cdto.convertAllComputer(cdao.galageget( offset, page.getNb_entries_per_page()));
 	}
 
 	public List<CompanieDTO> afficheListeCompanie()  {

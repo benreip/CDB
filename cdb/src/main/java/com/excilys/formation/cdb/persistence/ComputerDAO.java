@@ -7,9 +7,17 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -23,13 +31,18 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.mapper.MapperComputer;
+import com.excilys.formation.cdb.modele.Companie;
 import com.excilys.formation.cdb.modele.Computer;
 import com.excilys.formation.cdb.modele.Page;
 
 
 
+
 @Repository
 public class ComputerDAO {
+	@PersistenceContext
+	EntityManager em;
+
 	MapperComputer mcdao = new MapperComputer();
 	BddConnection login = BddConnection.getDbConnection();
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
@@ -39,35 +52,19 @@ public class ComputerDAO {
 		jdbcTemplate= new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	// Diverses requêtes, inutile de détailler
 
 
-	public List<Computer> geget(final Integer from,final Integer to) {
+	public List<Computer> galageget (final Integer from, final Integer to) {
 
-		final String sql = "select id,name,introduced,discontinued,company_id from computer LIMIT "+from+", "+to;
-		try
-		{
-			return jdbcTemplate.query(sql, new ResultSetExtractor<List<Computer>>() {
-				@Override
-				public List<Computer> extractData(final ResultSet rs) throws SQLException {
-					final List<Computer> result = new ArrayList();
-					while (rs.next()) {
-						result.add(toEntity(rs));
-					}
-					return result;
-				}
-			}
-
-
-					); } catch (final InvalidResultSetAccessException e) 
-		{
-						throw new RuntimeException(e);
-		} 
-		catch (final DataAccessException e)
-		{
-			throw new RuntimeException(e);
-		} 
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Computer> criteriaQuery = cb.createQuery(Computer.class);
+		final Root<Computer> root = criteriaQuery.from(Computer.class);
+		criteriaQuery.select(root);
+		TypedQuery <Computer> complist= null;
+		complist = em.createQuery(criteriaQuery).setFirstResult(from).setMaxResults(to);
+		return complist.getResultList();
 	}
+
 
 	public int getNumberOfComputers() {
 		try {
@@ -108,32 +105,7 @@ public class ComputerDAO {
 			throw new RuntimeException(e);
 		} 
 	}
-	/*public  Computer findComputerById(int a)  {
-		Computer d = null;
-		try {
-			PreparedStatement preparedStatement = BddConnection.login.prepareStatement(FIND_COMPUTERBYID+a,ResultSet.TYPE_SCROLL_SENSITIVE, 
-	                ResultSet.CONCUR_UPDATABLE);
-			ResultSet rs = preparedStatement.executeQuery();
-		if(rs.first()) {
-			logger.info("Ordinateur {} chargé avec succès ! \n",a);
-			return mcdao.mapComputers(rs);
-			} 
-		} catch (SQLException e) {
-		logger.error("erreur lors de l'appel à la base pour les informations sur l'ordinateur demandé \n");
-		e.printStackTrace();
-	} return d;
-}*/
 
-	/* public int updateName(int id, String newname) {
-		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET name = ? where id ="+id);
-		stmt.setString(1, newname);
-		logger.info("Nom mis à jour sur l'ordinateur {} . Nouveau nom set sur {} \n",id,newname);
-		return stmt.executeUpdate();
-		} catch (SQLException e) {
-			logger.error("erreur lors de l'update du nom sur l'ordinateur spécifié \n");
-			e.printStackTrace();}
-		return 1;
-	}*/
 
 	public int deleteComputerById (final int id) {
 		final SqlParameterSource parameters = new MapSqlParameterSource()
@@ -142,44 +114,7 @@ public class ComputerDAO {
 		return jdbcTemplate.update(sql, parameters);
 	}
 
-	/*public int updateDateSortie ( int id, String date) {
-		try {
-			LocalDate d = convert(date);
-			PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET introduced = ? where id ="+id );
-			stmt.setDate(1, Date.valueOf(d));
-			logger.info("date de sortie l'ordinateur {} mise à jour !\n",id);
-		return stmt.executeUpdate();} 
-		catch (SQLException e) {
-			logger.error("erreur lors de l'update sur la date de sortie de l'ordinateur spécifié \n");
-			e.printStackTrace();}
-		return 0;
-	}
 
-	public int updateDateFin ( int id, String date) {
-		try {
-		LocalDate d = convert (date);	
-		PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET discontinued = ? where id =" + id);
-		stmt.setDate(1, Date.valueOf(d));
-		logger.info("date de fin de l'ordinateur {} mise à jour !\n",id);
-		return stmt.executeUpdate();
-		} catch (SQLException e) {
-			logger.error("erreur sur l'update de la date de fin de l'ordinateur spécifié\n");
-			e.printStackTrace();}
-		return 0;
-	}
-
-	public Computer updateFabricant (int id, int company_id) {
-		Computer c = null;
-		try {PreparedStatement stmt = BddConnection.login.prepareStatement("UPDATE computer SET company_id ="+ company_id+" where id ="+id );
-		stmt.executeUpdate();
-		logger.info("update sur l'ordinateur {} réussie avec succès !\n",id);
-		return this.findComputerById(id);}
-		catch(SQLException e) {
-			logger.error("erreur lors de l'update sur le fabricant de l'ordinateur spécifié \n");
-			e.printStackTrace();
-			}
-		return c;
-	}*/
 
 
 	public Computer updateAll (final Computer c) {
@@ -188,7 +123,7 @@ public class ComputerDAO {
 				.addValue("name",c.getName())
 				.addValue("introduced", c.getIntroduced()==null?null:Date.valueOf(c.getIntroduced()))
 				.addValue("discontinued",c.getDiscontinued()==null?null:Date.valueOf(c.getDiscontinued()))
-				.addValue("idcompany", c.getIdcompany()==null?null:c.getIdcompany())
+				.addValue("idcompany", c.getCompany()==null?null:c.getCompany())
 				.addValue("id",c.getId());
 		System.out.println(parameters);
 		final String sql = "UPDATE computer SET name= :name, introduced = :introduced, discontinued = :discontinued, company_id = :idcompany where id = :id";
@@ -199,29 +134,19 @@ public class ComputerDAO {
 
 	public List<Computer> searchByName (final String research,final Page page){
 		final Integer offset = (page.getCurrentPage()-1)* page.getNb_entries_per_page();
-		final String sql = "SELECT * from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%"+research+"%' or company.name LIKE '%"+ research+ "%' ORDER BY "+page.getColonne()+" "+page.getAscending()+" LIMIT "+offset +" , "+page.getNb_entries_per_page();
-		try
-		{
-			return jdbcTemplate.query(sql, new ResultSetExtractor<List<Computer>>() {
-				@Override
-				public List<Computer> extractData(final ResultSet rs) throws SQLException {
-					final List<Computer> result = new ArrayList();
-					while (rs.next()) {
-						result.add(toEntity(rs));
-					}
-					return result;
-				}
-			}
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Computer> criteriaQuery = cb.createQuery(Computer.class);
+		final Root<Computer> root = criteriaQuery.from(Computer.class);
+		criteriaQuery.select(root);
+		final Join<Companie, Computer> companyParty = root.join("company", JoinType.LEFT);
+		final Predicate byComputerName = cb.like(root.get("name"), research);
+		final Predicate byCompanyName = cb.like(companyParty.get("name"), research);
+		final Predicate orSearch = cb.or(byComputerName, byCompanyName);
+		criteriaQuery.where(orSearch);
+		TypedQuery <Computer> complist= null;
+		complist = em.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(page.getNb_entries_per_page());
+		return complist.getResultList();
 
-
-					); } catch (final InvalidResultSetAccessException e) 
-		{
-						throw new RuntimeException(e);
-		} 
-		catch (final DataAccessException e)
-		{
-			throw new RuntimeException(e);
-		} 
 	}
 
 
@@ -251,7 +176,7 @@ public class ComputerDAO {
 				.addValue("name",c.getName())
 				.addValue("introduced", c.getIntroduced()==null?null:Date.valueOf(c.getIntroduced()))
 				.addValue("discontinued",c.getDiscontinued()==null?null:Date.valueOf(c.getDiscontinued()))
-				.addValue("idcompany", c.getIdcompany()==null?null:c.getIdcompany());
+				.addValue("idcompany", c.getCompany()==null?null:c.getCompany());
 		final String sql = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(:name,:introduced,:discontinued,:idcompany)";
 		jdbcTemplate.update(sql,parameters);
 
@@ -301,22 +226,6 @@ public class ComputerDAO {
 		}
 	}
 
-	public static  Computer toEntity (final ResultSet rs) {
-		final Computer c = new Computer();
-		try {
-			c.setId(rs.getInt(1));
-			c.setName(rs.getString(2));
-			if (rs.getDate(3) != null) {
-				c.setIntroduced(rs.getDate(3).toLocalDate());
-			}
-			if (rs.getDate(4) != null) {
-				c.setDiscontinued(rs.getDate(4).toLocalDate());
-			}
-			if (rs.getInt(5) != 0) {
-				c.setIdcompany(rs.getInt(5));
-			}	
-			return c; } catch (final SQLException e) {logger.error("erreur lors de l'ajout, ajout d'un objet null"); return c;}
-	}
 
 
 	private LocalDate convert (final String date) {
@@ -324,10 +233,5 @@ public class ComputerDAO {
 	}
 
 
-	public static void main(final String[] args) {
-		final List<String> drinks = Arrays.asList("can","cup");
-		for (final int container =0;container<drinks.size();)
-			System.out.println(drinks.get(container));
-	}
 
 }

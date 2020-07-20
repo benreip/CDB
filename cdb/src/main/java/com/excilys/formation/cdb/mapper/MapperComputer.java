@@ -23,8 +23,8 @@ public class MapperComputer {
 		if (d.getDiscontinued()!=null) {
 			c.setComputerdtodiscontinuedin(d.getDiscontinued().toString());
 		}
-		if (d.getIdcompany()!=null) {
-			c.setComputerdtocompanieid(Integer.toString(d.getIdcompany()));
+		if (d.getCompany()!=null) {
+			c.setCompany(MapperCompanieDTO.convertToDtocompanie(d.getCompany()));
 		}
 		return c;
 	}
@@ -42,8 +42,9 @@ public class MapperComputer {
 		if (d.getComputerdtodiscontinuedin()!=null && !d.getComputerdtodiscontinuedin().contentEquals(""))  {
 			c.setDiscontinued(LocalDate.parse(d.getComputerdtodiscontinuedin()));
 		}
-		if (d.getComputerdtocompanieid()!=null && !d.getComputerdtocompanieid().contentEquals("")) {
-			c.setIdcompany(Integer.parseInt(d.getComputerdtocompanieid()));
+		if (d.getCompany()!=null && !d.getCompany().getCompaniedtoid().contentEquals("")) {
+			c.setCompany(MapperCompanieDTO.convertDtoTocompanie(d.getCompany()));
+
 		}
 		return c;
 
