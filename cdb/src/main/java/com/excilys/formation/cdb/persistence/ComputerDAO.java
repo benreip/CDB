@@ -1,12 +1,9 @@
 package com.excilys.formation.cdb.persistence;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,13 +19,9 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jca.cci.InvalidResultSetAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.formation.cdb.mapper.MapperComputer;
 import com.excilys.formation.cdb.modele.Companie;
@@ -42,7 +35,6 @@ import com.excilys.formation.cdb.modele.Page;
 public class ComputerDAO {
 	@PersistenceContext
 	EntityManager em;
-
 	MapperComputer mcdao = new MapperComputer();
 	BddConnection login = BddConnection.getDbConnection();
 	private  final String FIND_COMPUTERBYID = " SELECT * FROM computer where computer.id = ";
@@ -67,84 +59,58 @@ public class ComputerDAO {
 
 
 	public int getNumberOfComputers() {
-		try {
-			final SqlParameterSource parameters = new MapSqlParameterSource();
-			final int result = jdbcTemplate.queryForObject(
-					"SELECT COUNT(id) FROM computer",parameters,Integer.class);
-			return result;
-		}
 
-		catch (final DataAccessException e)
-		{
-			throw new RuntimeException(e);
-		}
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
+		final Root<Computer> root = criteriaQuery.from(Computer.class);
+		criteriaQuery.select(cb.count(root));
+		return em.createQuery(criteriaQuery).getSingleResult().intValue();
+
 	}
 
 
 	public Computer findComputerById(final int a) {
-		final String sql="SELECT id,name,introduced,discontinued,company_id FROM computer WHERE ID = "+a;
-		try
-		{
-			return jdbcTemplate.query(sql, new ResultSetExtractor<Computer>() {
-				@Override
-				public Computer extractData(final ResultSet rs) throws SQLException {
-					Computer result = null;
-					while (rs.next()) {
-						result = toEntity(rs);
-					}
-					return result;
-				}
-			}
-
-					); } catch (final InvalidResultSetAccessException e) 
-		{
-						throw new RuntimeException(e);
-		} 
-		catch (final DataAccessException e)
-		{
-			throw new RuntimeException(e);
-		} 
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Computer> criteriaQuery = cb.createQuery(Computer.class);
+		final Root<Computer> root = criteriaQuery.from(Computer.class);
+		final Predicate byId = cb.equal(root.get("id"),a);
+		criteriaQuery.select(root).where(byId);
+		TypedQuery <Computer> complist= null;
+		complist = em.createQuery(criteriaQuery);
+		return complist.getSingleResult();
 	}
 
-
+	@Transactional
 	public int deleteComputerById (final int id) {
-		final SqlParameterSource parameters = new MapSqlParameterSource()
-				.addValue("id", id);
-		final String sql = "DELETE FROM computer where id = :id";
-		return jdbcTemplate.update(sql, parameters);
+		final Computer c = findComputerById(id);
+		em.remove(c);
+		return 1;
 	}
 
 
 
-
+	@Transactional
 	public Computer updateAll (final Computer c) {
-		System.out.println(c);
-		final SqlParameterSource parameters = new MapSqlParameterSource()
-				.addValue("name",c.getName())
-				.addValue("introduced", c.getIntroduced()==null?null:Date.valueOf(c.getIntroduced()))
-				.addValue("discontinued",c.getDiscontinued()==null?null:Date.valueOf(c.getDiscontinued()))
-				.addValue("idcompany", c.getCompany()==null?null:c.getCompany())
-				.addValue("id",c.getId());
-		System.out.println(parameters);
-		final String sql = "UPDATE computer SET name= :name, introduced = :introduced, discontinued = :discontinued, company_id = :idcompany where id = :id";
-		jdbcTemplate.update(sql,parameters);
+		em.merge(c);
 		return c;
 	}
 
 
-	public List<Computer> searchByName (final String research,final Page page){
+	public List<Computer> searchByName ( String research,final Page page){
+		research = "%"+research+"%";
 		final Integer offset = (page.getCurrentPage()-1)* page.getNb_entries_per_page();
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final CriteriaQuery<Computer> criteriaQuery = cb.createQuery(Computer.class);
 		final Root<Computer> root = criteriaQuery.from(Computer.class);
 		criteriaQuery.select(root);
-		final Join<Companie, Computer> companyParty = root.join("company", JoinType.LEFT);
-		final Predicate byComputerName = cb.like(root.get("name"), research);
-		final Predicate byCompanyName = cb.like(companyParty.get("name"), research);
-		final Predicate orSearch = cb.or(byComputerName, byCompanyName);
-		criteriaQuery.where(orSearch);
+		final Join <Computer,Companie> joinLeft = root.join("company",JoinType.LEFT);
+		final Predicate onComputerName = cb.like(root.get("name"), research);
+		final Predicate onCompanyName = cb.like(joinLeft.get("companiename"), research);
+		final Predicate orSearch = cb.or(onComputerName,onCompanyName);
+		criteriaQuery.select(root).where(orSearch);
 		TypedQuery <Computer> complist= null;
 		complist = em.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(page.getNb_entries_per_page());
+
 		return complist.getResultList();
 
 	}
@@ -170,60 +136,30 @@ public class ComputerDAO {
 
 
 	}
-
+	@Transactional
 	public Computer create(final Computer c) {
-		final SqlParameterSource parameters = new MapSqlParameterSource()
-				.addValue("name",c.getName())
-				.addValue("introduced", c.getIntroduced()==null?null:Date.valueOf(c.getIntroduced()))
-				.addValue("discontinued",c.getDiscontinued()==null?null:Date.valueOf(c.getDiscontinued()))
-				.addValue("idcompany", c.getCompany()==null?null:c.getCompany());
-		final String sql = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(:name,:introduced,:discontinued,:idcompany)";
-		jdbcTemplate.update(sql,parameters);
-
+		em.persist(c);
 		return c;
 	}
 
 
-	public int getNumberOfComputersBySearch(final String research) {
-		final SqlParameterSource parameters = new MapSqlParameterSource();
-		final String sql="SELECT COUNT(*) from computer LEFT JOIN company on computer.company_id = company.id  where computer.name like '%" +research +"%' or company.name LIKE '%"+ research+ "%'";
-		try {
-			final int result = jdbcTemplate.queryForObject(
-					sql,parameters,Integer.class);
-			return result;
-		}
+	public int getNumberOfComputersBySearch( String research) {
+		research = "%"+research+"%";
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
+		final Root<Computer> root = criteriaQuery.from(Computer.class);
+		final Join <Computer,Companie> joinLeft = root.join("company",JoinType.LEFT);
+		final Predicate onComputerName = cb.like(root.get("name"), research);
+		final Predicate onCompanyName = cb.like(joinLeft.get("companiename"), research);
+		final Predicate orSearch = cb.or(onComputerName,onCompanyName);
+		criteriaQuery.select(cb.count(root)).where(orSearch);
+		return em.createQuery(criteriaQuery).getSingleResult().intValue();
 
-		catch (final DataAccessException e)
-		{
-			throw new RuntimeException(e);
-		}
 
 	}
 
 	public List<Computer> getComputersOrderBy (final String colonne,final String ascending,final Integer from, final Integer to) {
-		final String sql="SELECT * FROM computer LEFT JOIN company on computer.company_id = company.id ORDER BY "+colonne+" "+ascending+" LIMIT ?,?";
-		try
-		{
-			return jdbcTemplate.query(sql, new ResultSetExtractor<List<Computer>>() {
-				@Override
-				public List<Computer> extractData(final ResultSet rs) throws SQLException {
-					final List<Computer> result = new ArrayList();
-					while (rs.next()) {
-						result.add(toEntity(rs));
-					}
-					return result;
-				}
-			}
-
-
-					); } catch (final InvalidResultSetAccessException e) 
-		{
-						throw new RuntimeException(e);
-		} 
-		catch (final DataAccessException e)
-		{
-			throw new RuntimeException(e);
-		}
+		return null;
 	}
 
 

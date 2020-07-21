@@ -33,7 +33,7 @@ public class User {
 	}
 
 	public void detailordis(final int id)  {
-		System.out.println(s.afficheListeComputerByID(id));
+		//System.out.println(s.afficheListeComputerByID(id));
 	}
 
 	/*public void nomordi() {

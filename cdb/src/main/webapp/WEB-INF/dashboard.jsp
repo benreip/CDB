@@ -127,7 +127,7 @@
                         </td>
                         <td><c:if test = "${not empty cdto.computerdtointroductedin}">${cdto.computerdtointroductedin}</c:if></td>
                     	<td><c:if test = "${not empty cdto.computerdtodiscontinuedin}">${cdto.computerdtodiscontinuedin}</c:if></td>
-                    	<td><c:if test = "${not empty cdto.computerdtocompanieid}">${cdto.computerdtocompanieid}</c:if></td>
+                    	<td><c:if test = "${not empty cdto.company.companiedtoname}">${cdto.company.companiedtoname}</c:if></td>
                     	</tr>
                     	</c:forEach>
                 </tbody>

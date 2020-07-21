@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,7 +15,7 @@ public class Computer {
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-
+	@ManyToOne
 	private Companie company;
 
 	public Computer() {

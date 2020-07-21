@@ -79,10 +79,10 @@ public class ComputerService {
 		return nbEntries%page.getNb_entries_per_page() == 0?nbPages:nbPages+1;
 	}
 
-	public List<ComputerDTO> displayComputerOrderBy(final String colonne,final String ascending,final Integer page,final Integer nb_entries_per_page) {
+	/*public List<ComputerDTO> displayComputerOrderBy(final String colonne,final String ascending,final Integer page,final Integer nb_entries_per_page) {
 		final Integer offset = (page-1)*nb_entries_per_page;
 		return cdto.convertAllComputer(cdao.getComputersOrderBy(colonne, ascending, offset, nb_entries_per_page));
-	}
+	}*/
 
 	public Computer mappingDtoToComputer(final ComputerDTO compdto) {
 		return mapping.toEntity(compdto);

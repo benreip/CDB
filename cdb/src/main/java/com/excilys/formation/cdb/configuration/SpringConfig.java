@@ -17,14 +17,16 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.AbstractContextLoaderInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
+@EnableTransactionManagement
 @ComponentScan(basePackages="com.excilys.formation.cdb")
-@PropertySource("classpath:datasource.properties")
+@PropertySource("classpath:applications.properties")
 public class SpringConfig extends AbstractContextLoaderInitializer {
 
 	@Override
@@ -75,6 +77,7 @@ public class SpringConfig extends AbstractContextLoaderInitializer {
 	Properties additionalProperties() {
 		final Properties properties = new Properties();
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		//properties.setProperty("spring.jpa.show-sql=true", arg1);
 
 		return properties;
 	}

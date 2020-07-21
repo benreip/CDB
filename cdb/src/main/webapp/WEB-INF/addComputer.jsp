@@ -42,7 +42,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <springForm:select class="form-control" id="companyId" path="computerdtocompanieid" name="companyId" >
+                                <springForm:select class="form-control" id="companyId" path="company.companiedtoid" name="companyId" >
                                     <option value="0">--</option>
                                     <c:forEach items="${companies}" var="company">
                                 		
