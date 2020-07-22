@@ -46,14 +46,29 @@ public class ComputerDAO {
 
 
 
-	public List<Computer> galageget (final Integer from, final Integer to) {
+	public List<Computer> findComputers (final Page page,final Integer from, final Integer to) {
 
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final CriteriaQuery<Computer> criteriaQuery = cb.createQuery(Computer.class);
 		final Root<Computer> root = criteriaQuery.from(Computer.class);
 		criteriaQuery.select(root);
-		TypedQuery <Computer> complist= null;
-		complist = em.createQuery(criteriaQuery).setFirstResult(from).setMaxResults(to);
+		if(page.getAscending().equals("DESC")) {
+			if(page.getColonne().equals("company")) {
+				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne()).get("name")));
+			}
+			else {
+				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne())));
+			}
+		}
+		else {
+			if(page.getColonne().equals("company")) {
+				criteriaQuery.orderBy(cb.asc(root.get(page.getColonne()).get("name")));
+			}
+			else {
+				criteriaQuery.orderBy(cb.asc(root.get(page.getColonne())));
+			}
+		}
+		final TypedQuery <Computer> complist= em.createQuery(criteriaQuery).setFirstResult(from).setMaxResults(to);
 		return complist.getResultList();
 	}
 
@@ -108,8 +123,23 @@ public class ComputerDAO {
 		final Predicate onCompanyName = cb.like(joinLeft.get("companiename"), research);
 		final Predicate orSearch = cb.or(onComputerName,onCompanyName);
 		criteriaQuery.select(root).where(orSearch);
-		TypedQuery <Computer> complist= null;
-		complist = em.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(page.getNb_entries_per_page());
+		if(page.getAscending().equals("DESC")) {
+			if(page.getColonne().equals("company")) {
+				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne()).get("name")));
+			}
+			else {
+				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne())));
+			}
+		}
+		else {
+			if(page.getColonne().equals("company")) {
+				criteriaQuery.orderBy(cb.asc(root.get(page.getColonne()).get("name")));
+			}
+			else {
+				criteriaQuery.orderBy(cb.asc(root.get(page.getColonne())));
+			}
+		}
+		final TypedQuery <Computer> complist= em.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(page.getNb_entries_per_page());
 
 		return complist.getResultList();
 
@@ -158,9 +188,33 @@ public class ComputerDAO {
 
 	}
 
-	public List<Computer> getComputersOrderBy (final String colonne,final String ascending,final Integer from, final Integer to) {
-		return null;
-	}
+	/*public List<Computer> getComputersOrderBy (final String colonne,final String ascending,final Integer from, final Integer to) {
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Computer> criteriaQuery = cb.createQuery(Computer.class);
+		final Root<Computer> root = criteriaQuery.from(Computer.class);
+		final Join<Computer,Companie> leftJoin = root.join("company",JoinType.LEFT);
+		final Predicate computerName = cb.like(root.get("name"), "%"+search+"%");
+		final Predicate companyName = cb.like(leftJoin.get("name"), "%"+search+"%");
+		criteriaQuery.select(root).where(cb.or(computerName,companyName));
+		if(ascending.equals("DESC")) {
+			if(getAttribute(page).equals("company")) {
+				criteriaQuery.orderBy(cb.desc(root.get("name"));
+			}
+			else {
+				criteriaQuery.orderBy(cb.desc(root.get(getAttribute(page))));
+			}
+		}
+		else {
+			if(getAttribute(page).equals("company")) {
+				criteriaQuery.orderBy(cb.asc(root.get(getAttribute(page)).get("name")));
+			}
+			else {
+				criteriaQuery.orderBy(cb.asc(root.get(getAttribute(page))));
+			}
+		}
+		final TypedQuery <Computer> computers = em.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(page.getItemsByPage());
+		return computers.getResultList();
+	}*/
 
 
 
