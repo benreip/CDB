@@ -1,56 +1,50 @@
 package com.excilys.formation.cdb.persistence;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.formation.cdb.mapper.MapperCompanieDAO;
-import com.excilys.formation.cdb.mapper.MapperComputer;
-import com.excilys.formation.cdb.modele.Companie;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.excilys.formation.cdb.modele.Companie;
+
 
 @Repository
 public class CompanieDAO {
-		final Logger logger = LoggerFactory.getLogger(CompanieDAO.class);
-		private  final String ALLCOMPANIES =  "SELECT * FROM company";
-		private  final String FINDCOMPANYBYID = "SELECT * FROM company where id =";
-		MapperCompanieDAO mcdao = new MapperCompanieDAO();
-		public CompanieDAO() {};
-		
-		public List<Companie> getAllCompanies()  {
-			List<Companie> toReturn = new ArrayList();
-			try {
-			ResultSet rs = BddConnection.login.createStatement().executeQuery(ALLCOMPANIES);
-			  while(rs.next()) {
-				  toReturn.add(mcdao.mapCompanie(rs));
-				  }
-			  return toReturn; } 
-			catch (SQLException e) {
-				logger.error("erreur lors de l'appel à la base pour les noms de compagnies");
-				e.printStackTrace();
-				return toReturn;
-			  }	
-		}
-		
-		public Companie findCompanyById (int id) {
-			Companie d = new Companie();
-			try {
-				PreparedStatement preparedStatement = BddConnection.login.prepareStatement(FINDCOMPANYBYID+id,ResultSet.TYPE_SCROLL_SENSITIVE, 
-		                ResultSet.CONCUR_UPDATABLE);
-				ResultSet rs = preparedStatement.executeQuery();
-			if(rs.first()) {
-				return mcdao.mapCompanie(rs);
-			} } 
-			catch (SQLException e) {
-				logger.error("erreur lors de l'appel à la base pour les noms de compagnies");
-				e.printStackTrace();
-				}
-			return d;
-		}
-				
+	@PersistenceContext
+	EntityManager em;
+	final Logger logger = LoggerFactory.getLogger(CompanieDAO.class);
+	private  final String ALLCOMPANIES =  "SELECT * FROM company";
+	private  final String FINDCOMPANYBYID = "SELECT * FROM company where id =";
+	public CompanieDAO() {};
+
+	public List<Companie> getAllCompanies () {
+
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Companie> criteriaQuery = cb.createQuery(Companie.class);
+		final Root<Companie> root = criteriaQuery.from(Companie.class);
+		criteriaQuery.select(root);
+
+		final TypedQuery <Companie> complist= em.createQuery(criteriaQuery);
+		return complist.getResultList();}
+
+	public Companie findCompanyById(final int a) {
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Companie> criteriaQuery = cb.createQuery(Companie.class);
+		final Root<Companie> root = criteriaQuery.from(Companie.class);
+		final Predicate byId = cb.equal(root.get("id"),a);
+		criteriaQuery.select(root).where(byId);
+		TypedQuery <Companie> complist= null;
+		complist = em.createQuery(criteriaQuery);
+		return complist.getSingleResult();
+	}
+
 }

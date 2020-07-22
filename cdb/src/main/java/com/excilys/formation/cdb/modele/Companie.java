@@ -1,5 +1,3 @@
-
-
 package com.excilys.formation.cdb.modele;
 
 import javax.persistence.Column;

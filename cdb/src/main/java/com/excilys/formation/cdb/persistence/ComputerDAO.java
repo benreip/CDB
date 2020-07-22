@@ -54,7 +54,7 @@ public class ComputerDAO {
 		criteriaQuery.select(root);
 		if(page.getAscending().equals("DESC")) {
 			if(page.getColonne().equals("company")) {
-				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne()).get("name")));
+				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne()).get("companiename")));
 			}
 			else {
 				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne())));
@@ -62,7 +62,7 @@ public class ComputerDAO {
 		}
 		else {
 			if(page.getColonne().equals("company")) {
-				criteriaQuery.orderBy(cb.asc(root.get(page.getColonne()).get("name")));
+				criteriaQuery.orderBy(cb.asc(root.get(page.getColonne()).get("companiename")));
 			}
 			else {
 				criteriaQuery.orderBy(cb.asc(root.get(page.getColonne())));
@@ -125,7 +125,7 @@ public class ComputerDAO {
 		criteriaQuery.select(root).where(orSearch);
 		if(page.getAscending().equals("DESC")) {
 			if(page.getColonne().equals("company")) {
-				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne()).get("name")));
+				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne()).get("companiename")));
 			}
 			else {
 				criteriaQuery.orderBy(cb.desc(root.get(page.getColonne())));

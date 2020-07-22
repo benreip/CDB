@@ -52,15 +52,15 @@ public class DashboardController {
 		return "dashboard";
 
 	}
-	
-	
+
+
 	@PostMapping
-	public String deleteComputers(@RequestParam(name="selection") String selection) {
+	public String deleteComputers(@RequestParam(name="selection") final String selection) {
 		if (selection != null && !selection.equals("")) {
-			String comptodel = selection;
-			List<Integer> delete = Stream.of(comptodel.split(","))
-	                .map(Integer::parseInt)
-	                .collect(Collectors.toList());
+			final String comptodel = selection;
+			final List<Integer> delete = Stream.of(comptodel.split(","))
+					.map(Integer::parseInt)
+					.collect(Collectors.toList());
 			delete.stream().forEach(id->service.deleteByID(id));
 		}
 		return "redirect:/dashboard";
@@ -70,7 +70,7 @@ public class DashboardController {
 		final Page page = new Page();
 		page.setCurrentPage(1);
 		page.setNb_entries_per_page(10);
-		page.setColonne("computer.id");
+		page.setColonne("id");
 		page.setAscending("ASC");
 
 		if (nbByPage!=null) {

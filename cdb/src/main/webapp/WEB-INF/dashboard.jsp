@@ -36,7 +36,7 @@
 	
 	<c:set var="colonneValue" value="" />
 	<c:if test="${page.colonne != null && page.colonne != ''}">
-		<c:set var="orderValue" value="&colonne=${page.colonne}" />
+		<c:set var="colonneValue" value="&colonne=${page.colonne}" />
 	</c:if>
 	
 	<c:set var="ascendingValue" value="" />
@@ -108,9 +108,9 @@
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <c:if test="${page.colonne == 'company.name' && page.ascending == 'ASC'}"><a href="dashboard?colonne=company.name&ascending=DESC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
-                         	<c:if test="${page.colonne == 'company.name' && page.ascending == 'DESC'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
-                        	<c:if test="${page.colonne != 'company.name'}"><a href="dashboard?colonne=company.name&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
+                            <c:if test="${page.colonne == 'company' && page.ascending == 'ASC'}"><a href="dashboard?colonne=company&ascending=DESC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
+                         	<c:if test="${page.colonne == 'company' && page.ascending == 'DESC'}"><a href="dashboard?colonne=company&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
+                        	<c:if test="${page.colonne != 'company'}"><a href="dashboard?colonne=company&ascending=ASC${nbByPageValue}${searchValue}" ><spring:message code="dashboard.company"/></a></c:if>
                         </th>
 
                     </tr>

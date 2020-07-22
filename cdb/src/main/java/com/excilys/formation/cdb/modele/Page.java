@@ -11,7 +11,7 @@ public class Page {
 	private  Integer nb_entries_per_page = 10;
 
 	//init le premier tri par id
-	private String colonne = "computer.id";
+	private String colonne = "id";
 
 	//init le premier appel à l'ascending ( ordre croissant)
 	private String ascending="ASC";
