@@ -30,7 +30,7 @@ public class MapperComputer {
 	}
 
 
-	public  Computer toEntity (final ComputerDTO d ) {
+	public static  Computer toEntity (final ComputerDTO d ) {
 		final Computer c = new Computer();
 		if(d.getComputerdtoid()!= null) {
 			c.setId(Integer.parseInt(d.getComputerdtoid()));
